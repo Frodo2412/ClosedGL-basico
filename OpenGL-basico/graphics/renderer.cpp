@@ -4,13 +4,11 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <vector>
 
 #include "../scene/scene.h"
 #include "FreeImage.h"
-#include "../geometry/line.h"
-#include "../transformations/perspective.h"
-#include "../transformations/view.h"
+#include "../raster/line.h"
+#include "../raster/mid_point_algorithm.h"
 
 std::string get_current_timestamp()
 {
@@ -45,19 +43,9 @@ void renderer::render_image(int width, int height, scene scene)
     // Create an empty 24-bit RGB image
     FIBITMAP* bitmap = FreeImage_Allocate(width, height, 24);
 
-    auto line = ::line({0, 0, 0}, {static_cast<float>(width), static_cast<float>(height), 0});
 
-    const auto camera = scene.get_camera();
-
-    const auto fov = camera.get_fov();
-    const auto aspect_ratio = static_cast<float>(width) / static_cast<float>(height);
-    const auto near = camera.get_near();
-    const auto far = camera.get_far();
-
-    const ::transformation transformation = view(scene.get_camera());
-
-    const ::line new_line = ::line(transformation.transform(line.get_start()),
-                                   transformation.transform(line.get_end()));
+    auto diagonal = line({0, 0}, {static_cast<float>(width), static_cast<float>(height)});
+    auto draw = mid_point_algorithm::raster(diagonal);
 
     if (!bitmap)
     {
@@ -72,23 +60,20 @@ void renderer::render_image(int width, int height, scene scene)
         {
             for (int x = 0; x < width; x++)
             {
-                if (new_line.is_in_path({static_cast<float>(x), static_cast<float>(y), 0}))
-                {
-                    RGBQUAD rgb;
-                    rgb.rgbRed = 255;
-                    rgb.rgbGreen = 0;
-                    rgb.rgbBlue = 0;
-                    FreeImage_SetPixelColor(bitmap, x, y, &rgb);
-                }
-                else
-                {
-                    RGBQUAD rgb;
-                    rgb.rgbRed = 0;
-                    rgb.rgbGreen = 255;
-                    rgb.rgbBlue = 0;
-                    FreeImage_SetPixelColor(bitmap, x, y, &rgb);
-                }
+                RGBQUAD rgb;
+                rgb.rgbRed = 0;
+                rgb.rgbGreen = 255;
+                rgb.rgbBlue = 0;
+                FreeImage_SetPixelColor(bitmap, x, y, &rgb);
             }
+        }
+        for (auto point : draw)
+        {
+            RGBQUAD rgb;
+            rgb.rgbRed = 255;
+            rgb.rgbGreen = 0;
+            rgb.rgbBlue = 0;
+            FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
         }
     }
     catch (const std::exception& e)
