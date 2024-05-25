@@ -4,5 +4,5 @@ struct point
 {
     int x, y;
 
-    point(int x, int y);
+    explicit point(int x, int y);
 };

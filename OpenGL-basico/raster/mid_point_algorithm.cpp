@@ -1,6 +1,7 @@
 #include "mid_point_algorithm.h"
 
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 int to_int(const float x)
@@ -28,14 +29,29 @@ std::vector<point> mid_point_algorithm::raster(const line& line)
     auto d = a + b / 2;
     for (int x = x0; static_cast<float>(x) < end.x; x++)
     {
-        if (d < 0)
+        if (start.y <= end.y)
         {
-            d += a;
+            if (d < 0)
+            {
+                d += a;
+            }
+            else
+            {
+                d += a + b;
+                y++;
+            }
         }
         else
         {
-            d += a + b;
-            y++;
+            if (d > 0)
+            {
+                d += a;
+            }
+            else
+            {
+                d += a + b;
+                y--;
+            }
         }
         points.emplace_back(x, y);
     }
