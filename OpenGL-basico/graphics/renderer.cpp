@@ -4,7 +4,12 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <vector>
+
+#include "../scene/scene.h"
 #include "FreeImage.h"
+#include "../geometry/line.h"
+#include "../transformations/perspective.h"
 
 std::string get_current_timestamp()
 {
@@ -32,12 +37,14 @@ std::string get_current_timestamp()
     return oss.str();
 }
 
-void renderer::render_image(const int width, const int height)
+void renderer::render_image(int width, int height, scene scene)
 {
     auto current_time = get_current_timestamp();
 
     // Create an empty 24-bit RGB image
     FIBITMAP* bitmap = FreeImage_Allocate(width, height, 24);
+
+    auto line = ::line({0, 0, 0}, {static_cast<float>(width), static_cast<float>(height), 0});
 
     if (!bitmap)
     {
@@ -46,18 +53,34 @@ void renderer::render_image(const int width, const int height)
         throw std::runtime_error("Failed to allocate memory for the image");
     }
 
-    // Set image pixels to a gradient from black to white
-    for (int y = 0; y < height; y++)
+    try
     {
-        for (int x = 0; x < width; x++)
+        for (int y = 0; y < height; y++)
         {
-            BYTE color = (BYTE)(255 * x / width); // Gradient from black to white
-            RGBQUAD rgb;
-            rgb.rgbRed = color;
-            rgb.rgbGreen = color;
-            rgb.rgbBlue = color;
-            FreeImage_SetPixelColor(bitmap, x, y, &rgb);
+            for (int x = 0; x < width; x++)
+            {
+                if (line.is_in_path({static_cast<float>(x), static_cast<float>(y), 0}))
+                {
+                    RGBQUAD rgb;
+                    rgb.rgbRed = 255;
+                    rgb.rgbGreen = 0;
+                    rgb.rgbBlue = 0;
+                    FreeImage_SetPixelColor(bitmap, x, y, &rgb);
+                }
+                else
+                {
+                    RGBQUAD rgb;
+                    rgb.rgbRed = 0;
+                    rgb.rgbGreen = 255;
+                    rgb.rgbBlue = 0;
+                    FreeImage_SetPixelColor(bitmap, x, y, &rgb);
+                }
+            }
         }
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Failed to set image pixels: " << e.what() << '\n';
     }
 
     const auto file_name = current_time.append(".png").c_str();

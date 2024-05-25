@@ -84,11 +84,95 @@
     <ItemGroup>
         <ClCompile Include="..\main.cpp"/>
         <ClCompile Include="entities\game_object.cpp" />
+        <ClCompile Include="geometry\line.cpp" />
+        <ClCompile Include="geometry\shape.cpp" />
         <ClCompile Include="geometry\vector4.cpp" />
-        <ClCompile Include="renderer.cpp" />
+        <ClCompile Include="graphics\renderer.cpp">
+          <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+          <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+          <Optimization>Disabled</Optimization>
+          <SupportJustMyCode>true</SupportJustMyCode>
+          <AssemblerOutput>NoListing</AssemblerOutput>
+          <AssemblerListingLocation>Debug\</AssemblerListingLocation>
+          <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+          <BrowseInformation>false</BrowseInformation>
+          <BrowseInformationFile>Debug\</BrowseInformationFile>
+          <CompileAs>Default</CompileAs>
+          <ConformanceMode>Default</ConformanceMode>
+          <DiagnosticsFormat>Column</DiagnosticsFormat>
+          <DisableLanguageExtensions>false</DisableLanguageExtensions>
+          <ErrorReporting>Prompt</ErrorReporting>
+          <ExpandAttributedSource>false</ExpandAttributedSource>
+          <ExceptionHandling>Sync</ExceptionHandling>
+          <EnableASAN>false</EnableASAN>
+          <EnableFuzzer>false</EnableFuzzer>
+          <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+          <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+          <FloatingPointModel>Precise</FloatingPointModel>
+          <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+          <GenerateModuleDependencies>false</GenerateModuleDependencies>
+          <GenerateSourceDependencies>false</GenerateSourceDependencies>
+          <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+          <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+          <IntrinsicFunctions>false</IntrinsicFunctions>
+          <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+          <LanguageStandard>Default</LanguageStandard>
+          <LanguageStandard_C>Default</LanguageStandard_C>
+          <MinimalRebuild>false</MinimalRebuild>
+          <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
+          <ModuleOutputFile>Debug\</ModuleOutputFile>
+          <OmitDefaultLibName>false</OmitDefaultLibName>
+          <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+          <WholeProgramOptimization>false</WholeProgramOptimization>
+          <ObjectFileName>Debug\</ObjectFileName>
+          <CallingConvention>Cdecl</CallingConvention>
+          <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
+          <PrecompiledHeader>NotUsing</PrecompiledHeader>
+          <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+          <PrecompiledHeaderOutputFile>Debug\OpenGL-basico.pch</PrecompiledHeaderOutputFile>
+          <PreprocessToFile>false</PreprocessToFile>
+          <PreprocessKeepComments>false</PreprocessKeepComments>
+          <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+          <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+          <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+          <ShowIncludes>false</ShowIncludes>
+          <SourceDependenciesFile>Debug\</SourceDependenciesFile>
+          <SuppressStartupBanner>true</SuppressStartupBanner>
+          <BufferSecurityCheck>true</BufferSecurityCheck>
+          <SmallerTypeCheck>false</SmallerTypeCheck>
+          <SpectreMitigation>false</SpectreMitigation>
+          <StructMemberAlignment>Default</StructMemberAlignment>
+          <TrackerLogDirectory>Debug\OpenGL-basico.tlog\</TrackerLogDirectory>
+          <TranslateIncludes>false</TranslateIncludes>
+          <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+          <TreatWarningAsError>false</TreatWarningAsError>
+          <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+          <UseFullPaths>true</UseFullPaths>
+          <WarningLevel>Level3</WarningLevel>
+          <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
+          <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+          <IntelJCCErratum>false</IntelJCCErratum>
+          <BuildStlModules>false</BuildStlModules>
+          <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+          <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+          <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+          <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+          <PreprocessorDefinitions>_MBCS;</PreprocessorDefinitions>
+          <EnablePREfast>false</EnablePREfast>
+          <OmitFramePointers>false</OmitFramePointers>
+          <SDLCheck>true</SDLCheck>
+          <AdditionalIncludeDirectories>C:\Users\Bruno\RiderProjects\ClosedGLBasico\\Assimp\include;;C:\Users\Bruno\vcpkg\installed\x86-windows\include</AdditionalIncludeDirectories>
+          <LinkCompiled>true</LinkCompiled>
+        </ClCompile>
+        <ClCompile Include="scene\camera.cpp" />
+        <ClCompile Include="scene\scene.cpp" />
+        <ClCompile Include="transformations\perspective.cpp" />
+        <ClCompile Include="transformations\transformation.cpp" />
     </ItemGroup>
     <ItemGroup>
         <ClInclude Include="entities\game_object.h" />
+        <ClInclude Include="geometry\line.h" />
+        <ClInclude Include="geometry\shape.h" />
         <ClInclude Include="geometry\vector4.h" />
         <ClInclude Include="entities\entity.h"/>
         <ClInclude Include="geometry\cube.h"/>
@@ -97,8 +181,12 @@
         <ClInclude Include="geometry\Triangle.h"/>
         <ClInclude Include="geometry\vector2.h"/>
         <ClInclude Include="geometry\vector3.h"/>
+        <ClInclude Include="graphics\renderer.h" />
         <ClInclude Include="graphics\vertex.h"/>
-        <ClInclude Include="renderer.h" />
+        <ClInclude Include="scene\camera.h" />
+        <ClInclude Include="scene\scene.h" />
+        <ClInclude Include="transformations\perspective.h" />
+        <ClInclude Include="transformations\transformation.h" />
     </ItemGroup>
     <ItemGroup>
         <ClCompile Include="entities\entity.cpp"/>

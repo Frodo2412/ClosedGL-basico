@@ -62,6 +62,11 @@ vector3 vector3::operator-() const
     return vector3(-x_, -y_, -z_);
 }
 
+bool vector3::operator==(const vector3& zero) const
+{
+    return x_ == zero.x_ && y_ == zero.y_ && z_ == zero.z_;
+}
+
 float vector3::dot_product(const vector3& other) const
 {
     return x_ * other.x_ + y_ * other.y_ + z_ * other.z_;

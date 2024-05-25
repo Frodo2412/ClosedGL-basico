@@ -1,4 +1,6 @@
 #pragma once
+#include <FreeImage.h>
+
 #include "vector3.h"
 
 class square
@@ -15,4 +17,6 @@ public:
     const vector3& get_b() const;
     const vector3& get_c() const;
     const vector3& get_d() const;
+    bool contains(int i, int y) const;
+    static RGBQUAD get_color();
 };
