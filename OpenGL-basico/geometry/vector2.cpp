@@ -1,11 +1,7 @@
 #include "vector2.h"
 
-float vector2::get_x() const
+vector2::vector2(const float x, const float y)
 {
-    return x_;
-}
-
-float vector2::get_y() const
-{
-    return y_;
+    this->x = x;
+    this->y = y;
 }
