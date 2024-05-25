@@ -163,6 +163,7 @@
           <AdditionalIncludeDirectories>C:\Users\Bruno\RiderProjects\ClosedGLBasico\\Assimp\include;;C:\Users\Bruno\vcpkg\installed\x86-windows\include</AdditionalIncludeDirectories>
           <LinkCompiled>true</LinkCompiled>
         </ClCompile>
+        <ClCompile Include="raster\circle.cpp" />
         <ClCompile Include="raster\color.cpp" />
         <ClCompile Include="raster\line.cpp">
           <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -263,6 +264,7 @@
         <ClInclude Include="geometry\vector3.h"/>
         <ClInclude Include="graphics\renderer.h" />
         <ClInclude Include="graphics\vertex.h"/>
+        <ClInclude Include="raster\circle.h" />
         <ClInclude Include="raster\color.h" />
         <ClInclude Include="raster\line.h" />
         <ClInclude Include="raster\mid_point_algorithm.h" />

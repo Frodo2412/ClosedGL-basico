@@ -1,5 +1,4 @@
 #pragma once
-#include "point.h"
 #include "../geometry/vector2.h"
 
 class line
@@ -16,7 +15,6 @@ public:
     vector2 get_end() const;
     float get_dx() const;
 
-    float get_slope() const;
     float get_dy() const;
     float get_y_intercept() const;
 };

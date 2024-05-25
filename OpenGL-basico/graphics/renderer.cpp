@@ -45,7 +45,10 @@ void renderer::render_image(int width, int height, scene scene)
 
 
     auto diagonal = line({0, 0}, {static_cast<float>(width), static_cast<float>(height)});
-    auto draw = mid_point_algorithm::raster(diagonal);
+    auto circle = ::circle({200, 300}, 100);
+
+    auto draw_line = mid_point_algorithm::raster(diagonal);
+    auto draw_circle = mid_point_algorithm::raster(circle);
 
     if (!bitmap)
     {
@@ -67,12 +70,20 @@ void renderer::render_image(int width, int height, scene scene)
                 FreeImage_SetPixelColor(bitmap, x, y, &rgb);
             }
         }
-        for (auto point : draw)
+        for (auto point : draw_line)
         {
             RGBQUAD rgb;
             rgb.rgbRed = 255;
             rgb.rgbGreen = 0;
             rgb.rgbBlue = 0;
+            FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
+        }
+        for (auto point : draw_circle)
+        {
+            RGBQUAD rgb;
+            rgb.rgbRed = 0;
+            rgb.rgbGreen = 0;
+            rgb.rgbBlue = 255;
             FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
         }
     }
