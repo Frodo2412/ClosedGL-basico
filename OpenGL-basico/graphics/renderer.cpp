@@ -10,6 +10,7 @@
 #include "FreeImage.h"
 #include "../geometry/line.h"
 #include "../transformations/perspective.h"
+#include "../transformations/view.h"
 
 std::string get_current_timestamp()
 {
@@ -46,6 +47,18 @@ void renderer::render_image(int width, int height, scene scene)
 
     auto line = ::line({0, 0, 0}, {static_cast<float>(width), static_cast<float>(height), 0});
 
+    const auto camera = scene.get_camera();
+
+    const auto fov = camera.get_fov();
+    const auto aspect_ratio = static_cast<float>(width) / static_cast<float>(height);
+    const auto near = camera.get_near();
+    const auto far = camera.get_far();
+
+    const ::transformation transformation = view(scene.get_camera());
+
+    const ::line new_line = ::line(transformation.transform(line.get_start()),
+                                   transformation.transform(line.get_end()));
+
     if (!bitmap)
     {
         std::cerr << "Failed to allocate memory for the image" << std::endl;
@@ -59,7 +72,7 @@ void renderer::render_image(int width, int height, scene scene)
         {
             for (int x = 0; x < width; x++)
             {
-                if (line.is_in_path({static_cast<float>(x), static_cast<float>(y), 0}))
+                if (new_line.is_in_path({static_cast<float>(x), static_cast<float>(y), 0}))
                 {
                     RGBQUAD rgb;
                     rgb.rgbRed = 255;

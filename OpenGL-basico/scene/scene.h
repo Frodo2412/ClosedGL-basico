@@ -13,7 +13,7 @@ class scene
     cube walls_;
 
 public:
-    explicit scene(const square& square) : camera_({0, 0, -50}, {0, 0, 0}, {0, 1, 0}, 3.14159265f / 4), square_(square),
+    explicit scene(const square& square) : camera_({0, 0, 50}, {0, 0, 0}, {0, 1, 0}, 3.14159265f / 4), square_(square),
                                            walls_(cube(100, vector3::zero()))
     {
     }
