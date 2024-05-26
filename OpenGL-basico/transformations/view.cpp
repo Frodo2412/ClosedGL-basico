@@ -3,19 +3,21 @@
 view::view(const camera& camera)
 {
     const vector3 position = camera.get_position();
-    const vector3 direction = camera.get_direction();
-    const vector3 up = camera.get_up().normalize();
-    const vector3 forward = direction.normalize();
-    const vector3 right = (up * forward).normalize();
+    const vector3 up = camera.get_up();
+    const vector3 forward = camera.get_forward();
+    const vector3 right = camera.get_right();
 
     const float ret[4][4] = {
-        {right.get_x(), up.get_x(), -forward.get_x(), 0},
-        {right.get_y(), up.get_y(), -forward.get_y(), 0},
-        {right.get_z(), up.get_z(), -forward.get_z(), 0},
-        {-position.dot_product(right), -position.dot_product(up), forward.dot_product(position), 1}
+        {right.get_x(), right.get_y(), right.get_z(), - right.dot_product(position)},
+        {up.get_x(), up.get_y(), up.get_z(), - up.dot_product(position)},
+        {- forward.get_x(), - forward.get_y(), - forward.get_z(), forward.dot_product(position)},
+        {0, 0, 0, 1}
     };
-
-    for (auto i = 0; i < 4; ++i)
-        for (auto j = 0; j < 4; ++j)
+    for (int i = 0; i < 4; ++i)
+    {
+        for (int j = 0; j < 4; ++j)
+        {
             matrix_[i][j] = ret[i][j];
+        }
+    }
 }

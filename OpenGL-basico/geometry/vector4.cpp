@@ -1,49 +1,49 @@
 ﻿#include "vector4.h"
 
-vector4::vector4(float r, float g, float b, float alpha)
+vector4::vector4(float x, float y, float z, float w) 
 {
-    r_ = r;
-    g_ = g;
-    b_ = b;
-    alpha_ = alpha;
+    x_ = x;
+    y_ = y;
+    z_ = z;
+    w_ = w;
 }
 
-void vector4::set_r(float r)
+float vector4::get_w() const
 {
-    r_ = r;
+    return w_;
 }
 
-void vector4::set_g(float g)
+float vector4::get_x() const
 {
-    g_ = g;
+    return x_;
 }
 
-void vector4::set_b(float b)
+float vector4::get_y() const
 {
-    b_ = b;
+    return y_;
 }
 
-void vector4::set_alpha(float alpha)
+float vector4::get_z() const
 {
-    alpha_ = alpha;
+    return z_;
 }
 
-float vector4::get_r()
+void vector4::set_w(float w)
 {
-    return r_;
+    w_ = w;
 }
 
-float vector4::get_g()
+void vector4::set_x(float x)
 {
-    return g_;
+    x_ = x;
 }
 
-float vector4::get_b()
+void vector4::set_y(float y)
 {
-    return b_;
+    y_ = y;
 }
 
-float vector4::get_alpha()
+void vector4::set_z(float z)
 {
-    return alpha_;
+    z_ = z;
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <initializer_list>
 
-#include "../geometry/vector3.h"
+#include "../geometry/vector4.h"
 
 class transformation
 {
@@ -17,6 +17,6 @@ protected:
     explicit transformation(std::initializer_list<float> values);
 
 public:
-    vector3 transform(const vector3& vector) const;
-    transformation operator>>(const transformation& other) const;
+    virtual vector4 transform(const vector4& vector) const;
+    transformation* operator>>(transformation* other);
 };

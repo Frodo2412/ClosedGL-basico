@@ -3,15 +3,15 @@
 class vector4
 {
 private:
-    float r_, g_, b_, alpha_;
+    float x_, y_, z_, w_;
 public:
-    vector4(float r, float g, float b, float alpha);
-    void set_r(float r);
-    void set_g(float g);
-    void set_b(float b);
-    void set_alpha(float alpha);
-    float get_r();
-    float get_g();
-    float get_b();
-    float get_alpha();
+    vector4(float x, float y, float z, float w);
+    float get_x() const;
+    float get_y() const;
+    float get_z() const;
+    float get_w() const;
+    void set_x(float x);
+    void set_y(float y);
+    void set_z(float z);
+    void set_w(float w);
 };

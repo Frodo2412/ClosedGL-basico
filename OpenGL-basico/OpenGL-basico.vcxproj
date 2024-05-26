@@ -250,6 +250,7 @@
         <ClCompile Include="transformations\perspective.cpp" />
         <ClCompile Include="transformations\transformation.cpp" />
         <ClCompile Include="transformations\view.cpp" />
+        <ClCompile Include="transformations\viewport.cpp" />
     </ItemGroup>
     <ItemGroup>
         <ClInclude Include="entities\game_object.h" />
@@ -275,6 +276,7 @@
         <ClInclude Include="transformations\perspective.h" />
         <ClInclude Include="transformations\transformation.h" />
         <ClInclude Include="transformations\view.h" />
+        <ClInclude Include="transformations\viewport.h" />
     </ItemGroup>
     <ItemGroup>
         <ClCompile Include="entities\entity.cpp"/>

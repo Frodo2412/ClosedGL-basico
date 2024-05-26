@@ -10,6 +10,10 @@
 #include "../raster/line.h"
 #include "../raster/mid_point_algorithm.h"
 
+#include "../transformations/viewport.h"
+#include "../transformations/view.h"
+#include "../transformations/perspective.h"
+
 std::string get_current_timestamp()
 {
     // Get the current time as a time_point
@@ -38,6 +42,13 @@ std::string get_current_timestamp()
 
 void renderer::render_image(int width, int height, scene scene)
 {
+    // creo las transfomraciones
+
+    view * view_transformation = new view(scene.get_camera());
+    perspective * perspective_transformation = new perspective(2* 3.141590 / 8, 800/600, 0.1, 100);
+    viewport * viewport_transformation = new viewport(800, 600, new vector2(0, 0));
+    
+    
     auto current_time = get_current_timestamp();
 
     // Create an empty 24-bit RGB image
