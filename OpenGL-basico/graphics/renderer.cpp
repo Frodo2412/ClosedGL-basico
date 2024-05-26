@@ -9,7 +9,6 @@
 #include "FreeImage.h"
 #include "../raster/line.h"
 #include "../raster/mid_point_algorithm.h"
-
 #include "../transformations/viewport.h"
 #include "../transformations/view.h"
 #include "../transformations/perspective.h"
@@ -41,25 +40,25 @@ std::string get_current_timestamp()
 }
 
 void renderer::render_image(int width, int height, scene scene)
-{
+{   
+    
     // creo las transfomraciones
 
     view * view_transformation = new view(scene.get_camera());
     perspective * perspective_transformation = new perspective(2* 3.141590 / 8, 800/600, 0.1, 100);
-    viewport * viewport_transformation = new viewport(800, 600, new vector2(0, 0));
-    
-    
+    viewport * viewport_transformation = new viewport(800, 600, point(0, 0));
     auto current_time = get_current_timestamp();
 
     // Create an empty 24-bit RGB image
     FIBITMAP* bitmap = FreeImage_Allocate(width, height, 24);
 
 
-    auto diagonal = line({0, 0}, {static_cast<float>(width), static_cast<float>(height)});
+    auto diagonal = line({static_cast<float>(width), static_cast<float>(height)}, {0, 0});
     auto circle = ::circle({200, 300}, 100);
 
     auto draw_line = mid_point_algorithm::raster(diagonal);
     auto draw_circle = mid_point_algorithm::raster(circle, true);
+    auto draw_square = mid_point_algorithm::raster(scene.get_square(), true, view_transformation, perspective_transformation, viewport_transformation);
 
     if (!bitmap)
     {
@@ -90,6 +89,14 @@ void renderer::render_image(int width, int height, scene scene)
             FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
         }
         for (auto point : draw_circle)
+        {
+            RGBQUAD rgb;
+            rgb.rgbRed = 0;
+            rgb.rgbGreen = 0;
+            rgb.rgbBlue = 255;
+            FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
+        }
+        for (auto point : draw_square)
         {
             RGBQUAD rgb;
             rgb.rgbRed = 0;
