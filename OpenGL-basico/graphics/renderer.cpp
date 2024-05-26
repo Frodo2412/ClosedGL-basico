@@ -59,7 +59,7 @@ void renderer::render_image(int width, int height, scene scene)
     auto circle = ::circle({200, 300}, 100);
 
     auto draw_line = mid_point_algorithm::raster(diagonal);
-    auto draw_circle = mid_point_algorithm::raster(circle);
+    auto draw_circle = mid_point_algorithm::raster(circle, true);
 
     if (!bitmap)
     {

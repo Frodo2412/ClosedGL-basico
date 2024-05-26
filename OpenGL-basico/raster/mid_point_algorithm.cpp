@@ -43,18 +43,16 @@ std::vector<point> mid_point_algorithm::raster(const line& line)
     return points;
 }
 
-std::vector<point> mid_point_algorithm::raster(const circle& circle)
+std::vector<point> mid_point_algorithm::raster(const circle& circle, bool fill)
 {
     std::vector<point> points;
 
-    const int x0 = to_int(circle.center.get_x());
-    const int y0 = to_int(circle.center.get_y());
-    const int radius = to_int(circle.radius);
-
-    int x = radius;
-    int y = 0;
-    int d = 1 - radius;
-
+    const float x0 = circle.center.get_x();
+    const float y0 = circle.center.get_y();
+    const float radius = circle.radius;
+    float x = radius;
+    float y = 0;
+    float d = 1 - radius;
     points.emplace_back(x0 + x, y0 + y);
     points.emplace_back(x0 - x, y0 + y);
     points.emplace_back(x0 + x, y0 - y);
@@ -86,6 +84,33 @@ std::vector<point> mid_point_algorithm::raster(const circle& circle)
             points.emplace_back(x0 - y, y0 - x);
         }
     }
-
+    if (fill)
+    {
+        x = 0;
+        y = radius;
+        d = 3 - 2 * radius;
+        while (x <= y) {
+            for (int i = x0 - x; i <= x0 + x; i++)
+            {
+                points.emplace_back(i, y0 + y);
+                points.emplace_back(i, y0 - y);
+            }
+            for (int i = x0 - y; i <= x0 + y; i++)
+            {
+                points.emplace_back(i, y0 + x);
+                points.emplace_back(i, y0 - x);
+            }
+            if (d < 0)
+            {
+                d += 4 * x + 6;
+            }
+            else
+            {
+                d += 4 * (x - y) + 10;
+                y--;
+            }
+            x++;
+        }
+    }
     return points;
 }

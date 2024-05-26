@@ -9,5 +9,5 @@ class mid_point_algorithm
 {
 public:
     static std::vector<point> raster(const line& line);
-    static std::vector<point> raster(const circle& circle);
+    static std::vector<point> raster(const circle& circle, bool fill);
 };
