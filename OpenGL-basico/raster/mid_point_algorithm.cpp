@@ -18,15 +18,15 @@ std::vector<point> mid_point_algorithm::raster(const line& line)
     const auto a = line.get_dy();
     const auto b = -line.get_dx();
 
-    const int x0 = to_int(start.x);
-    const auto y0 = to_int(start.y);
+    const int x0 = to_int(start.get_x());
+    const auto y0 = to_int(start.get_y());
 
     points.emplace_back(x0, y0);
 
     int y = y0;
 
     auto d = a + b / 2;
-    for (int x = x0; static_cast<float>(x) < end.x; x++)
+    for (int x = x0; static_cast<float>(x) < end.get_x(); x++)
     {
         if (d < 0)
         {
@@ -47,8 +47,8 @@ std::vector<point> mid_point_algorithm::raster(const circle& circle)
 {
     std::vector<point> points;
 
-    const int x0 = to_int(circle.center.x);
-    const int y0 = to_int(circle.center.y);
+    const int x0 = to_int(circle.center.get_x());
+    const int y0 = to_int(circle.center.get_y());
     const int radius = to_int(circle.radius);
 
     int x = radius;
