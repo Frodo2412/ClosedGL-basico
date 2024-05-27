@@ -14,8 +14,9 @@ public:
     float get_fov() const;
     vector3 get_position() const;
     vector3 get_direction() const;
+    vector3 get_forward() const;
     vector3 get_up() const;
-
+    vector3 get_right() const;
     vector3 get_near() const;
     vector3 get_far() const;
 };
