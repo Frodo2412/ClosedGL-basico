@@ -58,7 +58,6 @@ void renderer::render_image(int width, int height, scene scene)
     const auto square = polygon({{50, 50}, {50, 150}, {150, 150}, {150, 50}}, color(0, 0, 255, 255));
 
     const auto polygons = projection(width, height, {triangle, square});
-    auto diagonal = line({static_cast<float>(width), static_cast<float>(height)}, {0, 0});
     auto circle = ::circle({200, 300}, 100);
 
     // auto rasterer = ::rasterer(color(0, 255, 0, 255));
@@ -71,24 +70,21 @@ void renderer::render_image(int width, int height, scene scene)
     // {
     //     std::cerr << "Failed to rasterize image: " << e.what() << '\n';
     // }
-    auto draw_line = mid_point_algorithm::raster(diagonal);
-    auto draw_circle = mid_point_algorithm::raster(circle, true);
-    auto draw_square = mid_point_algorithm::raster(scene.get_square(), true, view_transformation, perspective_transformation, viewport_transformation);
-
+    auto draw_circle = rasterer::rasterize(circle, true);
+    
     if (!bitmap)
     {
         std::cerr << "Failed to allocate memory for the image\n";
         FreeImage_DeInitialise();
         throw std::runtime_error("Failed to allocate memory for the image");
     }
-
+    RGBQUAD rgb;
     try
     {
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                RGBQUAD rgb;
                 rgb.rgbRed = 0;
                 rgb.rgbGreen = 0;
                 rgb.rgbBlue = 0;
@@ -102,22 +98,16 @@ void renderer::render_image(int width, int height, scene scene)
                 auto draw = rasterer::rasterize(line);
                 for (auto point : draw)
                 {
-                    RGBQUAD rgb = polygon.fill_color.to_rgb();
+                    rgb = polygon.fill_color.to_rgb();
                     FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
                 }
             }
-            RGBQUAD rgb;
-            rgb.rgbRed = 0;
-            rgb.rgbGreen = 0;
-            rgb.rgbBlue = 255;
-            FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
         }
-        for (auto point : draw_square)
+        for (point point : draw_circle)
         {
-            RGBQUAD rgb;
-            rgb.rgbRed = 0;
+            rgb.rgbRed = 255;
             rgb.rgbGreen = 0;
-            rgb.rgbBlue = 255;
+            rgb.rgbBlue = 0;
             FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
         }
     }
