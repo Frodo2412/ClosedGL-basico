@@ -6,6 +6,5 @@ RGBQUAD color::to_rgb() const
     rgba.rgbRed = red_;
     rgba.rgbGreen = green_;
     rgba.rgbBlue = blue_;
-    rgba.rgbReserved = alpha_;
     return rgba;
 }

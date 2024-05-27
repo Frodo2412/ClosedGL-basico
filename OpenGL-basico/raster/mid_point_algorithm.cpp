@@ -1,6 +1,7 @@
 #include "mid_point_algorithm.h"
 
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 
@@ -9,59 +10,80 @@ int to_int(const float x)
     return static_cast<int>(std::round(x));
 }
 
-std::vector<point> mid_point_algorithm::raster(const line& line)
+std::vector<point> mid_point_upwards(const line& line)
 {
     std::vector<point> points;
 
-    auto start = vector2(0,0);
-    auto end = vector2(0, 0);
-    
-    if (line.get_start().get_x() < line.get_end().get_x())
-    {
-        start = line.get_end();
-        end = line.get_start();
-    } else
-    {
-        start = line.get_start();
-        end = line.get_end();
-    }
+    const auto start = line.get_start();
+    const auto end = line.get_end();
 
     const auto a = line.get_dy();
     const auto b = -line.get_dx();
 
-    const int x0 = to_int(start.get_x());
-    const int y0 = to_int(start.get_y());
+    const int x0 = to_int(start.x);
+    const auto y0 = to_int(start.y);
 
     points.emplace_back(x0, y0);
 
     int y = y0;
 
     auto d = a + b / 2;
-    for (int x = x0; static_cast<float>(x) <= end.get_x(); x++)
+    for (int x = x0; static_cast<float>(x) < end.x; x++)
     {
-        if (d < 0)
-        {
-            d += a;
-        }
+        if (d < 0) { d += a; }
         else
         {
             d += a + b;
-            if (start.get_y() >= end.get_y())
-            {
-                y--;
-            }
-            else
-            {
-                y++;
-            }
+            y++;
         }
         points.emplace_back(x, y);
     }
 
+    return points;
+}
+
+std::vector<point> mid_point_downwards(const line& line)
+{
+    std::vector<point> points;
+
+    const auto start = line.get_start();
+    const auto end = line.get_end();
+
+    const auto a = line.get_dy();
+    const auto b = -line.get_dx();
+
+    const int x0 = to_int(start.x);
+    const auto y0 = to_int(start.y);
+
+    points.emplace_back(x0, y0);
+
+    int y = y0;
+
+    auto d = a + b / 2;
+    for (int x = x0; static_cast<float>(x) < end.x; x++)
+    {
+        if (d > 0) { d += a; }
+        else
+        {
+            d += a + b;
+            y--;
+        }
+        points.emplace_back(x, y);
+    }
 
     return points;
 }
 
+std::vector<point> mid_point_algorithm::raster(const line& line)
+{
+    const auto start = line.get_start();
+    const auto end = line.get_end();
+
+    if (start.y <= end.y) { return mid_point_upwards(line); }
+    return mid_point_downwards(line);
+}
+
+std::vector<point> mid_point_algorithm::raster(const circle& circle)
 std::vector<point> mid_point_algorithm::raster(const circle& circle, bool fill)
 {
     std::vector<point> points;
