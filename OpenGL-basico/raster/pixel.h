@@ -6,6 +6,6 @@ struct pixel
 {
     point point;
     color color;
-};
 
-// Scene -> Objetos segun la camara -> proyeccion -> rasterizacion -> dibujamos
+    pixel(::point point, ::color color);
+};

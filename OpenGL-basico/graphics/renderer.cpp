@@ -9,6 +9,8 @@
 #include "FreeImage.h"
 #include "../raster/line.h"
 #include "../raster/mid_point_algorithm.h"
+#include "../raster/projection.h"
+#include "../raster/rasterer.h"
 
 std::string get_current_timestamp()
 {
@@ -43,16 +45,25 @@ void renderer::render_image(int width, int height, scene scene)
     // Create an empty 24-bit RGB image
     FIBITMAP* bitmap = FreeImage_Allocate(width, height, 24);
 
+    const auto triangle = polygon({{100, 100}, {200, 200}, {300, 100}}, color(255, 0, 0, 255));
+    const auto square = polygon({{50, 50}, {50, 150}, {150, 150}, {150, 50}}, color(0, 0, 255, 255));
 
-    auto diagonal = line({0, 0}, {static_cast<float>(width), static_cast<float>(height)});
-    auto circle = ::circle({200, 300}, 100);
+    const auto polygons = projection(width, height, {triangle, square});
 
-    auto draw_line = mid_point_algorithm::raster(diagonal);
-    auto draw_circle = mid_point_algorithm::raster(circle);
+    // auto rasterer = ::rasterer(color(0, 255, 0, 255));
+    //
+    // try
+    // {
+    //     const auto image = rasterer.rasterize(polygons);
+    // }
+    // catch (const std::exception& e)
+    // {
+    //     std::cerr << "Failed to rasterize image: " << e.what() << '\n';
+    // }
 
     if (!bitmap)
     {
-        std::cerr << "Failed to allocate memory for the image" << std::endl;
+        std::cerr << "Failed to allocate memory for the image\n";
         FreeImage_DeInitialise();
         throw std::runtime_error("Failed to allocate memory for the image");
     }
@@ -65,26 +76,22 @@ void renderer::render_image(int width, int height, scene scene)
             {
                 RGBQUAD rgb;
                 rgb.rgbRed = 0;
-                rgb.rgbGreen = 255;
+                rgb.rgbGreen = 0;
                 rgb.rgbBlue = 0;
                 FreeImage_SetPixelColor(bitmap, x, y, &rgb);
             }
         }
-        for (auto point : draw_line)
+        for (const auto& polygon : polygons.shapes)
         {
-            RGBQUAD rgb;
-            rgb.rgbRed = 255;
-            rgb.rgbGreen = 0;
-            rgb.rgbBlue = 0;
-            FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
-        }
-        for (auto point : draw_circle)
-        {
-            RGBQUAD rgb;
-            rgb.rgbRed = 0;
-            rgb.rgbGreen = 0;
-            rgb.rgbBlue = 255;
-            FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
+            for (auto line : polygon.get_lines())
+            {
+                auto draw = rasterer::rasterize(line);
+                for (auto point : draw)
+                {
+                    RGBQUAD rgb = polygon.fill_color.to_rgb();
+                    FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
+                }
+            }
         }
     }
     catch (const std::exception& e)
