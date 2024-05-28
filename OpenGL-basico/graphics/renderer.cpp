@@ -41,14 +41,8 @@ std::string get_current_timestamp()
     return oss.str();
 }
 
-void renderer::render_image(int width, int height, scene scene)
+void renderer::render_image(int width, int height, scene * scene)
 {   
-    
-    // creo las transfomraciones
-
-    view * view_transformation = new view(scene.get_camera());
-    perspective * perspective_transformation = new perspective(2* 3.141590 / 8, 800/600, 0.1, 100);
-    viewport * viewport_transformation = new viewport(800, 600, point(0, 0));
     auto current_time = get_current_timestamp();
 
     // Create an empty 24-bit RGB image
@@ -70,7 +64,10 @@ void renderer::render_image(int width, int height, scene scene)
     // {
     //     std::cerr << "Failed to rasterize image: " << e.what() << '\n';
     // }
-    auto draw_circle = rasterer::rasterize(circle, true);
+    color background_color_ = color(0, 0, 0, 0);
+    rasterer * rasterer_ = new rasterer(background_color_, scene);
+    auto draw_circle = rasterer_->rasterize(circle, true);
+    auto draw_square = rasterer_->rasterize(scene->get_square(), true);
     
     if (!bitmap)
     {
@@ -95,7 +92,7 @@ void renderer::render_image(int width, int height, scene scene)
         {
             for (auto line : polygon.get_lines())
             {
-                auto draw = rasterer::rasterize(line);
+                auto draw = rasterer_->rasterize(line);
                 for (auto point : draw)
                 {
                     rgb = polygon.fill_color.to_rgb();
@@ -107,6 +104,13 @@ void renderer::render_image(int width, int height, scene scene)
         {
             rgb.rgbRed = 255;
             rgb.rgbGreen = 0;
+            rgb.rgbBlue = 0;
+            FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
+        }
+        for (point point : draw_square)//con transforaciones
+        {
+            rgb.rgbRed = 0;
+            rgb.rgbGreen = 255;
             rgb.rgbBlue = 0;
             FreeImage_SetPixelColor(bitmap, point.x, point.y, &rgb);
         }

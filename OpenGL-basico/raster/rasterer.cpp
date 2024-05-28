@@ -32,8 +32,11 @@ std::vector<vector2> find_intersections(float y0, const std::vector<line>& lines
     return intersections;
 }
 
-rasterer::rasterer(const color background_color): background_color_(background_color)
+rasterer::rasterer(color background_color, scene * scene): background_color_(background_color), scene_(scene)
 {
+    view_transformation_ = new view(scene->get_camera());
+    perspective_transformation_ = new perspective(scene);
+    viewport_transformation_ = new viewport(scene->get_width(), scene->get_heigth(), point(0, scene->get_heigth()));
 }
 
 std::vector<point> rasterer::rasterize(const line& line)
@@ -185,80 +188,55 @@ std::vector<point> rasterer::rasterize(const circle& circle, bool fill)
     return points;
 }
 
-std::vector<point> rasterer::rasterize(const square& square, bool fill, view* view_transformation, perspective* perspective_transformation, viewport* viewport_transformation)
+std::vector<point> rasterer::rasterize(const square& square, bool fill)
 {
     std::vector<point> points;
     vector4 a = vector4(square.get_a().get_x(), square.get_a().get_y(), square.get_a().get_z(), 1);
     vector4 b = vector4(square.get_b().get_x(), square.get_b().get_y(), square.get_b().get_z(), 1);
     vector4 c = vector4(square.get_c().get_x(), square.get_c().get_y(), square.get_c().get_z(), 1);
     vector4 d = vector4(square.get_d().get_x(), square.get_d().get_y(), square.get_d().get_z(), 1);
-    a = view_transformation->transform(a);
-    b = view_transformation->transform(b);
-    c = view_transformation->transform(c);
-    d = view_transformation->transform(d);
-    a = perspective_transformation->transform(a);
-    b = perspective_transformation->transform(b);
-    c = perspective_transformation->transform(c);
-    d = perspective_transformation->transform(d);
-   /* point a_final = viewport_transformation->transform(a);
-    point b_final = viewport_transformation->transform(b);
-    point c_final = viewport_transformation->transform(c);
-    point d_final = viewport_transformation->transform(d);*/
-
-    point a_final = point(square.get_a().get_x(), square.get_a().get_y());
-    point b_final = point(square.get_b().get_x(), square.get_b().get_y());
-    point c_final = point(square.get_c().get_x(), square.get_c().get_y());
-    point d_final = point(square.get_d().get_x(), square.get_d().get_y());
+    printf("%f %f %f %f\n", a.get_x(), a.get_y(), a.get_z(), a.get_w());
+    printf("%f %f %f %f\n", b.get_x(), b.get_y(), b.get_z(), b.get_w());
+    printf("%f %f %f %f\n", c.get_x(), c.get_y(), c.get_z(), c.get_w());
+    printf("%f %f %f %f\n", d.get_x(), d.get_y(), d.get_z(), d.get_w());
+    a = view_transformation_->transform(a);
+    b = view_transformation_->transform(b);
+    c = view_transformation_->transform(c);
+    d = view_transformation_->transform(d);
+    printf("view %f %f %f %f\n", a.get_x(), a.get_y(), a.get_z(), a.get_w());
+    printf("view %f %f %f %f\n", b.get_x(), b.get_y(), b.get_z(), b.get_w());
+    printf("view %f %f %f %f\n", c.get_x(), c.get_y(), c.get_z(), c.get_w());
+    printf("view %f %f %f %f\n", d.get_x(), d.get_y(), d.get_z(), d.get_w());
+    a = perspective_transformation_->transform(a);
+    b = perspective_transformation_->transform(b);
+    c = perspective_transformation_->transform(c);
+    d = perspective_transformation_->transform(d);
+    printf("perspective %f %f %f %f\n", a.get_x(), a.get_y(), a.get_z(), a.get_w());
+    printf("perspective %f %f %f %f\n", b.get_x(), b.get_y(), b.get_z(), b.get_w());
+    printf("perspective %f %f %f %f\n", c.get_x(), c.get_y(), c.get_z(), c.get_w());
+    printf("perspective %f %f %f %f\n", d.get_x(), d.get_y(), d.get_z(), d.get_w());
+    point a_final = viewport_transformation_->transform(a);
+    point b_final = viewport_transformation_->transform(b);
+    point c_final = viewport_transformation_->transform(c);
+    point d_final = viewport_transformation_->transform(d);
+    printf("viewport %d %d\n", a_final.x, a_final.y);
+    printf("viewport %d %d\n", b_final.x, b_final.y);
+    printf("viewport %d %d\n", c_final.x, c_final.y);
+    printf("viewport %d %d\n", d_final.x, d_final.y);
 
     line* ab = new line(a_final.to_vector2(), b_final.to_vector2());
-    line* cb = new line(c_final.to_vector2(), b_final.to_vector2());
-    line* dc = new line(d_final.to_vector2(), c_final.to_vector2());
+    line* bc = new line(b_final.to_vector2(), c_final.to_vector2());
+    line* cd = new line(c_final.to_vector2(), d_final.to_vector2());
     line* da = new line(d_final.to_vector2(), a_final.to_vector2());
 
     std::vector<point> points_ab = rasterize(*ab);
-    std::vector<point> points_bc = rasterize(*cb);
-    std::vector<point> points_cd = rasterize(*dc);
+    std::vector<point> points_bc = rasterize(*bc);
+    std::vector<point> points_cd = rasterize(*cd);
     std::vector<point> points_da = rasterize(*da);
     points.insert(points.end(), points_ab.begin(), points_ab.end());
     points.insert(points.end(), points_bc.begin(), points_bc.end());
     points.insert(points.end(), points_cd.begin(), points_cd.end());
     points.insert(points.end(), points_da.begin(), points_da.end());
-    
-
-    /*point a_final = point(square.get_a().get_x(), square.get_a().get_y());
-    point b_final = point(square.get_b().get_x(), square.get_b().get_y());
-    point c_final = point(square.get_c().get_x(), square.get_c().get_y());
-    point d_final = point(square.get_d().get_x(), square.get_d().get_y());
-    //arista ab
-    for (int i = a_final.x; i <= b_final.x; i++)
-    {
-        points.emplace_back(i, a_final.y);
-    }
-    //arista bc
-    for (int i = b_final.y; i <= c_final.y; i++)
-    {
-        points.emplace_back(b_final.x, i);
-    }
-    //arista cd
-    for (int i = c_final.x; i >= d_final.x; i--)
-    {
-        points.emplace_back(i, c_final.y);
-    }
-    //arista da
-    for (int i = d_final.y; i >= a_final.y; i--)
-    {
-        points.emplace_back(d_final.x, i);
-    }
-    if(fill)
-    {
-        for (int i = a_final.y + 1; i < c_final.y; i++)
-        {
-            for (int j = a_final.x + 1; j < b_final.x; j++)
-            {
-                points.emplace_back(j, i);
-            }
-        }
-    }*/
     return points;
 }
 

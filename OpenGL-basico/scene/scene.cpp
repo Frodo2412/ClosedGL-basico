@@ -23,3 +23,14 @@ camera scene::get_camera() const
 {
     return camera_;
 }
+
+int scene::get_heigth()
+{
+     return heigth_;
+}
+
+int scene::get_width()
+{
+    return width_;
+}
+

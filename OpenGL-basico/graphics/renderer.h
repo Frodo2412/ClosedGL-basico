@@ -1,11 +1,10 @@
 #pragma once
-
-class scene;
+#include "../scene/scene.h"
 
 class renderer
 {
 public:
 
-    static void render_image(int width, int height, scene scene);
+    static void render_image(int width, int height, scene * scene);
     
 };

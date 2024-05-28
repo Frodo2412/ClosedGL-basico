@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../geometry/vector4.h"
+#include "../geometry/vector3.h"
 #include "../raster/point.h"
 
 class viewport 
@@ -11,7 +12,7 @@ class viewport
 public:
     viewport(int width, int height, point origin) : width_(width), height_(height), origin_(origin){};
     //transforma las coordenadas a coordenadas normalizadas del dispositivo
-    void to_NDC(vector4 vector);
+    vector3 to_NDC(vector4 vector);
     //traduce las coordenadas de la perspectiva a la de los pixeles en la imagen
-    point transform(vector4 vector);
+    point transform(vector4  vector);
 };

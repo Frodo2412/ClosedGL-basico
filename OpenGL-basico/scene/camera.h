@@ -5,9 +5,11 @@ class camera
 {
     vector3 position_, look_at_, up_;
     float fov_; // in radians
+    float near_;
+    float far_;
 public:
-    explicit camera(const vector3& position, const vector3& direction, const vector3& up, const float fov)
-        : position_(position), look_at_(direction), up_(up), fov_(fov)
+    explicit camera(const vector3& position, const vector3& direction, const vector3& up, const float fov, float near, float far)
+        : position_(position), look_at_(direction), up_(up), fov_(fov), near_(near), far_(far)
     {
     }
 
@@ -17,6 +19,6 @@ public:
     vector3 get_forward() const;
     vector3 get_up() const;
     vector3 get_right() const;
-    vector3 get_near() const;
-    vector3 get_far() const;
+    float get_near() const;
+    float get_far() const;
 };

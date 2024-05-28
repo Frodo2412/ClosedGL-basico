@@ -1,10 +1,10 @@
 #pragma once
 #include <cmath>
-
+#include "../scene/scene.h"
 #include "transformation.h"
 
 class perspective final : public transformation
 {
 public:
-    explicit perspective(const float fov, const float aspect, const float near, const float far);
+    explicit perspective(scene * scene);
 };

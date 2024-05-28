@@ -31,12 +31,12 @@ vector3 camera::get_right() const
     return right;
 }
 
-vector3 camera::get_near() const
+float camera::get_near() const
 {
-    return vector3::zero();
+    return near_;
 }
 
-vector3 camera::get_far() const
+float camera::get_far() const
 {
-    return get_position() + get_forward().normalize() * 100000000.0f;
+    return far_;
 }

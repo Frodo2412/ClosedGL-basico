@@ -13,15 +13,15 @@ int main(int argc, char* argv[])
     const int height = 600;
 
     auto square = ::square(
-        vector3(10, 10, 0),
-        vector3(20, 10, 0),
-        vector3(20, 20, 0),
-        vector3(10, 20, 0)
+        vector3(10, 10, 1),
+        vector3(30, 10, 10),
+        vector3(30, 30, 1),
+        vector3(10, 30, 1)
     );
 
-    auto scene = ::scene(square);
+    scene * scene_ = new scene(square);
 
-    renderer::render_image(width, height, scene);
+    renderer::render_image(width, height, scene_);
 
     FreeImage_DeInitialise();
 
