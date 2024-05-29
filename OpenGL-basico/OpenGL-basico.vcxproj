@@ -251,6 +251,11 @@
         <ClCompile Include="raster\rasterer.cpp" />
         <ClCompile Include="scene\camera.cpp" />
         <ClCompile Include="scene\scene.cpp" />
+        <ClCompile Include="solids\cube.cpp" />
+        <ClCompile Include="solids\point.cpp" />
+        <ClCompile Include="solids\solid.cpp" />
+        <ClCompile Include="solids\sphere.cpp" />
+        <ClCompile Include="solids\volume.cpp" />
         <ClCompile Include="transformations\perspective.cpp" />
         <ClCompile Include="transformations\transformation.cpp" />
         <ClCompile Include="transformations\view.cpp" />
@@ -281,6 +286,11 @@
         <ClInclude Include="raster\rasterer.h" />
         <ClInclude Include="scene\camera.h" />
         <ClInclude Include="scene\scene.h" />
+        <ClInclude Include="solids\cube.h" />
+        <ClInclude Include="solids\point3.h" />
+        <ClInclude Include="solids\solid.h" />
+        <ClInclude Include="solids\sphere.h" />
+        <ClInclude Include="solids\volume.h" />
         <ClInclude Include="transformations\perspective.h" />
         <ClInclude Include="transformations\transformation.h" />
         <ClInclude Include="transformations\view.h" />
