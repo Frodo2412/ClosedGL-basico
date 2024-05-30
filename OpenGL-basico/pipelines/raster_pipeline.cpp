@@ -15,7 +15,6 @@ image raster_pipeline::rasterize(const projection& projection) const
             const std::vector<point> points = rasterer::rasterize(line);
             for (point point : points)
             {
-                std::cout << "Pushing pixel " << point.x << ", " << point.y << '\n';
                 pixels.emplace_back(point, polygon.fill_color);
             }
         }

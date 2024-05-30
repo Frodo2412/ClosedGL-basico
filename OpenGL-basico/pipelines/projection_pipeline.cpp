@@ -24,14 +24,14 @@ projection projection_pipeline::project(scene scene) const
             std::cout << "1. Proyecting vertex: " << point3.x << ", " << point3.y << ", " << point3.z << "\n";
             const auto projected_point = perspective_.transform({point3.x, point3.y, point3.z, 1});
             std::cout << "2. Got transformed point: " << projected_point.get_x() << ", " << projected_point.get_y() <<
-                ", " << projected_point.get_z() << projected_point.get_w() << "\n";
+                ", " << projected_point.get_z() << ", " << projected_point.get_w() << "\n";
 
             points.emplace_back(projected_point.get_x() / projected_point.get_w(),
                                 projected_point.get_y() / projected_point.get_w());
             std::cout << "3. Pushed point " << points.back().x << ", " << points.back().y << "\n";
         }
 
-        shapes.emplace_back(points, color(255, 255, 255));
+        shapes.emplace_back(points, volume->get_color());
     }
 
     return projection(shapes);

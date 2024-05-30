@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Freeimage/FreeImage.h"
 #include "OpenGL-basico/graphics/renderer.h"
 #include "OpenGL-basico/pipelines/projection_pipeline.h"
@@ -20,7 +22,7 @@ int main(int argc, char* argv[])
     auto volumes = std::vector<volume*>();
 
     // volumes.emplace_back(new sphere({400, 300, 100}, 50, {255, 0, 0}));
-    volumes.emplace_back(new cube({400, 300, 200}, 1000, {0, 255, 0}));
+    volumes.emplace_back(new cube({400, 300, -1}, 100, color(0, 255, 0)));
 
 
     const auto scene = ::scene(volumes);

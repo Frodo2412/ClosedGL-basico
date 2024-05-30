@@ -19,6 +19,7 @@ public:
     virtual ~volume() = default;
 
     point3 get_position() const;
+    color get_color();
 
     virtual bool contains(point3 point) const = 0;
     virtual std::vector<point3> get_vertexes() const = 0;

@@ -49,14 +49,10 @@ void renderer::render_image(const image& image)
     try
     {
         const auto pixels = image.pixels;
-        for (int y = 0; y < height; y++)
+        for (pixel pixel : pixels)
         {
-            for (int x = 0; x < width; x++)
-            {
-                const auto& pixel = pixels[y * width + x];
-                rgb = pixel.color.to_rgb();
-                FreeImage_SetPixelColor(bitmap, x, y, &rgb);
-            }
+            rgb = pixel.color.to_rgb();
+            FreeImage_SetPixelColor(bitmap, pixel.point.x, pixel.point.y, &rgb);
         }
     }
     catch (const std::exception& e)
