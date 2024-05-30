@@ -16,3 +16,17 @@ bool cube::contains(const point3 point) const
 
     return is_x && is_y && is_z;
 }
+
+std::vector<point3> cube::get_vertexes() const
+{
+    return {
+        {max_.x + position_.x, max_.y + position_.y, max_.z + position_.z},
+        {max_.x + position_.x, max_.y + position_.y, min_.z + position_.z},
+        {max_.x + position_.x, min_.y + position_.y, max_.z + position_.z},
+        {max_.x + position_.x, min_.y + position_.y, min_.z + position_.z},
+        {min_.x + position_.x, max_.y + position_.y, max_.z + position_.z},
+        {min_.x + position_.x, max_.y + position_.y, min_.z + position_.z},
+        {min_.x + position_.x, min_.y + position_.y, max_.z + position_.z},
+        {min_.x + position_.x, min_.y + position_.y, min_.z + position_.z}
+    };
+}

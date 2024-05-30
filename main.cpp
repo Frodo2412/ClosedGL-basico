@@ -1,7 +1,9 @@
 #include "Freeimage/FreeImage.h"
-#include "OpenGL-basico/geometry/square.h"
 #include "OpenGL-basico/graphics/renderer.h"
-#include "OpenGL-basico/scene/scene.h"
+#include "OpenGL-basico/pipelines/projection_pipeline.h"
+#include "OpenGL-basico/pipelines/raster_pipeline.h"
+#include "OpenGL-basico/solids/cube.h"
+#include "OpenGL-basico/solids/sphere.h"
 
 int main(int argc, char* argv[])
 {
@@ -9,19 +11,23 @@ int main(int argc, char* argv[])
     FreeImage_Initialise();
 
     // Define image dimensions
-    const int width = 800;
-    const int height = 600;
+    constexpr int width = 800;
+    constexpr int height = 600;
 
-    auto square = ::square(
-        vector3(10, 10, 0),
-        vector3(20, 10, 0),
-        vector3(20, 20, 0),
-        vector3(10, 20, 0)
-    );
+    const projection_pipeline projection_pipeline(90, static_cast<float>(width) / height, -100.0f, 1000.0f);
+    const raster_pipeline raster_pipeline(width, height);
 
-    auto scene = ::scene(square);
+    auto volumes = std::vector<volume*>();
 
-    renderer::render_image(width, height, scene);
+    // volumes.emplace_back(new sphere({400, 300, 100}, 50, {255, 0, 0}));
+    volumes.emplace_back(new cube({400, 300, 200}, 1000, {0, 255, 0}));
+
+
+    const auto scene = ::scene(volumes);
+    const auto projection = projection_pipeline.project(scene);
+    const image image = raster_pipeline.rasterize(projection);
+
+    renderer::render_image(image);
 
     FreeImage_DeInitialise();
 

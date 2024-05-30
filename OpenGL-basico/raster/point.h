@@ -6,5 +6,5 @@ struct point
 {
     int x, y;
     vector2 to_vector2();
-    explicit point(int x, int y);
+    point(int x, int y);
 };

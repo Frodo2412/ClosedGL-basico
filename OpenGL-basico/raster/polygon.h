@@ -3,9 +3,10 @@
 
 #include "color.h"
 #include "line.h"
+#include "shape.h"
 #include "../geometry/vector2.h"
 
-struct polygon
+struct polygon : shape
 {
     std::vector<vector2> vertices; // assume ordered, non-intersecting, non-overlapping
     color fill_color;
@@ -13,5 +14,4 @@ struct polygon
     std::vector<line> get_lines() const;
 
     explicit polygon(std::vector<vector2> vertices, color fill_color);
-
 };
