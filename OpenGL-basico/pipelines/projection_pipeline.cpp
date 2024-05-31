@@ -24,12 +24,15 @@ projection projection_pipeline::project(scene scene) const
         {
             const auto start = edge.get_start();
             const auto end = edge.get_end();
-
+            
             const auto projected_start = perspective_.transform({start.x, start.y, start.z, 1});
             const auto projected_end = perspective_.transform({end.x, end.y, end.z, 1});
+            std::cout << "Proyecting edge con W: " << projected_start.get_x() << ", " << projected_start.get_y() << ", " <<
+                projected_start.get_z() << ", "<< projected_start.get_w() << " -> " << projected_end.get_x() << ", " << projected_end.get_y() << ", " <<
+                projected_end.get_z() << ", "<< projected_end.get_w() << "\n";
 
             edges.emplace_back(vector2(
-                                   projected_start.get_x() / projected_start.get_w(),
+                                   projected_start.get_x() /projected_start.get_w(),
                                    projected_start.get_y() / projected_start.get_w()),
                                vector2(
                                    projected_end.get_x() / projected_end.get_w(),

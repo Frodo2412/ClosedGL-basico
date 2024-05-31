@@ -17,14 +17,14 @@ int main(int argc, char* argv[])
     constexpr int width = 800;
     constexpr int height = 600;
 
-    const projection_pipeline projection_pipeline(90, static_cast<float>(width) / height, -0.1f, 100);
-    const viewport_pipeline view_pipeline(width, height, {0, 0});
+    const projection_pipeline projection_pipeline(2*3.141590/16, static_cast<float>(width) / height, 0.1, 100);
+    const viewport_pipeline view_pipeline(width, height, {width/2, height/2});
     const raster_pipeline raster_pipeline(width, height);
 
     auto volumes = std::vector<volume*>();
 
     // volumes.emplace_back(new sphere({400, 300, 100}, 50, {255, 0, 0}));
-    volumes.emplace_back(new cube({400, 300, 50}, 100, color(0, 255, 0)));
+    volumes.emplace_back(new cube({200, 100, 10}, 15, color(0, 255, 0)));
 
 
     const auto scene = ::scene(volumes);
