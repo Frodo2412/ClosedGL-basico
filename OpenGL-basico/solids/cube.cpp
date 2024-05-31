@@ -1,6 +1,6 @@
 #include "cube.h"
 
-bool cube::contains(const point3 point) const
+bool cube::contains(const vector3 point) const
 {
     const auto min_x = position_.x - min_.x;
     const auto max_x = position_.x + max_.x;
@@ -17,16 +17,32 @@ bool cube::contains(const point3 point) const
     return is_x && is_y && is_z;
 }
 
-std::vector<point3> cube::get_vertexes() const
+std::vector<line3> cube::get_edges() const
 {
+    const vector3 max = position_ + max_;
+    const vector3 a = {min_.x + position_.x, max_.y + position_.y, max_.z + position_.z};
+    const vector3 b = {min_.x + position_.x, min_.y + position_.y, max_.z + position_.z};
+    const vector3 c = {max_.x + position_.x, min_.y + position_.y, max_.z + position_.z};
+    const vector3 d = {min_.x + position_.x, max_.y + position_.y, min_.z + position_.z};
+    const vector3 e = {max_.x + position_.x, max_.y + position_.y, min_.z + position_.z};
+    const vector3 f = {max_.x + position_.x, min_.y + position_.y, min_.z + position_.z};
+    const vector3 min = position_ + min_;
+
     return {
-        {max_.x + position_.x, max_.y + position_.y, max_.z + position_.z},
-        {max_.x + position_.x, max_.y + position_.y, min_.z + position_.z},
-        {max_.x + position_.x, min_.y + position_.y, max_.z + position_.z},
-        {max_.x + position_.x, min_.y + position_.y, min_.z + position_.z},
-        {min_.x + position_.x, max_.y + position_.y, max_.z + position_.z},
-        {min_.x + position_.x, max_.y + position_.y, min_.z + position_.z},
-        {min_.x + position_.x, min_.y + position_.y, max_.z + position_.z},
-        {min_.x + position_.x, min_.y + position_.y, min_.z + position_.z}
+        // front
+        line3(max, a),
+        line3(max, c),
+        line3(b, a),
+        line3(b, c),
+        // back
+        line3(min, d),
+        line3(min, f),
+        line3(e, d),
+        line3(e, f),
+        // sides
+        line3(a, d),
+        line3(b, min),
+        line3(c, f),
+        line3(max, e),
     };
 }

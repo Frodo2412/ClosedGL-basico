@@ -10,7 +10,7 @@ image raster_pipeline::rasterize(const projection& projection) const
 
     for (const auto& polygon : projection.shapes)
     {
-        for (auto line : polygon.get_lines())
+        for (auto line : polygon.edges)
         {
             const std::vector<point> points = rasterer::rasterize(line);
             for (point point : points)

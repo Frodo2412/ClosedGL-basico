@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../raster/point.h"
 #include "../raster/polygon.h"
 #include "../transformations/perspective.h"
 
@@ -18,20 +19,24 @@ projection projection_pipeline::project(scene scene) const
     {
         std::cout << "Proyecting volume: " << volume->get_position().x << ", " << volume->get_position().y << ", " <<
             volume->get_position().z << "\n";
-        std::vector<vector2> points;
-        for (const auto& point3 : volume->get_vertexes())
+        std::vector<line> edges;
+        for (const auto& edge : volume->get_edges())
         {
-            std::cout << "1. Proyecting vertex: " << point3.x << ", " << point3.y << ", " << point3.z << "\n";
-            const auto projected_point = perspective_.transform({point3.x, point3.y, point3.z, 1});
-            std::cout << "2. Got transformed point: " << projected_point.get_x() << ", " << projected_point.get_y() <<
-                ", " << projected_point.get_z() << ", " << projected_point.get_w() << "\n";
+            const auto start = edge.get_start();
+            const auto end = edge.get_end();
 
-            points.emplace_back(projected_point.get_x() / projected_point.get_w(),
-                                projected_point.get_y() / projected_point.get_w());
-            std::cout << "3. Pushed point " << points.back().x << ", " << points.back().y << "\n";
+            const auto projected_start = perspective_.transform({start.x, start.y, start.z, 1});
+            const auto projected_end = perspective_.transform({end.x, end.y, end.z, 1});
+
+            edges.emplace_back(vector2(
+                                   projected_start.get_x() / projected_start.get_w(),
+                                   projected_start.get_y() / projected_start.get_w()),
+                               vector2(
+                                   projected_end.get_x() / projected_end.get_w(),
+                                   projected_end.get_y() / projected_end.get_w()));
         }
 
-        shapes.emplace_back(points, volume->get_color());
+        shapes.emplace_back(edges, volume->get_color());
     }
 
     return projection(shapes);

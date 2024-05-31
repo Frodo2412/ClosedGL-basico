@@ -2,15 +2,14 @@
 
 #include <cmath>
 
-class vector3
+struct vector3
 {
-    float x_, y_, z_;
+    float x, y, z;
 
-    float length_ = x_ * x_ + y_ * y_ + z_ * z_;
-    float magnitude_ = std::sqrt(length_);
+    float length = x * x + y * y + z * z;
+    float magnitude = std::sqrt(length);
 
-public:
-    vector3(const float x = 0.0, const float y = 0.0, const float z = 0.0) : x_(x), y_(y), z_(z)
+    vector3(const float x = 0.0, const float y = 0.0, const float z = 0.0) : x(x), y(y), z(z)
     {
     }
 
@@ -19,7 +18,6 @@ public:
     float get_y() const;
     float get_z() const;
 
-    float magnitude() const;
 
     // Setter methods for the coordinates
     void set_x(float new_x);

@@ -396,6 +396,7 @@
           <AdditionalIncludeDirectories>C:\Users\Bruno\RiderProjects\ClosedGLBasico\\Assimp\include;;C:\Users\Bruno\vcpkg\installed\x86-windows\include</AdditionalIncludeDirectories>
           <LinkCompiled>true</LinkCompiled>
         </ClCompile>
+        <ClCompile Include="pipelines\viewport_pipeline.cpp" />
         <ClCompile Include="raster\circle.cpp" />
         <ClCompile Include="raster\color.cpp" />
         <ClCompile Include="raster\line.cpp">
@@ -483,7 +484,7 @@
         <ClCompile Include="raster\shape.cpp" />
         <ClCompile Include="scene\camera.cpp" />
         <ClCompile Include="solids\cube.cpp" />
-        <ClCompile Include="solids\point.cpp" />
+        <ClCompile Include="solids\line3.cpp" />
         <ClCompile Include="solids\solid.cpp" />
         <ClCompile Include="solids\sphere.cpp" />
         <ClCompile Include="solids\volume.cpp" />
@@ -509,6 +510,7 @@
         <ClInclude Include="pipelines\projection_pipeline.h" />
         <ClInclude Include="pipelines\raster_pipeline.h" />
         <ClInclude Include="pipelines\scene.h" />
+        <ClInclude Include="pipelines\viewport_pipeline.h" />
         <ClInclude Include="raster\circle.h" />
         <ClInclude Include="raster\color.h" />
         <ClInclude Include="raster\line.h" />
@@ -520,7 +522,7 @@
         <ClInclude Include="raster\shape.h" />
         <ClInclude Include="scene\camera.h" />
         <ClInclude Include="solids\cube.h" />
-        <ClInclude Include="solids\point3.h" />
+        <ClInclude Include="solids\line3.h" />
         <ClInclude Include="solids\solid.h" />
         <ClInclude Include="solids\sphere.h" />
         <ClInclude Include="solids\volume.h" />

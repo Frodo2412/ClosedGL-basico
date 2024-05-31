@@ -8,10 +8,8 @@
 
 struct polygon : shape
 {
-    std::vector<vector2> vertices; // assume ordered, non-intersecting, non-overlapping
+    std::vector<line> edges;
     color fill_color;
 
-    std::vector<line> get_lines() const;
-
-    explicit polygon(std::vector<vector2> vertices, color fill_color);
+    explicit polygon(std::vector<line> edges, color fill_color);
 };

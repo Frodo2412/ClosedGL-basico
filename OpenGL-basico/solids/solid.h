@@ -1,6 +1,7 @@
 #pragma once
 
 #include "volume.h"
+#include "../geometry/vector3.h"
 
 enum operation { and, or, not };
 
@@ -10,5 +11,6 @@ class solid final : public volume
     operation operation_;
 
 public:
-    bool contains(point3 point) const override;
+    bool contains(vector3 point) const override;
+    std::vector<line3> get_edges() const override;
 };
