@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     auto volumes = std::vector<volume*>();
 
     // volumes.emplace_back(new sphere({400, 300, 100}, 50, {255, 0, 0}));
-    volumes.emplace_back(new cube({5, 10, 10}, 15, color(0, 255, 0)));
+    volumes.emplace_back(new cube({15, 10, 10}, 15, color(0, 255, 0)));
 
 
     const auto scene = ::scene(volumes);
