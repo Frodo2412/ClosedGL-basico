@@ -8,7 +8,7 @@ perspective::perspective(const float fov, const float aspect_ratio, const float 
         {1.0f / (aspect_ratio * tan_half_fov), 0, 0, 0},
         {0, 1.0f / (aspect_ratio * tan_half_fov), 0, 0},
         {0, 0, -(far + near) / (far - near), -1},
-        {0, 0, (2 * far * near) / (far - near), 0}
+        {0, 0, -(2 * far * near) / (far - near), 0}
     };
 
     for (int i = 0; i < 4; ++i)

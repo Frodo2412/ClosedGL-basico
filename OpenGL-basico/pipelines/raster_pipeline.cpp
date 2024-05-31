@@ -7,7 +7,6 @@
 image raster_pipeline::rasterize(const projection& projection) const
 {
     std::vector<pixel> pixels(width_ * height_);
-
     for (const auto& polygon : projection.shapes)
     {
         for (auto line : polygon.edges)
