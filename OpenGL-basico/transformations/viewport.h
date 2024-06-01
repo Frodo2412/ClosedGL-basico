@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../raster/point.h"
+#include "../geometry/vector3.h"
 
 class viewport
 {
@@ -14,5 +15,5 @@ public:
     }
 
     //traduce las coordenadas de la perspectiva a la de los pixeles en la imagen
-    vector2 transform(vector2 vector) const;
+    vector2 transform(vector3 vector) const;
 };

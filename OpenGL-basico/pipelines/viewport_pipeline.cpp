@@ -15,8 +15,8 @@ projection viewport_pipeline::get_viewport_coordinates(const projection& ndc_pro
             const auto projected_start = viewport_.transform(start);
             const auto projected_end = viewport_.transform(end);
 
-            edges.emplace_back(vector2(projected_start.get_x(), projected_start.get_y()),
-                               vector2(projected_end.get_x(), projected_end.get_y()));
+            edges.emplace_back(vector3(projected_start.get_x(), projected_start.get_y(), start.get_z()),
+                               vector3(projected_end.get_x(), projected_end.get_y(), end.get_z()));
         }
 
         shapes.emplace_back(edges, polygon.fill_color);

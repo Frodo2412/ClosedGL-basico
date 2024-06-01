@@ -91,7 +91,7 @@ vector3 vector3::symmetrical(const vector3& other) const
 
 vector3 vector3::zero()
 {
-    return vector3(0, 0, 0);
+    return {0, 0, 0};
 }
 
 void vector3::reset()
@@ -99,4 +99,10 @@ void vector3::reset()
     x = 0;
     y = 0;
     z = 0;
+}
+
+std::ostream& operator<<(std::ostream& os, const vector3& v)
+{
+    os << "(" << v.x << ", " << v.y << v.z << ")";
+    return os;
 }

@@ -11,7 +11,7 @@ bool sphere::contains(const vector3 point) const
     return x + y + z <= r;
 }
 
-std::vector<line3> sphere::get_edges() const
+std::vector<line> sphere::get_edges() const
 {
     return {};
 }

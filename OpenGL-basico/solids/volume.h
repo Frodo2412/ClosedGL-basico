@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "line3.h"
 #include "../geometry/vector3.h"
 #include "../raster/color.h"
+#include "../raster/line.h"
 
 class volume
 {
@@ -23,5 +23,5 @@ public:
     color get_color() const;
 
     virtual bool contains(vector3 point) const = 0;
-    virtual std::vector<line3> get_edges() const = 0;
+    virtual std::vector<line> get_edges() const = 0;
 };

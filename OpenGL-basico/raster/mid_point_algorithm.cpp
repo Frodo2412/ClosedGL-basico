@@ -23,7 +23,7 @@ std::vector<point> mid_point_x_major_upwards(const line& line)
     const int x0 = to_int(start.x);
     const auto y0 = to_int(start.y);
 
-    points.emplace_back(x0, y0);
+    points.emplace_back(x0, y0, line.get_z(x0, y0));
 
     int y = y0;
 
@@ -36,7 +36,7 @@ std::vector<point> mid_point_x_major_upwards(const line& line)
             d += a + b;
             y++;
         }
-        points.emplace_back(x, y);
+        points.emplace_back(x, y, line.get_z(x, y));
     }
 
     return points;
@@ -55,7 +55,7 @@ std::vector<point> mid_point_x_major_downwards(const line& line)
     const int x0 = to_int(start.x);
     const auto y0 = to_int(start.y);
 
-    points.emplace_back(x0, y0);
+    points.emplace_back(x0, y0, line.get_z(x0, y0));
 
     int y = y0;
 
@@ -68,7 +68,7 @@ std::vector<point> mid_point_x_major_downwards(const line& line)
             d += a + b;
             y--;
         }
-        points.emplace_back(x, y);
+        points.emplace_back(x, y, line.get_z(x, y));
     }
 
     return points;
@@ -87,7 +87,7 @@ std::vector<point> mid_point_y_major_upwards(const line& line)
     const int y0 = to_int(start.y);
     const auto x0 = to_int(start.x);
 
-    points.emplace_back(x0, y0);
+    points.emplace_back(x0, y0, line.get_z(x0, y0));
 
     int x = x0;
 
@@ -100,7 +100,7 @@ std::vector<point> mid_point_y_major_upwards(const line& line)
             d += a + b;
             x++;
         }
-        points.emplace_back(x, y);
+        points.emplace_back(x, y, line.get_z(x, y));
     }
 
     return points;
@@ -119,7 +119,7 @@ std::vector<point> mid_point_y_major_downwards(const line& line)
     const int y0 = to_int(start.y);
     const auto x0 = to_int(start.x);
 
-    points.emplace_back(x0, y0);
+    points.emplace_back(x0, y0, line.get_z(x0, y0));
 
     int x = x0;
 
@@ -132,7 +132,7 @@ std::vector<point> mid_point_y_major_downwards(const line& line)
             d += a + b;
             x--;
         }
-        points.emplace_back(x, y);
+        points.emplace_back(x, y, line.get_z(x, y));
     }
 
     return points;

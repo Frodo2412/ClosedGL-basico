@@ -1,12 +1,14 @@
 #include "point.h"
 
-point::point(const int x, const int y)
+
+vector2 point::to_vector2() const
+{
+    return vector2(this->x, this->y);
+}
+
+point::point(int x, int y, float z_buffer)
 {
     this->x = x;
     this->y = y;
-}
-
-vector2 point::to_vector2()
-{
-    return vector2(this->x, this->y);
+    this->z_buffer = z_buffer;
 }

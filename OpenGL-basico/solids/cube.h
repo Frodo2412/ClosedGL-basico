@@ -1,5 +1,6 @@
 #pragma once
 #include "volume.h"
+#include "../raster/line.h"
 
 class cube final : public volume
 {
@@ -13,5 +14,5 @@ public:
     }
 
     bool contains(vector3 point) const override;
-    std::vector<line3> get_edges() const override;
+    std::vector<line> get_edges() const override;
 };

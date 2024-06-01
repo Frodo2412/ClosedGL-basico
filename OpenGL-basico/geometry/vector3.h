@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <cmath>
+#include <ostream>
 
 struct vector3
 {
@@ -44,4 +45,6 @@ struct vector3
 
     static vector3 zero();
     void reset();
+
+    friend std::ostream& operator<<(std::ostream& os, const vector3& v);
 };

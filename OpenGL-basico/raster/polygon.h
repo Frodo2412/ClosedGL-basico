@@ -2,9 +2,8 @@
 #include <vector>
 
 #include "color.h"
-#include "line.h"
+#include "../raster/line.h"
 #include "shape.h"
-#include "../geometry/vector2.h"
 
 struct polygon : shape
 {

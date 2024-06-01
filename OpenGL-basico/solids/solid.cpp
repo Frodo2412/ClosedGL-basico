@@ -11,7 +11,7 @@ bool solid::contains(const vector3 point) const
     return false;
 }
 
-std::vector<line3> solid::get_edges() const
+std::vector<line> solid::get_edges() const
 {
     return {};
 }

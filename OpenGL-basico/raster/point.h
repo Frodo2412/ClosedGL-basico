@@ -5,6 +5,7 @@
 struct point
 {
     int x, y;
-    vector2 to_vector2();
-    explicit point(int x, int y);
+    float z_buffer;
+    vector2 to_vector2() const;
+    explicit point(int x, int y, float z_buffer);
 };

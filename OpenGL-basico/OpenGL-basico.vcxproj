@@ -484,7 +484,6 @@
         <ClCompile Include="raster\shape.cpp" />
         <ClCompile Include="scene\camera.cpp" />
         <ClCompile Include="solids\cube.cpp" />
-        <ClCompile Include="solids\line3.cpp" />
         <ClCompile Include="solids\solid.cpp" />
         <ClCompile Include="solids\sphere.cpp" />
         <ClCompile Include="solids\volume.cpp" />
@@ -522,7 +521,6 @@
         <ClInclude Include="raster\shape.h" />
         <ClInclude Include="scene\camera.h" />
         <ClInclude Include="solids\cube.h" />
-        <ClInclude Include="solids\line3.h" />
         <ClInclude Include="solids\solid.h" />
         <ClInclude Include="solids\sphere.h" />
         <ClInclude Include="solids\volume.h" />

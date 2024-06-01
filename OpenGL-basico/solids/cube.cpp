@@ -17,7 +17,7 @@ bool cube::contains(const vector3 point) const
     return is_x && is_y && is_z;
 }
 
-std::vector<line3> cube::get_edges() const
+std::vector<line> cube::get_edges() const
 {
     const vector3 max = position_ + max_;
     const vector3 a = {min_.x + position_.x, max_.y + position_.y, max_.z + position_.z};
@@ -30,19 +30,19 @@ std::vector<line3> cube::get_edges() const
 
     return {
         // front
-        line3(max, a),
-        line3(max, c),
-        line3(b, a),
-        line3(b, c),
+        line(max, a),
+        line(max, c),
+        line(b, a),
+        line(b, c),
         // back
-        line3(min, d),
-        line3(min, f),
-        line3(e, d),
-        line3(e, f),
+        line(min, d),
+        line(min, f),
+        line(e, d),
+        line(e, f),
         // sides
-        line3(a, d),
-        line3(b, min),
-        line3(c, f),
-        line3(max, e),
+        line(a, d),
+        line(b, min),
+        line(c, f),
+        line(max, e),
     };
 }

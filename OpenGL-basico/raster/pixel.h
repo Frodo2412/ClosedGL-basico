@@ -8,5 +8,8 @@ struct pixel
     color color;
 
     pixel(::point point, ::color color);
-    pixel(): point(0, 0), color(0, 0, 0) {}
+
+    pixel(): point(0, 0, 0), color(0, 0, 0)
+    {
+    }
 };
