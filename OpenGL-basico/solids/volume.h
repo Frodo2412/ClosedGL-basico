@@ -5,6 +5,7 @@
 #include "../geometry/vector3.h"
 #include "../raster/color.h"
 #include "../raster/line.h"
+#include "../raster/polygon.h"
 
 class volume
 {
@@ -23,5 +24,5 @@ public:
     color get_color() const;
 
     virtual bool contains(vector3 point) const = 0;
-    virtual std::vector<line> get_edges() const = 0;
+    virtual std::vector<polygon> get_faces() const = 0;
 };

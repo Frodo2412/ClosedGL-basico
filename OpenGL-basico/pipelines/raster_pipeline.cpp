@@ -10,16 +10,11 @@ std::vector<vector3> find_intersections(float y0, const std::vector<line>& lines
 
     for (const auto& ln : lines)
     {
-        // Check if the line is vertical to avoid division by zero
-        if (ln.get_dx() == 0)
-        {
-            continue;
-        }
+        if (static_cast<int>(ln.get_dx()) == 0) { continue; }
+        if (static_cast<int>(ln.get_dy()) == 0) { continue; }
 
-        // Calculate the x-coordinate of the intersection
         float x = (y0 - ln.get_y_intercept()) / ln.get_dy() * ln.get_dx();
 
-        // Check if the intersection point is within the segment
         auto start = ln.get_start();
         auto end = ln.get_end();
         if (x >= std::min(start.x, end.x) && x <= std::max(start.x, end.x))
@@ -33,12 +28,18 @@ std::vector<vector3> find_intersections(float y0, const std::vector<line>& lines
 
 image raster_pipeline::rasterize(const projection& projection) const
 {
+    std::cout << "Rasterizing projection\n";
+
+    const auto polygons = projection.shapes;
+
+    std::cout << "- Number of polygons: " << polygons.size() << "\n";
+
     try
     {
         std::vector<std::vector<color>> colors(width_, std::vector<color>(height_));
         std::vector<std::vector<float>> z_buffer(width_, std::vector<float>(height_));
 
-        std::cout << "Created matrices for rasterization: " << width_ << "x" << height_ << "\n";
+        std::cout << "- Created matrices for rasterization: " << width_ << "x" << height_ << "\n";
 
         for (int i = 0; i < width_; i++)
         {
@@ -63,14 +64,9 @@ image raster_pipeline::rasterize(const projection& projection) const
 
             for (int y = 0; y < height_; y++)
             {
-                std::cout << "Checking intersections for y = " << y << "\n";
                 auto intersections = find_intersections(static_cast<float>(y), polygon.edges);
 
-                if (intersections.empty())
-                {
-                    std::cout << "No intersections found for y = " << y << "\n";
-                    continue;
-                }
+                if (intersections.empty()) { continue; }
 
                 std::sort(intersections.begin(), intersections.end(), [](const vector3& a, const vector3& b)
                 {
@@ -84,10 +80,7 @@ image raster_pipeline::rasterize(const projection& projection) const
                 {
                     if (x >= intersections[intersection_index].x)
                     {
-                        if (intersections.size() == intersection_index + 1)
-                        {
-                            break;
-                        }
+                        if (intersections.size() == intersection_index + 1) { break; }
                         inside = !inside;
                         intersection_index++;
                     }

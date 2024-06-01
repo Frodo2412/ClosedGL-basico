@@ -16,5 +16,5 @@ public:
     }
 
     bool contains(vector3 point) const override;
-    std::vector<line> get_edges() const override;
+    std::vector<polygon> get_faces() const override;
 };

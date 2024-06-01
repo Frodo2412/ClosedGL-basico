@@ -17,7 +17,7 @@ bool cube::contains(const vector3 point) const
     return is_x && is_y && is_z;
 }
 
-std::vector<line> cube::get_edges() const
+std::vector<polygon> cube::get_faces() const
 {
     const vector3 max = position_ + max_;
     const vector3 a = {min_.x + position_.x, max_.y + position_.y, max_.z + position_.z};
@@ -28,21 +28,12 @@ std::vector<line> cube::get_edges() const
     const vector3 f = {max_.x + position_.x, min_.y + position_.y, min_.z + position_.z};
     const vector3 min = position_ + min_;
 
-    return {
-        // front
-        line(max, a),
-        line(max, c),
-        line(b, a),
-        line(b, c),
-        // back
-        line(min, d),
-        line(min, f),
-        line(e, d),
-        line(e, f),
-        // sides
-        line(a, d),
-        line(b, min),
-        line(c, f),
-        line(max, e),
-    };
+    const auto front = polygon({line(max, a), line(max, c), line(b, a), line(b, c)}, color_);
+    const auto back = polygon({line(min, d), line(min, f), line(e, d), line(e, f)}, color_);
+    const auto left = polygon({line(b, min), line(a, d), line(f, c), line(c, b)}, color_);
+    const auto right = polygon({line(max, e), line(c, f), line(d, a), line(e, max)}, color_);
+    const auto top = polygon({line(max, a), line(d, a), line(f, c), line(c, max)}, color_);
+    const auto bottom = polygon({line(min, b), line(b, e), line(e, f), line(f, min)}, color_);
+
+    return {front, back, left, right, top, bottom};
 }
