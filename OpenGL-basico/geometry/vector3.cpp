@@ -1,81 +1,76 @@
 ﻿#include "vector3.h"
 
-float vector3::get_x() const { return x_; }
-float vector3::get_y() const { return y_; }
-float vector3::get_z() const { return z_; }
+float vector3::get_x() const { return x; }
+float vector3::get_y() const { return y; }
+float vector3::get_z() const { return z; }
 
-float vector3::magnitude() const
-{
-    return magnitude_;
-}
-
-void vector3::set_x(const float new_x) { x_ = new_x; }
-void vector3::set_y(const float new_y) { y_ = new_y; }
-void vector3::set_z(const float new_z) { z_ = new_z; }
+void vector3::set_x(const float new_x) { x = new_x; }
+void vector3::set_y(const float new_y) { y = new_y; }
+void vector3::set_z(const float new_z) { z = new_z; }
 
 vector3 vector3::operator+(const vector3& other) const
 {
-    return vector3(x_ + other.get_x(), y_ + other.get_y(), z_ + other.get_z());
+    return vector3(x + other.get_x(), y + other.get_y(), z + other.get_z());
 }
 
 void vector3::operator+=(const vector3& other)
 {
-    x_ += other.get_x();
-    y_ += other.get_y();
-    z_ += other.get_z();
+    x += other.get_x();
+    y += other.get_y();
+    z += other.get_z();
 }
 
 vector3 vector3::operator -(const vector3& other) const
 {
-    return vector3(x_ - other.x_, y_ - other.y_, z_ - other.z_);
+    return vector3(x - other.x, y - other.y, z - other.z);
 }
 
 void vector3::operator-=(const vector3& other)
 {
-    x_ -= other.x_;
-    y_ -= other.y_;
-    z_ -= other.z_;
+    x -= other.x;
+    y -= other.y;
+    z -= other.z;
 }
 
 vector3 vector3::operator*(const float s) const
 {
-    return vector3(x_ * s, y_ * s, z_ * s);
+    return vector3(x * s, y * s, z * s);
 }
 
 vector3 vector3::operator*(const vector3& other) const
 {
     return vector3(
-        y_ * other.z_ - z_ * other.y_, // Calculate c1
-        z_ * other.x_ - x_ * other.z_, // Calculate c2
-        x_ * other.y_ - y_ * other.x_ // Calculate c3
+        y * other.z - z * other.y, // Calculate c1
+        z * other.x - x * other.z, // Calculate c2
+        x * other.y - y * other.x // Calculate c3
     );
 }
 
 
 vector3 vector3::operator/(const int s) const
 {
-    return vector3(x_ / s, y_ / s, z_ / s);
+    return vector3(x / s, y / s, z / s);
 }
 
 vector3 vector3::operator-() const
 {
-    return vector3(-x_, -y_, -z_);
+    return vector3(-x, -y, -z);
 }
 
 bool vector3::operator==(const vector3& zero) const
 {
-    return x_ == zero.x_ && y_ == zero.y_ && z_ == zero.z_;
+    return x == zero.x && y == zero.y && z == zero.z;
 }
 
 float vector3::dot_product(const vector3& other) const
 {
-    return x_ * other.x_ + y_ * other.y_ + z_ * other.z_;
+    return x * other.x + y * other.y + z * other.z;
 }
 
 float vector3::angle_with(const vector3& other) const
 {
     const auto numerator = this->dot_product(other);
-    const auto denominator = this->magnitude_ * other.magnitude_;
+    const auto denominator = this->magnitude * other.magnitude;
 
     const auto cosine = numerator / denominator;
 
@@ -84,7 +79,7 @@ float vector3::angle_with(const vector3& other) const
 
 vector3 vector3::normalize() const
 {
-    return vector3(x_ / magnitude_, y_ / magnitude_, z_ / magnitude_);
+    return vector3(x / magnitude, y / magnitude, z / magnitude);
 }
 
 vector3 vector3::symmetrical(const vector3& other) const
@@ -101,7 +96,7 @@ vector3 vector3::zero()
 
 void vector3::reset()
 {
-    x_ = 0;
-    y_ = 0;
-    z_ = 0;
+    x = 0;
+    y = 0;
+    z = 0;
 }

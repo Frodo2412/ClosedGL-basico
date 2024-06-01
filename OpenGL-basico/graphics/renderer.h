@@ -1,11 +1,9 @@
 #pragma once
 
-class scene;
+#include "../pipelines/image.h"
 
 class renderer
 {
 public:
-
-    static void render_image(int width, int height, scene scene);
-    
+    static void render_image(const image& image);
 };

@@ -1,8 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "pixel.h"
-#include "projection.h"
+#include "../raster/pixel.h"
 
 struct image
 {

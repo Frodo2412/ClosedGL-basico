@@ -32,10 +32,6 @@ std::vector<vector2> find_intersections(float y0, const std::vector<line>& lines
     return intersections;
 }
 
-rasterer::rasterer(const color background_color): background_color_(background_color)
-{
-}
-
 std::vector<point> rasterer::rasterize(const line& line)
 {
     std::cout << "Drawing line from " << line.get_start() << " to " << line.get_end() << "\n";
@@ -67,52 +63,6 @@ std::vector<point> rasterer::rasterize(const line& line)
     return mid_point_algorithm::raster(line);
 }
 
-image rasterer::rasterize(const projection& projection)
-{
-    std::vector<pixel> pixels;
-    for (const auto& shape : projection.shapes)
-    {
-        const auto lines = shape.get_lines();
-        for (auto line : lines)
-        {
-            const auto points = mid_point_algorithm::raster(line);
-            for (auto point : points)
-            {
-                pixels.emplace_back(point, shape.fill_color);
-            }
-        }
-
-        for (int y = 0; y < projection.height; y++)
-        {
-            auto intersections = find_intersections(static_cast<float>(y), lines);
-            std::sort(intersections.begin(), intersections.end(), [](const vector2& a, const vector2& b)
-            {
-                return a.x < b.x;
-            });
-
-            auto next_intersection_index = 0;
-            auto inside = intersections[0].x < 0;
-
-            for (int x = 0; x < projection.width; x++)
-            {
-                if (static_cast<float>(x) > intersections[next_intersection_index].x)
-                {
-                    inside = !inside;
-                    next_intersection_index++;
-                }
-                if (inside)
-                {
-                    pixels.emplace_back(point(x, y), shape.fill_color);
-                }
-                else
-                {
-                    pixels.emplace_back(point(x, y), background_color_);
-                }
-            }
-        }
-    }
-    return image(projection.width, projection.height, pixels);
-}
 std::vector<point> rasterer::rasterize(const circle& circle, bool fill)
 {
     std::vector<point> points;
@@ -200,10 +150,6 @@ std::vector<point> rasterer::rasterize(const square& square, bool fill, view* vi
     b = perspective_transformation->transform(b);
     c = perspective_transformation->transform(c);
     d = perspective_transformation->transform(d);
-   /* point a_final = viewport_transformation->transform(a);
-    point b_final = viewport_transformation->transform(b);
-    point c_final = viewport_transformation->transform(c);
-    point d_final = viewport_transformation->transform(d);*/
 
     point a_final = point(square.get_a().get_x(), square.get_a().get_y());
     point b_final = point(square.get_b().get_x(), square.get_b().get_y());
@@ -224,41 +170,6 @@ std::vector<point> rasterer::rasterize(const square& square, bool fill, view* vi
     points.insert(points.end(), points_cd.begin(), points_cd.end());
     points.insert(points.end(), points_da.begin(), points_da.end());
     
-
-    /*point a_final = point(square.get_a().get_x(), square.get_a().get_y());
-    point b_final = point(square.get_b().get_x(), square.get_b().get_y());
-    point c_final = point(square.get_c().get_x(), square.get_c().get_y());
-    point d_final = point(square.get_d().get_x(), square.get_d().get_y());
-    //arista ab
-    for (int i = a_final.x; i <= b_final.x; i++)
-    {
-        points.emplace_back(i, a_final.y);
-    }
-    //arista bc
-    for (int i = b_final.y; i <= c_final.y; i++)
-    {
-        points.emplace_back(b_final.x, i);
-    }
-    //arista cd
-    for (int i = c_final.x; i >= d_final.x; i--)
-    {
-        points.emplace_back(i, c_final.y);
-    }
-    //arista da
-    for (int i = d_final.y; i >= a_final.y; i--)
-    {
-        points.emplace_back(d_final.x, i);
-    }
-    if(fill)
-    {
-        for (int i = a_final.y + 1; i < c_final.y; i++)
-        {
-            for (int j = a_final.x + 1; j < b_final.x; j++)
-            {
-                points.emplace_back(j, i);
-            }
-        }
-    }*/
     return points;
 }
 

@@ -10,7 +10,7 @@ int to_int(const float x)
     return static_cast<int>(std::round(x));
 }
 
-std::vector<point> mid_point_upwards(const line& line)
+std::vector<point> mid_point_x_major_upwards(const line& line)
 {
     std::vector<point> points;
 
@@ -42,7 +42,7 @@ std::vector<point> mid_point_upwards(const line& line)
     return points;
 }
 
-std::vector<point> mid_point_downwards(const line& line)
+std::vector<point> mid_point_x_major_downwards(const line& line)
 {
     std::vector<point> points;
 
@@ -74,11 +74,86 @@ std::vector<point> mid_point_downwards(const line& line)
     return points;
 }
 
+std::vector<point> mid_point_y_major_upwards(const line& line)
+{
+    std::vector<point> points;
+
+    const auto start = line.get_start();
+    const auto end = line.get_end();
+
+    const auto a = line.get_dx();
+    const auto b = -line.get_dy();
+
+    const int y0 = to_int(start.y);
+    const auto x0 = to_int(start.x);
+
+    points.emplace_back(x0, y0);
+
+    int x = x0;
+
+    auto d = a + b / 2;
+    for (int y = y0; static_cast<float>(y) < end.y; y++)
+    {
+        if (d < 0) { d += a; }
+        else
+        {
+            d += a + b;
+            x++;
+        }
+        points.emplace_back(x, y);
+    }
+
+    return points;
+}
+
+std::vector<point> mid_point_y_major_downwards(const line& line)
+{
+    std::vector<point> points;
+
+    const auto start = line.get_start();
+    const auto end = line.get_end();
+
+    const auto a = line.get_dx();
+    const auto b = -line.get_dy();
+
+    const int y0 = to_int(start.y);
+    const auto x0 = to_int(start.x);
+
+    points.emplace_back(x0, y0);
+
+    int x = x0;
+
+    auto d = a + b / 2;
+    for (int y = y0; static_cast<float>(y) < end.y; y++)
+    {
+        if (d > 0) { d += a; }
+        else
+        {
+            d += a + b;
+            x--;
+        }
+        points.emplace_back(x, y);
+    }
+
+    return points;
+}
+
 std::vector<point> mid_point_algorithm::raster(const line& line)
 {
     const auto start = line.get_start();
     const auto end = line.get_end();
 
-    if (start.y <= end.y) { return mid_point_upwards(line); }
-    return mid_point_downwards(line);
+    const auto dx = std::abs(line.get_dx());
+    const auto dy = std::abs(line.get_dy());
+
+    if (dx >= dy)
+    {
+        if (start.y <= end.y) { return mid_point_x_major_upwards(line); }
+        return mid_point_x_major_downwards(line);
+    }
+    else
+    {
+        if (start.x <= end.x) { return mid_point_y_major_upwards(line); }
+        return mid_point_y_major_downwards(line);
+    }
 }
