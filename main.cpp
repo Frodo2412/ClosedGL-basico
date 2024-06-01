@@ -17,23 +17,26 @@ int main(int argc, char* argv[])
     constexpr int width = 800;
     constexpr int height = 600;
 
-    const projection_pipeline projection_pipeline(2*3.141590/16, static_cast<float>(width) / height, 0.1, 100);
+    const projection_pipeline projection_pipeline(3.141590/16, static_cast<float>(width) / height, 0.1f, 10);
     const viewport_pipeline view_pipeline(width, height, {width/2, height/2});
     const raster_pipeline raster_pipeline(width, height);
 
     auto volumes = std::vector<volume*>();
 
     // volumes.emplace_back(new sphere({400, 300, 100}, 50, {255, 0, 0}));
-    volumes.emplace_back(new cube({15, 10, 10}, 15, color(0, 255, 0)));
-
+    volumes.emplace_back(new cube({15, 20, 10}, 15, color(0, 255, 0)));
+    volumes.emplace_back(new cube({200, -100, 20}, 10, color(0, 0, 255)));
+    volumes.emplace_back(new cube({0, 0, 0}, 5, color(255, 0, 0)));
 
     const auto scene = ::scene(volumes);
-    const auto ndc_projection = projection_pipeline.project(scene);
     // returns coordinates between -1 and 1 for objects in the screen
-    const auto screen_projection = view_pipeline.get_viewport_coordinates(ndc_projection);
+    const auto ndc_projection = projection_pipeline.project(scene);
     // returns coordinates between 0 and width/height for objects in the screen
-    const image image = raster_pipeline.rasterize(screen_projection); // rasterizes image to be displayed
-    renderer::render_image(image); // renders image to screen
+    const auto screen_projection = view_pipeline.get_viewport_coordinates(ndc_projection);
+    // rasterizes image to be displayed
+    const image image = raster_pipeline.rasterize(screen_projection);
+    // renders image to screen
+    renderer::render_image(image);
 
     FreeImage_DeInitialise();
 

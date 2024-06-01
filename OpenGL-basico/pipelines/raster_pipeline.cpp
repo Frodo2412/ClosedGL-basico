@@ -1,61 +1,133 @@
 #include "raster_pipeline.h"
-
+#include <algorithm>
 #include <iostream>
-
+#include "scene.h"
 #include "../raster/rasterer.h"
+
+std::vector<vector3> find_intersections(float y0, const std::vector<line>& lines)
+{
+    std::vector<vector3> intersections;
+
+    for (const auto& ln : lines)
+    {
+        // Check if the line is vertical to avoid division by zero
+        if (ln.get_dx() == 0)
+        {
+            continue;
+        }
+
+        // Calculate the x-coordinate of the intersection
+        float x = (y0 - ln.get_y_intercept()) / ln.get_dy() * ln.get_dx();
+
+        // Check if the intersection point is within the segment
+        auto start = ln.get_start();
+        auto end = ln.get_end();
+        if (x >= std::min(start.x, end.x) && x <= std::max(start.x, end.x))
+        {
+            intersections.emplace_back(x, y0, ln.get_z(x, y0));
+        }
+    }
+
+    return intersections;
+}
 
 image raster_pipeline::rasterize(const projection& projection) const
 {
-    std::vector<std::vector<color>> colors;
-
-    std::vector<std::vector<float>> z_buffer;
-
-    for (int i = 0; i < width_; i++)
+    try
     {
-        std::vector<color> colors_row;
-        std::vector<float> z_buffer_row;
-        for (int j = 0; j < height_; j++)
-        {
-            colors_row.emplace_back(0, 0, 0);
-            z_buffer_row.push_back(0);
-        }
-        colors.push_back(colors_row);
-        z_buffer.push_back(z_buffer_row);
-    }
+        std::vector<std::vector<color>> colors(width_, std::vector<color>(height_));
+        std::vector<std::vector<float>> z_buffer(width_, std::vector<float>(height_));
 
-    for (const auto& polygon : projection.shapes)
-    {
-        std::vector<pixel> polygon_pixels;
-        for (auto line : polygon.edges)
+        std::cout << "Created matrices for rasterization: " << width_ << "x" << height_ << "\n";
+
+        for (int i = 0; i < width_; i++)
         {
-            const std::vector<point> points = rasterer::rasterize(line);
-            for (point point : points)
+            for (int j = 0; j < height_; j++)
             {
-                polygon_pixels.emplace_back(point, polygon.fill_color);
+                colors[i][j] = color(0, 0, 0);
+                z_buffer[i][j] = std::numeric_limits<float>::infinity();
             }
         }
 
-        for (auto pixel : polygon_pixels)
+        for (const auto& polygon : projection.shapes)
         {
-            auto pz = pixel.point.z_buffer;
-            if (pz >= z_buffer[pixel.point.x][pixel.point.y])
+            std::vector<pixel> polygon_pixels;
+            for (auto line : polygon.edges)
             {
-                z_buffer[pixel.point.x][pixel.point.y] = pz;
-                colors[pixel.point.x][pixel.point.y] = pixel.color;
+                const std::vector<point> points = rasterer::rasterize(line);
+                for (const auto& pt : points)
+                {
+                    polygon_pixels.emplace_back(pt, polygon.fill_color);
+                }
+            }
+
+            for (int y = 0; y < height_; y++)
+            {
+                std::cout << "Checking intersections for y = " << y << "\n";
+                auto intersections = find_intersections(static_cast<float>(y), polygon.edges);
+
+                if (intersections.empty())
+                {
+                    std::cout << "No intersections found for y = " << y << "\n";
+                    continue;
+                }
+
+                std::sort(intersections.begin(), intersections.end(), [](const vector3& a, const vector3& b)
+                {
+                    return a.x < b.x;
+                });
+
+                bool inside = intersections[0].x < 0;
+                int intersection_index = 0;
+
+                for (int x = 0; x < width_; x++)
+                {
+                    if (x >= intersections[intersection_index].x)
+                    {
+                        if (intersections.size() == intersection_index + 1)
+                        {
+                            break;
+                        }
+                        inside = !inside;
+                        intersection_index++;
+                    }
+
+
+                    if (inside)
+                    {
+                        const float z = intersections[intersection_index - 1].z;
+                        // Use the z value from the last intersection
+                        polygon_pixels.emplace_back(point(x, y, z), polygon.fill_color);
+                    }
+                }
+            }
+
+            for (const auto& pixel : polygon_pixels)
+            {
+                const auto pz = pixel.point.z_buffer;
+                if (pz < z_buffer[pixel.point.x][pixel.point.y])
+                {
+                    z_buffer[pixel.point.x][pixel.point.y] = pz;
+                    colors[pixel.point.x][pixel.point.y] = pixel.color;
+                }
             }
         }
-    }
 
-    std::vector<pixel> pixels;
+        std::vector<pixel> pixels;
 
-    for (int i = 0; i < width_; i++)
-    {
-        for (int j = 0; j < height_; j++)
+        for (int i = 0; i < width_; i++)
         {
-            pixels.emplace_back(point(i, j, 0), colors[i][j]);
+            for (int j = 0; j < height_; j++)
+            {
+                pixels.emplace_back(point(i, j, 0), colors[i][j]);
+            }
         }
+
+        return image(width_, height_, pixels);
     }
-
-
-    return image(width_, height_, pixels);
+    catch (const std::exception& e)
+    {
+        std::cerr << e.what() << "\n";
+        throw;
+    }
 }

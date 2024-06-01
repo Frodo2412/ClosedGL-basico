@@ -39,35 +39,16 @@ float line::get_y_intercept() const
     return n_;
 }
 
-float line::get_z(int x, int y) const
+float line::get_z(const int x, const int y) const
 {
-    float tx, ty;
+    if (static_cast<float>(x) == start_.x &&
+        static_cast<float>(y) == start_.y)
+        return start_.z;
 
-    // Calculate tx and ty
-    if (end_.x != start_.x) {
-        tx = (x - start_.x) / (end_.x - start_.x);
-    } else if (x != start_.x) {
-        throw std::invalid_argument("Given x is not on the line");
-    } else {
-        tx = 0; // x is start_.x since start_.x == end_.x
-    }
 
-    if (end_.y != start_.y) {
-        ty = (y - start_.y) / (end_.y - start_.y);
-    } else if (y != start_.y) {
-        throw std::invalid_argument("Given y is not on the line");
-    } else {
-        ty = 0; // y is start_.y since start_.y == end_.y
-    }
+    const float tx = (x - start_.x) / (end_.x - start_.x);
 
-    // Ensure tx and ty are approximately equal
-    if (std::abs(tx - ty) > 1e-6) {
-        throw std::invalid_argument("Given (x, y) pair is not on the line");
-    }
-
-    // Calculate the corresponding z using tx (or ty, since they should be equal)
-    float tz = tx; // or ty
-    float z = start_.z + tz * (end_.z - start_.z);
+    const float z = start_.z + tx * (end_.z - start_.z);
 
     return z;
 }
