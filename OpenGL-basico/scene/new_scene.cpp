@@ -11,15 +11,22 @@ new_scene::new_scene(int width, int height)
     vector3 cam_look_at = {0, 0, -1}; //nuestro sistema de coordenadas tiene el z invertido, quedo como en lo teniamos en opengl
     vector3 cam_up = {0, 1, 0};
     camera_ = new camera(cam_position, cam_look_at, cam_up);
-    
-   
 
+    //dibujado de planos
+    // plano del fondo
     vector3 plane0_pos = {0, 0, -15};
     vector3 plane0_normal = {0, 0, 1};
     color plane0_color = {0, 255, 0};
     plane* plane0 = new plane(plane0_pos, plane0_normal, plane0_color);
     objects_.push_back(plane0);
+    // plano del techo
+    vector3 plane1_pos = {0, 50, -50};
+    vector3 plane1_normal = {0, -1, 0};
+    color plane1_color = {0, 0, 255};
+    plane* plane1 = new plane(plane1_pos, plane1_normal, plane1_color);
+    objects_.push_back(plane1);
 
+    //dibujado de esferas
     vector3 sphere0_pos = {5, 0, -80};
     color sphere0_color = {255, 0, 0};
     sphere* sphere0 = new sphere(sphere0_pos, 20, sphere0_color);
