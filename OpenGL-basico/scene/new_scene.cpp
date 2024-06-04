@@ -5,12 +5,13 @@ new_scene::new_scene(int width, int height)
 {
     width_ = width;
     height_ = height;
-    vector3 cam_position = {0, 0, 2};
+    vector3 cam_position = {0, 0, 0};
     vector3 cam_look_at = {0, 0, -1}; //nuestro sistema de coordenadas tiene el z invertido, quedo como en lo teniamos en opengl
     vector3 cam_up = {0, 1, 0};
     camera_ = new camera(cam_position, cam_look_at, cam_up);
+    vector3 sphere_pos = {5, 0, -10};
     color sphere_color = {255, 0, 0};
-    sphere_ = new sphere(sphere_color);
+    sphere_ = new sphere(sphere_pos, 5, sphere_color);
 }
 
 image new_scene::Render()

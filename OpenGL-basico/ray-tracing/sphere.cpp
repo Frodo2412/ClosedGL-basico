@@ -7,15 +7,22 @@ sphere::~sphere()
 
 }
 
+float sphere::get_radius() const
+{
+    return radius_;
+}
+
 bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal, color &color)
 {
+    vector3 L = rayo.get_origin() - get_position();//vector desde el centro de la esfera al origen del rayo
+    
     vector3 rayo_n = rayo.get_direction().normalize();
 
     float a = rayo_n.dot_product(rayo_n);
     
-    float b = 2.0f * rayo.get_origin().dot_product(rayo_n);
+    float b = 2.0f * L.dot_product(rayo_n);
     
-    float c = rayo.get_origin().dot_product(rayo.get_origin()) - 1.0f;
+    float c =L.dot_product(L) - radius_*radius_;
     
     float discriminante = (b*b) - 4.0f * a * c;
     //std::cout << "discriminante: " << discriminante << "\n";

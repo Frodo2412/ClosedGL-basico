@@ -22,3 +22,8 @@ color object::get_color()
     return color_;
 }
 
+vector3 object::get_position()
+{
+    return position_;
+}
+
