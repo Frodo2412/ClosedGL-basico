@@ -51,7 +51,7 @@ void renderer::render_image(const image& image)
         const auto pixels = image.pixels;
         for (pixel pixel : pixels)
         {
-            rgb = pixel.color.to_rgb();
+            rgb = pixel.color_.to_rgb();
             FreeImage_SetPixelColor(bitmap, pixel.point.x, pixel.point.y, &rgb);
         }
     }

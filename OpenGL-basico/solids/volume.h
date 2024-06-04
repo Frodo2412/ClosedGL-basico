@@ -17,6 +17,7 @@ protected:
     }
 
 public:
+    
     virtual ~volume() = default;
 
     vector3 get_position() const;
@@ -24,4 +25,6 @@ public:
 
     virtual bool contains(vector3 point) const = 0;
     virtual std::vector<line3> get_edges() const = 0;
+
+    
 };

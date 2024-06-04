@@ -43,5 +43,6 @@ struct vector3
     vector3 symmetrical(const vector3& other) const;
 
     static vector3 zero();
+    void print() const;
     void reset();
 };

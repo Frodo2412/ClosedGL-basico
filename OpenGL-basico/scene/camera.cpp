@@ -10,11 +10,6 @@ vector3 camera::get_position() const
     return position_;
 }
 
-vector3 camera::get_forward() const
-{
-    return look_at_ - position_;
-}
-
 vector3 camera::get_up() const
 {
     return up_;
@@ -22,21 +17,51 @@ vector3 camera::get_up() const
 
 vector3 camera::get_direction() const
 {
-    return look_at_ - position_;
+    return direction_;
 }
 
 vector3 camera::get_right() const
 {
-    vector3 right = get_forward() * get_up();
-    return right;
+    return U_;
 }
 
-vector3 camera::get_near() const
+vector3 camera::get_U() const
 {
-    return vector3::zero();
+    return U_;
 }
 
-vector3 camera::get_far() const
+vector3 camera::get_V() const
 {
-    return get_position() + get_forward().normalize() * 100000000.0f;
+    return V_;
 }
+
+float camera::get_aspect_ratio() const
+{
+    return aspect_ratio_;
+}
+
+float camera::get_horizontal_size() const
+{
+    return horizontal_size_;
+}
+
+float camera::get_length() const
+{
+    return length_;
+}
+
+void camera::generate_ray(float u, float v, ray& ray)
+{
+   
+    //coordenadas en el plano de la camara (lo que vendrian a ser los pixeles por los que pasan los rayos)
+    vector3 pixel = camera_centre_ + (U_ * u);
+    pixel = pixel + (V_ * v);
+
+    //el rayo va desde la **posicion**(no el centro donde se ubican U y V) de la camara y pasa por el pixel
+    ray.set_origin(position_);
+    ray.set_direction(pixel);
+}
+
+
+
+

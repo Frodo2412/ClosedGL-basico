@@ -1,5 +1,7 @@
 ﻿#include "vector3.h"
 
+#include <cstdio>
+
 float vector3::get_x() const { return x; }
 float vector3::get_y() const { return y; }
 float vector3::get_z() const { return z; }
@@ -99,4 +101,9 @@ void vector3::reset()
     x = 0;
     y = 0;
     z = 0;
+}
+
+void vector3::print() const
+{
+    printf("\nVECTOR3: (%.2f, %.2f, %.2f)\n", x, y, z);
 }
