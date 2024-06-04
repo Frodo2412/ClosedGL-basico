@@ -22,4 +22,11 @@ public:
     RGBQUAD to_rgb() const;
     void set_alpha(float alpha);
     float get_alpha() const;
+    void set_red(float red) { red_ = red; }
+    void set_green(float green) { green_ = green; }
+    void set_blue(float blue) { blue_ = blue; }
+    float get_red() const { return red_; }
+    float get_green() const { return green_; }
+    float get_blue() const { return blue_; }
+
 };

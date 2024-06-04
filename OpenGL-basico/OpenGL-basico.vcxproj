@@ -482,7 +482,9 @@
         <ClCompile Include="raster\polygon.cpp" />
         <ClCompile Include="raster\rasterer.cpp" />
         <ClCompile Include="raster\shape.cpp" />
+        <ClCompile Include="ray-tracing\light.cpp" />
         <ClCompile Include="ray-tracing\object.cpp" />
+        <ClCompile Include="ray-tracing\plane.cpp" />
         <ClCompile Include="ray-tracing\ray.cpp" />
         <ClCompile Include="ray-tracing\sphere.cpp" />
         <ClCompile Include="scene\camera.cpp" />
@@ -598,7 +600,9 @@
         <ClInclude Include="raster\polygon.h" />
         <ClInclude Include="raster\rasterer.h" />
         <ClInclude Include="raster\shape.h" />
+        <ClInclude Include="ray-tracing\light.h" />
         <ClInclude Include="ray-tracing\object.h" />
+        <ClInclude Include="ray-tracing\plane.h" />
         <ClInclude Include="ray-tracing\ray.h" />
         <ClInclude Include="ray-tracing\sphere.h" />
         <ClInclude Include="scene\camera.h" />
