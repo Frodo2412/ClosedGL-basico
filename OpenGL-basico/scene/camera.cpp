@@ -1,10 +1,5 @@
 #include "camera.h"
 
-float camera::get_fov() const
-{
-    return fov_;
-}
-
 vector3 camera::get_position() const
 {
     return position_;
@@ -18,11 +13,6 @@ vector3 camera::get_up() const
 vector3 camera::get_direction() const
 {
     return direction_;
-}
-
-vector3 camera::get_right() const
-{
-    return U_;
 }
 
 vector3 camera::get_U() const
