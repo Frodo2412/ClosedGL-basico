@@ -14,7 +14,7 @@ new_scene::new_scene(int width, int height)
 
     //dibujado de planos
     // plano del fondo
-    vector3 plane0_pos = {0, 0, -15};
+    vector3 plane0_pos = {0, 0, -50};
     vector3 plane0_normal = {0, 0, 1};
     color plane0_color = {255, 255, 255};
     plane* plane0 = new plane(plane0_pos, plane0_normal, plane0_color);
@@ -45,7 +45,7 @@ new_scene::new_scene(int width, int height)
     objects_.push_back(plane4);
 
     //dibujado de esferas
-    vector3 sphere0_pos = {0, 0, -80};
+    vector3 sphere0_pos = {0, 0, -30};
     color sphere0_color = {255, 0, 0};
     sphere* sphere0 = new sphere(sphere0_pos, 20, sphere0_color);
     objects_.push_back(sphere0);
@@ -56,6 +56,9 @@ new_scene::new_scene(int width, int height)
 
 image new_scene::Render()
 {
+    std::vector<std::vector<float>> z_buffer(width_, std::vector<float>(height_));
+    float near = 0.1;
+    float far = 100;
     color background_color = {0, 0, 0};
     std::vector<pixel> pixels;
     for(int x = 0 ; x < width_ ; x++)
@@ -63,12 +66,11 @@ image new_scene::Render()
         for(int y = 0 ; y < height_ ; y++)
         {
             pixel px = pixel(x,y, background_color);
+            z_buffer[x][y] = far;
             pixels.push_back(px);
         }
     }
     
-    float near = 0.1;
-    float far = 100;
     ray rayo = ray(camera_->get_position(), {0, 0, 0});
     
     vector3 intersection_point;
@@ -95,12 +97,16 @@ image new_scene::Render()
                 
                     if(distance < far && distance > near)
                     {
-                        px_color.set_red(px_color.get_red() - px_color.get_red() * (distance/far));
-                        px_color.set_green(px_color.get_green() - px_color.get_green() * (distance/far));
-                        px_color.set_blue(px_color.get_blue() - px_color.get_blue() * (distance/far));
+                        if(distance < z_buffer[x][y])
+                        {
+                            z_buffer[x][y] = distance;
+                            px_color.set_red(px_color.get_red() - px_color.get_red() * (distance/far));
+                            px_color.set_green(px_color.get_green() - px_color.get_green() * (distance/far));
+                            px_color.set_blue(px_color.get_blue() - px_color.get_blue() * (distance/far));
 
-                        pixel px = pixel(x,y, px_color);
-                        pixels.push_back(px);
+                            pixel px = pixel(x,y, px_color);
+                            pixels.push_back(px);
+                        }
                     } 
                 }
             }
