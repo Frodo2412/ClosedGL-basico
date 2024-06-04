@@ -787,6 +787,27 @@
       <Content Include="old-images\20240602_192907.png" />
       <Content Include="old-images\20240603_221214.png" />
       <Content Include="old-images\20240603_225344.png" />
+      <Content Include="old-images\20240604_142829.png" />
+      <Content Include="old-images\20240604_142952.png" />
+      <Content Include="old-images\20240604_143048.png" />
+      <Content Include="old-images\20240604_143106.png" />
+      <Content Include="old-images\20240604_143127.png" />
+      <Content Include="old-images\20240604_144106.png" />
+      <Content Include="old-images\20240604_144124.png" />
+      <Content Include="old-images\20240604_144156.png" />
+      <Content Include="old-images\20240604_144225.png" />
+      <Content Include="old-images\20240604_144253.png" />
+      <Content Include="old-images\20240604_144307.png" />
+      <Content Include="old-images\20240604_144358.png" />
+      <Content Include="old-images\20240604_150912.png" />
+      <Content Include="old-images\20240604_151138.png" />
+      <Content Include="old-images\20240604_151219.png" />
+      <Content Include="old-images\20240604_151658.png" />
+      <Content Include="old-images\20240604_151726.png" />
+      <Content Include="old-images\20240604_151851.png" />
+      <Content Include="old-images\20240604_151918.png" />
+      <Content Include="old-images\20240604_152006.png" />
+      <Content Include="old-images\20240604_152048.png" />
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">
