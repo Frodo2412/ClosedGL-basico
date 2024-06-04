@@ -3,7 +3,7 @@
 
 class color
 {
-    unsigned char red_, green_, blue_, alpha_;
+    float red_, green_, blue_, alpha_;
 
 public:
     color()
@@ -14,10 +14,12 @@ public:
         alpha_ = 255;
     }
     
-    color(const unsigned char red, const unsigned char green, const unsigned char blue, const unsigned char alpha = 255)
+    color(float red, float green, float blue, float alpha = 255)
         : red_(red), green_(green), blue_(blue), alpha_(alpha)
     {
     }
 
     RGBQUAD to_rgb() const;
+    void set_alpha(float alpha);
+    float get_alpha() const;
 };

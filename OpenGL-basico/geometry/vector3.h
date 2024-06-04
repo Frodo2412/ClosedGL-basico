@@ -45,4 +45,6 @@ struct vector3
     static vector3 zero();
     void print() const;
     void reset();
+
+    float get_norm() const;
 };

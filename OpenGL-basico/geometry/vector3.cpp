@@ -107,3 +107,9 @@ void vector3::print() const
 {
     printf("\nVECTOR3: (%.2f, %.2f, %.2f)\n", x, y, z);
 }
+
+float vector3::get_norm() const
+{
+    float aux = x * x + y * y + z * z;
+    return sqrt(aux);
+}

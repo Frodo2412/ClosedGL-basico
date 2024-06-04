@@ -8,3 +8,13 @@ RGBQUAD color::to_rgb() const
     rgba.rgbBlue = blue_;
     return rgba;
 }
+
+void color::set_alpha(float alpha)
+{
+    alpha_ = alpha;
+}
+
+float color::get_alpha() const
+{
+    return alpha_;
+}
