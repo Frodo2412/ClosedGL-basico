@@ -4,7 +4,7 @@ view::view(const camera& camera)
 {
     const vector3 position = camera.get_position();
     const vector3 up = camera.get_up();
-    const vector3 forward = camera.get_forward();
+    const vector3 forward = camera.get_direction();
     const vector3 right = camera.get_right();
 
     const float ret[4][4] = {
