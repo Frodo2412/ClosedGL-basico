@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../pipelines/image.h"
+#include "image.h"
 
 class renderer
 {

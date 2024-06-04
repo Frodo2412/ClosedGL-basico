@@ -2,7 +2,7 @@
 
 #include "camera.h"
 #include "../ray-tracing/object.h"
-#include "../pipelines/image.h"
+#include "../graphics/image.h"
 #include "../ray-tracing/light.h"
 
 class new_scene

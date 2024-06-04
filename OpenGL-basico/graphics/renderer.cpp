@@ -6,8 +6,7 @@
 #include <sstream>
 
 #include "FreeImage.h"
-#include "../pipelines/image.h"
-#include "../raster/rasterer.h"
+#include "image.h"
 
 std::string get_current_timestamp()
 {
