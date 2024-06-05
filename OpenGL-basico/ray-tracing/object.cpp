@@ -7,7 +7,7 @@ object::~object()
 
 }
 
-bool object::test_intersection(ray &rayo, vector3 &point, vector3 &normal, color &color)
+bool object::test_intersection(ray &rayo, vector3 &point, vector3 &normal)
 {
     return false;
 }

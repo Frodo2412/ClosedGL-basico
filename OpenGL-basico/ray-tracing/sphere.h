@@ -10,7 +10,7 @@ public:
     {
     }
 	
-    bool test_intersection(ray &rayo, vector3 &point, vector3 &normal, color &color) override;
+    bool test_intersection(ray &rayo, vector3 &point, vector3 &normal) override;
 	float get_radius() const;
 	~sphere() override;
 };

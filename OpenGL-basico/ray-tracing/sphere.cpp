@@ -12,7 +12,7 @@ float sphere::get_radius() const
     return radius_;
 }
 
-bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal, color &color)
+bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal)
 {
     vector3 L = rayo.get_origin() - get_position();//vector desde el centro de la esfera al origen del rayo
     
@@ -32,10 +32,11 @@ bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal, color
         float x1 = (-b + raiz) / 2.0;
         float x2 = (-b - raiz) / 2.0;
         
-        if ((x1 < 0.0) || (x2 < 0.0))
+        if ((x1 < 0.0) || (x2 < 0.0)) //si las intersecciones estan detras del origen del rayo
         {
             return false;
         }
+        /* Cuando se intersecta el rayo en 2 puntos nos quedamos con el que este mas cerca */
         if (x1 < x2)
         {
             vector3 aux = (rayo.get_origin() + (rayo_n * x1));

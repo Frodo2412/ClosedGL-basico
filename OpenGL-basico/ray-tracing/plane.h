@@ -6,7 +6,7 @@ class plane : public object
 {
     vector3 normal_;
     float A_, B_, C_, D_;
-    vector3 U_, V_;//coordenadas de ancho y largo para el plano. las usaremos para limitarlo y que no sea infinito😀
+    vector3 U_, V_;//coordenadas de ancho y largo para el plano. las usaremos para limitarlo y que no sea infinito😀 
     float width_;
     float height_;
 public:
@@ -19,6 +19,7 @@ public:
         B_ = normal_.y;
         C_ = normal_.z;
         D_ = -(pos.x * A_ + pos.y * B_ + pos.z * C_);
+        
         vector3 arbitrary = {0, 0, 1};
         if(normal_ == vector3(0,0,1) || normal_ == vector3(0,0,-1)) //normal_ alineada con el eje z
         {
@@ -28,6 +29,6 @@ public:
         U_ = (V_ * normal_).normalize();
     }
 
-    bool test_intersection(ray& rayo, vector3& point, vector3& normal, color& color) override;
+    bool test_intersection(ray& rayo, vector3& point, vector3& normal) override;
     ~plane() override;
 };

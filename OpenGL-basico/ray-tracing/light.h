@@ -15,7 +15,7 @@ public:
         
     }
     
-    bool compute_illumination(vector3 &intersection_point, vector3 &normal, std::vector<object*> objects, object* current, color & color, float & intensity);
+    bool compute_illumination(vector3 &intersection_point, vector3 &normal, std::vector<object*> objects, object* current, float & intensity);
     vector3 get_position();
     color get_color();
     float get_intensity();

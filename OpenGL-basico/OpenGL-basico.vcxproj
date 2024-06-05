@@ -396,6 +396,15 @@
       <Content Include="old-images\20240604_233454.png" />
       <Content Include="old-images\20240604_233532.png" />
       <Content Include="old-images\20240604_233556.png" />
+      <Content Include="old-images\20240605_122242.png" />
+      <Content Include="old-images\20240605_123646.png" />
+      <Content Include="old-images\20240605_133444.png" />
+      <Content Include="old-images\20240605_145814.png" />
+      <Content Include="old-images\20240605_153614.png" />
+      <Content Include="old-images\20240605_155233.png" />
+      <Content Include="old-images\20240605_155937.png" />
+      <Content Include="old-images\20240605_160027.png" />
+      <Content Include="old-images\20240605_162305.png" />
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">
