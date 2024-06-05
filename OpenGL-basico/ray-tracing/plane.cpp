@@ -1,7 +1,7 @@
 ﻿#include "plane.h"
 
 
-bool plane::test_intersection(ray& rayo, vector3& point, vector3& normal, color& color)
+bool plane::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
     vector3 ray_n = rayo.get_direction().normalize();
     float denominador = normal_.dot_product(ray_n);
@@ -21,7 +21,7 @@ bool plane::test_intersection(ray& rayo, vector3& point, vector3& normal, color&
             float u = (pt.get_z() * V_.get_x() - pt.get_x() * V_.get_z()) / (U_.get_z() * V_.get_x() - U_.get_x() * V_.get_z());
             float v = (pt.get_x() * U_.get_z() - pt.get_z() * U_.get_x()) / (U_.get_z() * V_.get_x() - U_.get_x() * V_.get_z());
             
-            //casos donde el denominador puede ser 0, son justamente cuando la normal esta en los ejes x, y o z
+            //casos donde el denominador puede ser 0, son justamente cuando la normal es paralela a los ejes x, y o z
             
             if(normal_ == vector3(1,0,0) || normal_ == vector3(-1,0,0))
             {
@@ -44,7 +44,7 @@ bool plane::test_intersection(ray& rayo, vector3& point, vector3& normal, color&
                 point.set_x(aux_p.get_x());
                 point.set_y(aux_p.get_y());
                 point.set_z(aux_p.get_z());
-                vector3 aux_norm = normal_.normalize();//normal del plano = normal de la superficien en el punto de interseccopn
+                vector3 aux_norm = normal_.normalize();//normal del plano = normal en el punto de interseccopn
                 normal.set_x(aux_norm.get_x());
                 normal.set_y(aux_norm.get_y());
                 normal.set_z(aux_norm.get_z());

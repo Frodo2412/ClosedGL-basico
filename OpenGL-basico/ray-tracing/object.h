@@ -12,7 +12,7 @@ public:
     object(vector3 pos, color color): position_(pos), color_(color)
     {
     };
-    virtual bool test_intersection(ray &rayo, vector3 &point, vector3 &normal, color &color);
+    virtual bool test_intersection(ray &rayo, vector3 &point, vector3 &normal);
     bool close_enough(float f1, float f2);
     color get_color();
     vector3 get_position();

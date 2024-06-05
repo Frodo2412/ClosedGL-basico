@@ -16,7 +16,7 @@ public:
     explicit camera(const vector3& position, const vector3& look_at, const vector3& up)
         : position_(position), look_at_(look_at), up_(up.normalize())
     {
-        aspect_ratio_ = (float)4.0 / (float)3.0;
+        aspect_ratio_ = (float)800 / (float)600;
         horizontal_size_ = 400;
         length_ = 100;
         direction_ = (look_at_ - position_).normalize();
