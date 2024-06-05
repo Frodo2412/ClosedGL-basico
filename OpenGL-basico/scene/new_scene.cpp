@@ -64,14 +64,14 @@ new_scene::new_scene(int width, int height)
     sphere* sphere0 = new sphere(sphere0_pos, 10, sphere0_color);
     objects_.push_back(sphere0);
 
-    vector3 sphere1_pos = {-1, 0, -5};
+    vector3 sphere1_pos = {-1, -1, -5};
     color sphere1_color = {255, 255, 0};
-    sphere* sphere1 = new sphere(sphere1_pos, 2, sphere1_color);
+    sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color);
     objects_.push_back(sphere1);
 
     vector3 sphere2_pos = {1, 0, -5};
     color sphere2_color = {0, 255, 255};
-    sphere* sphere2 = new sphere(sphere2_pos, 2, sphere2_color);
+    sphere* sphere2 = new sphere(sphere2_pos, 1, sphere2_color);
     objects_.push_back(sphere2);
 
     //luces
