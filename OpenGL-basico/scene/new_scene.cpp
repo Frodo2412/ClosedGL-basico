@@ -50,11 +50,16 @@ new_scene::new_scene(int width, int height)
     sphere* sphere0 = new sphere(sphere0_pos, 20, sphere0_color);
     objects_.push_back(sphere0);
 
+    vector3 sphere1_pos = {-10, 0, -5};
+    color sphere1_color = {255, 255, 0};
+    sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color);
+    objects_.push_back(sphere1);
+
     //luces
-    light* light0 = new light({0, 50, 0}, {255, 255, 255}, 1);
+    light* light0 = new light({10, -10, 0}, {255, 255, 255}, 0.5);
     lights_.push_back(light0);
 
-    light* light1 = new light({-5, -5, 0}, {255, 255, 255}, 0.5);
+    light* light1 = new light({-10, 10, 0}, {255, 255, 255}, 0.3);
     lights_.push_back(light1);
 }
 
