@@ -122,13 +122,6 @@ image new_scene::Render()
                                     pixel_colors[x][y] = pixel_colors[x][y] + px_color;
                                 }
                             }
-                            /*px_color = obj->get_color();
-                            px_color.set_red(px_color.get_red() - px_color.get_red() * (distance/far));
-                            px_color.set_green(px_color.get_green() - px_color.get_green() * (distance/far));
-                            px_color.set_blue(px_color.get_blue() - px_color.get_blue() * (distance/far));
-
-                            pixel px = pixel(x,y, px_color);
-                            pixels.push_back(px);*/
                         }
                     } 
                 }
@@ -156,26 +149,4 @@ int new_scene::get_height()
 {
     return height_;
 }
-
-/*color new_scene::sombra_RR(object* obj, vector3& intersection_point, vector3& intersection_normal)
-{
-    for(light* luz : lights_)
-    {
-        vector3 aux = luz->get_position() - intersection_point;
-        float prod = intersection_normal.dot_product(aux);
-        if(prod > 0)
-        {
-            ray rayo = ray(intersection_point, luz->get_position());
-            for(object* obj : objects_)
-            {
-                color colorin = {0, 0, 0};
-                bool intersecta = obj->test_intersection(rayo, vector3(0,0,0), vector3(0,0,0), colorin);
-                if(intersecta)//hay sombras en este punto
-                {
-                    
-                }
-            }
-        }
-    }
-}*/
 
