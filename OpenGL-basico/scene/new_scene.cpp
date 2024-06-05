@@ -17,54 +17,54 @@ new_scene::new_scene(int width, int height)
     vector3 plane0_pos = {0, 0, -50};
     vector3 plane0_normal = {0, 0, 1};
     color plane0_color = {255, 255, 255};
-    plane* plane0 = new plane(plane0_pos, plane0_normal, plane0_color, 100, 100);
+    plane* plane0 = new plane(plane0_pos, plane0_normal, plane0_color, 50, 50);
     objects_.push_back(plane0);
     // plano del techo
     vector3 plane1_pos = {0, 50, -50};
     vector3 plane1_normal = {0, -1, 0};
     color plane1_color = {100, 100, 100};
-    plane* plane1 = new plane(plane1_pos, plane1_normal, plane1_color, 100, 100);
-    objects_.push_back(plane1);
+    plane* plane1 = new plane(plane1_pos, plane1_normal, plane1_color, 50, 50);
+    //objects_.push_back(plane1);
     // plano del piso
     vector3 plane2_pos = {0, -50, -50};
     vector3 plane2_normal = {0, 1, 0};
     color plane2_color = {255, 255, 255};
-    plane* plane2 = new plane(plane2_pos, plane2_normal, plane2_color, 100, 100);
-    objects_.push_back(plane2);
+    plane* plane2 = new plane(plane2_pos, plane2_normal, plane2_color, 50, 50);
+    //objects_.push_back(plane2);
     // plano de la izquierda
     vector3 plane3_pos = {-50, 0, 0};
     vector3 plane3_normal = {1, 0, 0};
     color plane3_color = {255, 0, 0};
-    plane* plane3 = new plane(plane3_pos, plane3_normal, plane3_color, 100, 100);
-    objects_.push_back(plane3);
+    plane* plane3 = new plane(plane3_pos, plane3_normal, plane3_color, 50, 50);
+    //objects_.push_back(plane3);
     // plano de la derecha
     vector3 plane4_pos = {50, 0, 0};
     vector3 plane4_normal = {-1, 0, 0};
     color plane4_color = {0, 255, 0};
-    plane* plane4 = new plane(plane4_pos, plane4_normal, plane4_color, 100, 100);
-    objects_.push_back(plane4);
+    plane* plane4 = new plane(plane4_pos, plane4_normal, plane4_color, 50, 50);
+    //objects_.push_back(plane4);
 
     // mesa front
     vector3 mesa_front_pos = {0, -10, -10};
     vector3 mesa_front_normal = {0, 0, 1};
     color mesa_front_color = {255, 0, 255};
     plane* mesa_front = new plane(mesa_front_pos, mesa_front_normal, mesa_front_color, 5, 2);
-    objects_.push_back(mesa_front);
+    //objects_.push_back(mesa_front);
 
     // mesa up
     vector3 mesa_mesa_up_pos = {0, -8, -12};
     vector3 mesa_mesa_up_normal = {0, 1, 0};
     color mesa_mesa_up_color = {0, 255, 255};
     plane* mesa_mesa_up = new plane(mesa_mesa_up_pos, mesa_mesa_up_normal, mesa_mesa_up_color, 2, 5);
-    objects_.push_back(mesa_mesa_up);
+    //objects_.push_back(mesa_mesa_up);
 
     //dibujado de esferas
-    vector3 sphere0_pos = {0, 0, -30};
+    vector3 sphere0_pos = {0, 0, -20};
     color sphere0_color = {255, 0, 0};
-    sphere* sphere0 = new sphere(sphere0_pos, 20, sphere0_color);
+    sphere* sphere0 = new sphere(sphere0_pos, 10, sphere0_color);
     objects_.push_back(sphere0);
 
-    vector3 sphere1_pos = {0, 10, -5};
+    vector3 sphere1_pos = {-1, 0, -5};
     color sphere1_color = {255, 255, 0};
     sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color);
     objects_.push_back(sphere1);
@@ -134,6 +134,9 @@ image new_scene::Render()
                                     px_color.set_green(px_color.get_green() * intensity);
                                     px_color.set_blue(px_color.get_blue() * intensity);
                                     pixel_colors[x][y] = pixel_colors[x][y] + px_color;
+                                } else
+                                {
+                                    pixel_colors[x][y] = {0,0,0};
                                 }
                             }
                         }

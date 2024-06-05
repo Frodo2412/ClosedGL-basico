@@ -16,7 +16,6 @@ public:
     bool close_enough(float f1, float f2);
     color get_color();
     vector3 get_position();
-
     virtual ~object();
 };
 
