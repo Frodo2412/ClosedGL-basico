@@ -27,3 +27,8 @@ vector3 object::get_position()
     return position_;
 }
 
+int object::get_id()
+{
+    return id_;
+}
+

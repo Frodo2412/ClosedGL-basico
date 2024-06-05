@@ -11,6 +11,16 @@ bool light::compute_illumination(vector3 &intersection_point, vector3 &normal, s
     {
         color = get_color();
         intensity = get_intensity() * prod;
+        /*ray rayo = ray(intersection_point, get_position());
+        vector3 trash = vector3(0,0,0);
+        for(object* other_obj : objects)
+        {
+           if(other_obj->get_id() != current->get_id() && other_obj->test_intersection(rayo, trash, trash, color))
+           {
+               intensity = 0.1f;
+               break;
+           }
+        }*/
     } else
     {
         color = get_color();
