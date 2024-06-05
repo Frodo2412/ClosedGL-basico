@@ -75,10 +75,10 @@ new_scene::new_scene(int width, int height)
     objects_.push_back(sphere2);
 
     //luces
-    light* light0 = new light({25, 25, 0}, {255, 255, 255}, 1.0f);
+    light* light0 = new light({5, 5, 0}, {255, 255, 255}, 1.0f);
     lights_.push_back(light0);
 
-    light* light1 = new light({-25, 25, 0}, {255, 255, 255}, 1.0f);
+    light* light1 = new light({-10, 0, 0}, {255, 255, 255}, 1.0f);
     lights_.push_back(light1);
 }
 
