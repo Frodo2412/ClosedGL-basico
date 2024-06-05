@@ -383,6 +383,7 @@
       <Content Include="old-images\20240605_155937.png" />
       <Content Include="old-images\20240605_160027.png" />
       <Content Include="old-images\20240605_162305.png" />
+      <Content Include="old-images\20240605_163353.png" />
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">
