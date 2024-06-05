@@ -351,28 +351,15 @@
     <ItemGroup>
       <Content Include="old-images\20240530_233405.png" />
       <Content Include="old-images\20240604_143127.png" />
-      <Content Include="old-images\20240604_144106.png" />
-      <Content Include="old-images\20240604_144124.png" />
-      <Content Include="old-images\20240604_144156.png" />
-      <Content Include="old-images\20240604_151726.png" />
-      <Content Include="old-images\20240604_151851.png" />
       <Content Include="old-images\20240604_151918.png" />
-      <Content Include="old-images\20240604_152006.png" />
       <Content Include="old-images\20240604_152048.png" />
-      <Content Include="old-images\20240604_154935.png" />
-      <Content Include="old-images\20240604_175655.png" />
-      <Content Include="old-images\20240604_182300.png" />
       <Content Include="old-images\20240604_182644.png" />
       <Content Include="old-images\20240604_183013.png" />
       <Content Include="old-images\20240604_183157.png" />
       <Content Include="old-images\20240604_183311.png" />
-      <Content Include="old-images\20240604_183339.png" />
-      <Content Include="old-images\20240604_183428.png" />
       <Content Include="old-images\20240604_183518.png" />
       <Content Include="old-images\20240604_183712.png" />
-      <Content Include="old-images\20240604_183902.png" />
       <Content Include="old-images\20240604_184024.png" />
-      <Content Include="old-images\20240604_184122.png" />
       <Content Include="old-images\20240604_190222.png" />
       <Content Include="old-images\20240604_190300.png" />
       <Content Include="old-images\20240604_225446.png" />
@@ -381,20 +368,11 @@
       <Content Include="old-images\20240604_225749.png" />
       <Content Include="old-images\20240604_225858.png" />
       <Content Include="old-images\20240604_230603.png" />
-      <Content Include="old-images\20240604_230905.png" />
       <Content Include="old-images\20240604_231045.png" />
-      <Content Include="old-images\20240604_231331.png" />
       <Content Include="old-images\20240604_231434.png" />
-      <Content Include="old-images\20240604_231835.png" />
-      <Content Include="old-images\20240604_231918.png" />
       <Content Include="old-images\20240604_232152.png" />
-      <Content Include="old-images\20240604_233110.png" />
-      <Content Include="old-images\20240604_233158.png" />
-      <Content Include="old-images\20240604_233301.png" />
       <Content Include="old-images\20240604_233336.png" />
       <Content Include="old-images\20240604_233413.png" />
-      <Content Include="old-images\20240604_233454.png" />
-      <Content Include="old-images\20240604_233532.png" />
       <Content Include="old-images\20240604_233556.png" />
       <Content Include="old-images\20240605_122242.png" />
       <Content Include="old-images\20240605_123646.png" />
@@ -405,6 +383,7 @@
       <Content Include="old-images\20240605_155937.png" />
       <Content Include="old-images\20240605_160027.png" />
       <Content Include="old-images\20240605_162305.png" />
+      <Content Include="old-images\20240605_163353.png" />
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">
