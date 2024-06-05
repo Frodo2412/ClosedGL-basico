@@ -11,16 +11,21 @@ bool light::compute_illumination(vector3 &intersection_point, vector3 &normal, s
         color = get_color();
         intensity = get_intensity() * prod;
         ray sombra = ray(intersection_point, rayo_s);
-        bool intersection_existed = false;
         for(object* obj : objects)
         {
             if (obj != current)
             {
-                vector3 trash = {0, 0, 0};
+                vector3 inter = {0, 0, 0};
                 vector3 trash1 = {0, 0, 0};
                 ::color trash_color = {0, 0, 0};
-                if(obj->test_intersection(sombra, trash, trash1, trash_color))
+                if(obj->test_intersection(sombra, inter, trash1, trash_color))
                 {
+                    float intersection_distance = (inter - intersection_point).get_norm();
+                    float light_distance = (position_ - intersection_point).get_norm();
+                    if(intersection_distance > light_distance)//se intersecto con otro objeto pero mas lejos que la ubicacion de la luz, entonces le llega luz
+                    {
+                        continue;
+                    }
                     color = get_color();
                     intensity = 0.0f;
                     break;

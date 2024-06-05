@@ -24,7 +24,7 @@ new_scene::new_scene(int width, int height)
     vector3 plane1_normal = {0, -1, 0};
     color plane1_color = {100, 100, 100};
     plane* plane1 = new plane(plane1_pos, plane1_normal, plane1_color, 50, 50);
-    //objects_.push_back(plane1);
+    objects_.push_back(plane1);
     // plano del piso
     vector3 plane2_pos = {0, -50, -50};
     vector3 plane2_normal = {0, 1, 0};
@@ -36,27 +36,27 @@ new_scene::new_scene(int width, int height)
     vector3 plane3_normal = {1, 0, 0};
     color plane3_color = {255, 0, 0};
     plane* plane3 = new plane(plane3_pos, plane3_normal, plane3_color, 50, 50);
-    //objects_.push_back(plane3);
+    objects_.push_back(plane3);
     // plano de la derecha
     vector3 plane4_pos = {50, 0, 0};
     vector3 plane4_normal = {-1, 0, 0};
     color plane4_color = {0, 255, 0};
     plane* plane4 = new plane(plane4_pos, plane4_normal, plane4_color, 50, 50);
-    //objects_.push_back(plane4);
+    objects_.push_back(plane4);
 
     // mesa front
     vector3 mesa_front_pos = {0, -10, -10};
     vector3 mesa_front_normal = {0, 0, 1};
     color mesa_front_color = {255, 0, 255};
     plane* mesa_front = new plane(mesa_front_pos, mesa_front_normal, mesa_front_color, 5, 2);
-    //objects_.push_back(mesa_front);
+    objects_.push_back(mesa_front);
 
     // mesa up
     vector3 mesa_mesa_up_pos = {0, -8, -12};
     vector3 mesa_mesa_up_normal = {0, 1, 0};
     color mesa_mesa_up_color = {0, 255, 255};
     plane* mesa_mesa_up = new plane(mesa_mesa_up_pos, mesa_mesa_up_normal, mesa_mesa_up_color, 2, 5);
-    //objects_.push_back(mesa_mesa_up);
+    objects_.push_back(mesa_mesa_up);
 
     //dibujado de esferas
     vector3 sphere0_pos = {0, 0, -20};
@@ -75,10 +75,10 @@ new_scene::new_scene(int width, int height)
     objects_.push_back(sphere2);
 
     //luces
-    light* light0 = new light({5, -5, 0}, {255, 255, 255}, 1.0f);
+    light* light0 = new light({25, 25, 0}, {255, 255, 255}, 1.0f);
     lights_.push_back(light0);
 
-    light* light1 = new light({-5, 0, 0}, {255, 255, 255}, 1.0f);
+    light* light1 = new light({-25, 25, 0}, {255, 255, 255}, 1.0f);
     lights_.push_back(light1);
 }
 
