@@ -25,9 +25,8 @@ bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal, color
     float c =L.dot_product(L) - radius_*radius_;
     
     float discriminante = (b*b) - 4.0f * a * c;
-    //std::cout << "discriminante: " << discriminante << "\n";
 
-    if (discriminante > 0.0)
+    if (discriminante > 0.0f)
     {
         float raiz = sqrtf(discriminante);
         float x1 = (-b + raiz) / 2.0;
