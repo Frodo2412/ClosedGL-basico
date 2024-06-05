@@ -30,7 +30,7 @@ new_scene::new_scene(int width, int height)
     vector3 plane2_normal = {0, 1, 0};
     color plane2_color = {255, 255, 255};
     plane* plane2 = new plane(plane2_pos, plane2_normal, plane2_color, 50, 50);
-    //objects_.push_back(plane2);
+    objects_.push_back(plane2);
     // plano de la izquierda
     vector3 plane3_pos = {-50, 0, 0};
     vector3 plane3_normal = {1, 0, 0};
@@ -69,12 +69,17 @@ new_scene::new_scene(int width, int height)
     sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color);
     objects_.push_back(sphere1);
 
+    vector3 sphere2_pos = {2, -1, -5};
+    color sphere2_color = {0, 255, 255};
+    sphere* sphere2 = new sphere(sphere2_pos, 1, sphere2_color);
+    objects_.push_back(sphere2);
+
     //luces
     light* light0 = new light({5, -5, 0}, {255, 255, 255}, 1.0f);
     lights_.push_back(light0);
 
-    light* light1 = new light({-5, 5, 0}, {255, 255, 255}, 0.3f);
-    //lights_.push_back(light1);
+    light* light1 = new light({-5, 0, 0}, {255, 255, 255}, 1.0f);
+    lights_.push_back(light1);
 }
 
 image new_scene::Render()
@@ -126,18 +131,12 @@ image new_scene::Render()
                             float intensity = 0;
                             for(light* luz : lights_)
                             {
-                                hay_luz = luz->compute_illumination(intersection_point, intersection_normal, objects_, obj, load_color, intensity);
-                                if (hay_luz)
-                                {
-                                    px_color = obj->get_color();
-                                    px_color.set_red(px_color.get_red() * intensity);
-                                    px_color.set_green(px_color.get_green() * intensity);
-                                    px_color.set_blue(px_color.get_blue() * intensity);
-                                    pixel_colors[x][y] = pixel_colors[x][y] + px_color;
-                                } else
-                                {
-                                    pixel_colors[x][y] = {0,0,0};
-                                }
+                                luz->compute_illumination(intersection_point, intersection_normal, objects_, obj, load_color, intensity);
+                                px_color = obj->get_color();
+                                px_color.set_red(px_color.get_red() * intensity);
+                                px_color.set_green(px_color.get_green() * intensity);
+                                px_color.set_blue(px_color.get_blue() * intensity);
+                                pixel_colors[x][y] = pixel_colors[x][y] + px_color;
                             }
                         }
                     } 
