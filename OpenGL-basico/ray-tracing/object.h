@@ -7,18 +7,16 @@ class object
 {
     vector3 position_;
     color color_;
-    int id_;
     
 public:
     object(vector3 pos, color color): position_(pos), color_(color)
     {
-        id_ = rand() % 25;
     };
     virtual bool test_intersection(ray &rayo, vector3 &point, vector3 &normal, color &color);
     bool close_enough(float f1, float f2);
     color get_color();
     vector3 get_position();
-    int get_id();
+
     virtual ~object();
 };
 
