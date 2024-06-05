@@ -17,7 +17,14 @@ bool plane::test_intersection(ray& rayo, vector3& point, vector3& normal, color&
         {
             return false;
         }
-        point = rayo.get_origin() + ray_n * t;
+        vector3 aux_p = rayo.get_origin() + ray_n * t;
+        point.set_x(aux_p.get_x());
+        point.set_y(aux_p.get_y());
+        point.set_z(aux_p.get_z());
+        vector3 aux_norm = normal_.normalize();
+        normal.set_x(aux_norm.get_x());
+        normal.set_y(aux_norm.get_y());
+        normal.set_z(aux_norm.get_z());
         return true;
     }
 }

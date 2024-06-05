@@ -1,6 +1,9 @@
 ﻿#pragma once
+#include <vector>
+
 #include "../raster/color.h"
 #include "../geometry/vector3.h"
+#include "object.h"
 class light
 {
     vector3 position_;
@@ -12,7 +15,9 @@ public:
         
     }
     
-    bool compute_illumination(vector3 &intersection_point, vector3 &normal, color& result);
-    
+    bool compute_illumination(vector3 &intersection_point, vector3 &normal, std::vector<object*> objects, object* current, color & color, float & intensity);
+    vector3 get_position();
+    color get_color();
+    float get_intensity();
     ~light();
 };

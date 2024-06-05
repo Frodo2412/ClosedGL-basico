@@ -16,4 +16,5 @@ public:
     image Render();
     int get_width();
     int get_height();
+    color sombra_RR(object* obj, vector3& intersection_point, vector3& normal);
 };

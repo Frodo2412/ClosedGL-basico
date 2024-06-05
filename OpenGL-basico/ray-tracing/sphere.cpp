@@ -39,12 +39,22 @@ bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal, color
         }
         if (x1 < x2)
         {
-            point = rayo.get_origin() + (rayo_n * x1);
+            vector3 aux = (rayo.get_origin() + (rayo_n * x1));
+            point.set_x(aux.get_x());
+            point.set_y(aux.get_y());
+            point.set_z(aux.get_z());
         }
         else
         {
-            point = rayo.get_origin() + (rayo_n * x2);
+            vector3 aux = (rayo.get_origin() + (rayo_n * x2));
+            point.set_x(aux.get_x());
+            point.set_y(aux.get_y());
+            point.set_z(aux.get_z());
         }
+        vector3 aux_norm = (point - get_position()).normalize();
+        normal.set_x(aux_norm.get_x());
+        normal.set_y(aux_norm.get_y());
+        normal.set_z(aux_norm.get_z());
         return true;
     }
     return false;

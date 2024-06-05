@@ -49,32 +49,36 @@ new_scene::new_scene(int width, int height)
     color sphere0_color = {255, 0, 0};
     sphere* sphere0 = new sphere(sphere0_pos, 20, sphere0_color);
     objects_.push_back(sphere0);
-    
-    light* light0 = new light({0, 5, 0}, {255, 255, 255}, 1);
+
+    //luces
+    light* light0 = new light({0, 50, 0}, {255, 255, 255}, 1);
     lights_.push_back(light0);
+
+    light* light1 = new light({-5, -5, 0}, {255, 255, 255}, 0.5);
+    lights_.push_back(light1);
 }
 
 image new_scene::Render()
 {
     std::vector<std::vector<float>> z_buffer(width_, std::vector<float>(height_));
+    std::vector<std::vector<color>> pixel_colors(width_, std::vector<color>(height_));
     float near = 0.1;
     float far = 100;
     color background_color = {0, 0, 0};
-    std::vector<pixel> pixels;
+    
     for(int x = 0 ; x < width_ ; x++)
     {
         for(int y = 0 ; y < height_ ; y++)
         {
-            pixel px = pixel(x,y, background_color);
+            pixel_colors[x][y] = background_color;
             z_buffer[x][y] = far;
-            pixels.push_back(px);
         }
     }
     
     ray rayo = ray(camera_->get_position(), {0, 0, 0});
     
-    vector3 intersection_point;
-    vector3 normal;
+    vector3 intersection_point = {0, 0, 0};
+    vector3 intersection_normal = {0, 0, 0};
     color load_color = {0, 0, 0};
     color px_color = {0, 0, 0};
     float x_factor = 2.0f / (float)width_;
@@ -88,28 +92,51 @@ image new_scene::Render()
             camera_->generate_ray(norm_x, norm_y, rayo);
             for(object* obj : objects_)
             {
-                bool intersection = obj->test_intersection(rayo, intersection_point, normal, load_color);
+                bool intersection = obj->test_intersection(rayo, intersection_point, intersection_normal, load_color);
                 if (intersection)
                 {
-                    px_color = obj->get_color();
                     vector3 L = intersection_point - camera_->get_position();
                     float distance = L.get_norm();
-                
                     if(distance < far && distance > near)
                     {
                         if(distance < z_buffer[x][y])
                         {
+                            pixel_colors[x][y] = background_color;
                             z_buffer[x][y] = distance;
+                            bool hay_luz = false;
+                            float intensity = 0;
+                            for(light* luz : lights_)
+                            {
+                                hay_luz = luz->compute_illumination(intersection_point, intersection_normal, objects_, obj, load_color, intensity);
+                                if (hay_luz)
+                                {
+                                    px_color = obj->get_color();
+                                    px_color.set_red(px_color.get_red() * intensity);
+                                    px_color.set_green(px_color.get_green() * intensity);
+                                    px_color.set_blue(px_color.get_blue() * intensity);
+                                    pixel_colors[x][y] = pixel_colors[x][y] + px_color;
+                                }
+                            }
+                            /*px_color = obj->get_color();
                             px_color.set_red(px_color.get_red() - px_color.get_red() * (distance/far));
                             px_color.set_green(px_color.get_green() - px_color.get_green() * (distance/far));
                             px_color.set_blue(px_color.get_blue() - px_color.get_blue() * (distance/far));
 
                             pixel px = pixel(x,y, px_color);
-                            pixels.push_back(px);
+                            pixels.push_back(px);*/
                         }
                     } 
                 }
             }
+        }
+    }
+    std::vector<pixel> pixels;
+    for (int x = 0; x < width_; x++)
+    {
+        for (int y = 0; y < height_; y++)
+        {
+            pixel px = pixel(x, y, pixel_colors[x][y]);
+            pixels.push_back(px);
         }
     }
     return image(width_, height_, pixels);
@@ -124,3 +151,26 @@ int new_scene::get_height()
 {
     return height_;
 }
+
+/*color new_scene::sombra_RR(object* obj, vector3& intersection_point, vector3& intersection_normal)
+{
+    for(light* luz : lights_)
+    {
+        vector3 aux = luz->get_position() - intersection_point;
+        float prod = intersection_normal.dot_product(aux);
+        if(prod > 0)
+        {
+            ray rayo = ray(intersection_point, luz->get_position());
+            for(object* obj : objects_)
+            {
+                color colorin = {0, 0, 0};
+                bool intersecta = obj->test_intersection(rayo, vector3(0,0,0), vector3(0,0,0), colorin);
+                if(intersecta)//hay sombras en este punto
+                {
+                    
+                }
+            }
+        }
+    }
+}*/
+
