@@ -2,6 +2,7 @@
 #include <vector>
 #include "../ray-tracing/plane.h"
 #include "../ray-tracing/sphere.h"
+#include "../ray-tracing/cylinder.h"
 
 new_scene::new_scene(int width, int height)
 {
@@ -73,6 +74,11 @@ new_scene::new_scene(int width, int height)
     color sphere2_color = {0, 255, 255};
     sphere* sphere2 = new sphere(sphere2_pos, 1, sphere2_color);
     objects_.push_back(sphere2);
+
+    vector3 cylinder1_pos = {0, -6, -8};
+    color cylinder1_color = {0, 255, 0};
+    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 5, {0,1, 0}, cylinder1_color);
+    objects_.push_back(cylinder0);
 
     //luces
     light* light0 = new light({5, 5, 0}, {255, 255, 255}, 0.5f);

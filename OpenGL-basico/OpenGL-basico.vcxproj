@@ -84,6 +84,7 @@
     <ItemGroup>
         <ClCompile Include="..\main.cpp"/>
         <ClCompile Include="geometry\vector3.cpp" />
+        <ClCompile Include="ray-tracing\cylinder.cpp" />
         <ClCompile Include="scene\new_scene.cpp" />
         <ClCompile Include="graphics\image.cpp">
           <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -335,6 +336,7 @@
         <ClInclude Include="raster\color.h" />
         <ClInclude Include="raster\pixel.h" />
         <ClInclude Include="raster\point.h" />
+        <ClInclude Include="ray-tracing\cylinder.h" />
         <ClInclude Include="ray-tracing\light.h" />
         <ClInclude Include="ray-tracing\object.h" />
         <ClInclude Include="ray-tracing\plane.h" />
