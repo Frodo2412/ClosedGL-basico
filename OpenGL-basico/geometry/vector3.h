@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <cmath>
+#include <ostream>
 
 struct vector3
 {
@@ -47,4 +48,6 @@ struct vector3
     void reset();
 
     double get_norm() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const vector3& v);
 };

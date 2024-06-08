@@ -13,8 +13,9 @@ class new_scene
     camera* camera_;
     std::vector<object*> objects_;
     std::vector<light*> lights_;
+
 public:
-    new_scene(int width, int height);
+    new_scene(int width, int height, const char* filename);
     image Render();
     int get_width();
     int get_height();

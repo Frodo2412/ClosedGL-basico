@@ -1,5 +1,6 @@
 #pragma once
 #include <FreeImage.h>
+#include <ostream>
 
 class color
 {
@@ -45,4 +46,5 @@ public:
 
     color operator+(const color &c) const;
     color operator*(double f) const;
+    friend std::ostream& operator<<(std::ostream& os, const color& c);
 };

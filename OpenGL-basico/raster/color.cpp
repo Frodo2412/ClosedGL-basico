@@ -19,7 +19,7 @@ double color::get_alpha() const
     return alpha_;
 }
 
-color color::operator+(const color &c) const
+color color::operator+(const color& c) const
 {
     return color(red_ + c.red_, green_ + c.green_, blue_ + c.blue_, alpha_ + c.alpha_);
 }
@@ -41,4 +41,10 @@ color color::operator+= (const color &c)
     blue_ += c.blue_;
     alpha_ += c.alpha_;
     return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const color& c)
+{
+    os << "Color: (" << c.red_ << ", " << c.green_ << ", " << c.blue_ << ", " << c.alpha_ << ")";
+    return os;
 }
