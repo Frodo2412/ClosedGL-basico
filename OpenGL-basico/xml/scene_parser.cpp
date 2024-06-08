@@ -20,7 +20,7 @@ vector3 scene_parser::parse_vector3(const char* str, tinyxml2::XMLElement* eleme
 
 color scene_parser::parse_color(tinyxml2::XMLElement* element)
 {
-    const auto fill = element->FirstChildElement("fill");
+    const auto fill = element->FirstChildElement("color");
 
     const auto red = fill->FloatAttribute("red");
     const auto green = fill->FloatAttribute("green");
@@ -41,7 +41,8 @@ plane* scene_parser::parse_plane(tinyxml2::XMLElement* element)
     const vector3 position = parse_vector3("position", properties);
     const vector3 normal = parse_vector3("normal", properties);
 
-    std::cout << id << position << " " << normal << " " << color << " " << width << " " << height << std::endl;
+    std::cout << id << "\n- " << position << "\n- " << normal << "\n- " << color << "\n- " << width << "\n- " << height
+        << '\n';
 
     return new plane(position, normal, color, width, height);
 }
@@ -55,7 +56,7 @@ sphere* scene_parser::parse_sphere(tinyxml2::XMLElement* element)
     const auto properties = element->FirstChildElement("properties");
     const auto position = parse_vector3("position", properties);
 
-    std::cout << id << position << " " << radius << " " << color << '\n';
+    std::cout << id << "\n- " << position << "\n- " << radius << "\n- " << color << '\n';
 
     return new sphere(position, radius, color);
 }
@@ -72,7 +73,8 @@ cylinder* scene_parser::parse_cylinder(tinyxml2::XMLElement* element)
     const auto position = parse_vector3("position", properties);
     const auto axis = parse_vector3("axis", properties);
 
-    std::cout << id << position << " " << radius << " " << height << " " << axis << " " << color << '\n';
+    std::cout << id << "\n- " << position << "\n- " << radius << "\n- " << height << "\n- " << axis << "\n- " << color
+        << '\n';
 
     return new cylinder(position, radius, height, axis, color);
 }
@@ -93,6 +95,14 @@ void scene_parser::parse_object(tinyxml2::XMLElement* element)
 
 void scene_parser::parse_light(tinyxml2::XMLElement* element)
 {
+    const auto id = std::string(element->Attribute("id"));
+    const auto position = parse_vector3("position", element);
+    const auto color = parse_color(element);
+    const auto intensity = element->FloatAttribute("intensity");
+
+    std::cout << id << "\n- " << position << "\n- " << color << "\n- " << intensity << '\n';
+
+    lights_.emplace_back(new light(position, color, intensity));
 }
 
 new_scene scene_parser::from_xml(const char* filename)
@@ -132,18 +142,6 @@ new_scene scene_parser::from_xml(const char* filename)
         node = node->NextSibling();
     }
     while (node != nullptr);
-
-    vector3 cylinder1_pos = {0, -6, -8};
-    color cylinder1_color = {0, 255, 0};
-    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 5, {0, 1, 0}, cylinder1_color);
-    objects_.push_back(cylinder0);
-
-    //luces
-    light* light0 = new light({5, 5, 0}, {255, 255, 255}, 0.5f);
-    lights_.push_back(light0);
-
-    light* light1 = new light({-10, 0, 0}, {255, 255, 255}, 0.5f);
-    lights_.push_back(light1);
 
     std::cout << "Scene loaded" << '\n' << "- Shapes: " << objects_.size() << '\n' << "- Lights: " << lights_.size() <<
         '\n';
