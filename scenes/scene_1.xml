@@ -64,6 +64,31 @@
                 <position x="5" y="-10" z="-12"/>
             </properties>
         </shape>
+        <shape id="sphere_0" type="sphere" radius="10">
+            <fill red="255" green="0" blue="0"/>
+            <properties>
+                <position x="0" y="0" z="-20"/>
+            </properties>
+        </shape>
+        <shape id="sphere_1" type="sphere" radius="1">
+            <fill red="255" green="255" blue="0"/>
+            <properties>
+                <position x="-1" y="-1" z="-5"/>
+            </properties>
+        </shape>
+        <shape id="sphere_2" type="sphere" radius="1">
+            <fill red="0" green="255" blue="255"/>
+            <properties>
+                <position x="1" y="0" z="-5"/>
+            </properties>
+        </shape>
+        <shape id="cylinder_1" type="cylinder" radius="2" height="5">
+            <fill red="0" green="255" blue="0"/>
+            <properties>
+                <position x="0" y="-6" z="-8"/>
+                <axis x="0" y="1" z="0"/>
+            </properties>
+        </shape>
     </scene>
 </document>
 

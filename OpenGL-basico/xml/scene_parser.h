@@ -16,6 +16,8 @@ class scene_parser
     static color parse_color(tinyxml2::XMLElement* element);
 
     static plane* parse_plane(tinyxml2::XMLElement* element);
+    static sphere* parse_sphere(tinyxml2::XMLElement* element);
+    static cylinder* parse_cylinder(tinyxml2::XMLElement* element);
 
     void parse_object(tinyxml2::XMLElement* element);
     void parse_light(tinyxml2::XMLElement* element);

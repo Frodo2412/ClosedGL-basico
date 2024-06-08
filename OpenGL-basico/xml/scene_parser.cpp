@@ -46,6 +46,37 @@ plane* scene_parser::parse_plane(tinyxml2::XMLElement* element)
     return new plane(position, normal, color, width, height);
 }
 
+sphere* scene_parser::parse_sphere(tinyxml2::XMLElement* element)
+{
+    const auto id = std::string(element->Attribute("id"));
+    const auto radius = element->FloatAttribute("radius");
+
+    const auto color = parse_color(element);
+    const auto properties = element->FirstChildElement("properties");
+    const auto position = parse_vector3("position", properties);
+
+    std::cout << id << position << " " << radius << " " << color << '\n';
+
+    return new sphere(position, radius, color);
+}
+
+cylinder* scene_parser::parse_cylinder(tinyxml2::XMLElement* element)
+{
+    const auto id = std::string(element->Attribute("id"));
+    const auto radius = element->FloatAttribute("radius");
+    const auto height = element->FloatAttribute("height");
+
+    const auto color = parse_color(element);
+    const auto properties = element->FirstChildElement("properties");
+
+    const auto position = parse_vector3("position", properties);
+    const auto axis = parse_vector3("axis", properties);
+
+    std::cout << id << position << " " << radius << " " << height << " " << axis << " " << color << '\n';
+
+    return new cylinder(position, radius, height, axis, color);
+}
+
 void scene_parser::parse_object(tinyxml2::XMLElement* element)
 {
     const auto object_type = std::string(element->Attribute("type"));
@@ -53,9 +84,10 @@ void scene_parser::parse_object(tinyxml2::XMLElement* element)
     object* obj;
 
     if (object_type == "plane") { obj = parse_plane(element); }
+    else if (object_type == "sphere") { obj = parse_sphere(element); }
+    else if (object_type == "cylinder") { obj = parse_cylinder(element); }
     else { throw std::runtime_error("Unknown object type"); }
 
-    std::cout << "Object: " << obj << '\n';
     objects_.push_back(obj);
 }
 
@@ -100,27 +132,11 @@ new_scene scene_parser::from_xml(const char* filename)
         node = node->NextSibling();
     }
     while (node != nullptr);
-    
-    // //dibujado de esferas
-    // vector3 sphere0_pos = {0, 0, -20};
-    // color sphere0_color = {255, 0, 0};
-    // sphere* sphere0 = new sphere(sphere0_pos, 10, sphere0_color);
-    // objects_.push_back(sphere0);
-    //
-    // vector3 sphere1_pos = {-1, -1, -5};
-    // color sphere1_color = {255, 255, 0};
-    // sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color);
-    // objects_.push_back(sphere1);
-    //
-    // vector3 sphere2_pos = {1, 0, -5};
-    // color sphere2_color = {0, 255, 255};
-    // sphere* sphere2 = new sphere(sphere2_pos, 1, sphere2_color);
-    // objects_.push_back(sphere2);
-    //
-    // vector3 cylinder1_pos = {0, -6, -8};
-    // color cylinder1_color = {0, 255, 0};
-    // cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 5, {0, 1, 0}, cylinder1_color);
-    // objects_.push_back(cylinder0);
+
+    vector3 cylinder1_pos = {0, -6, -8};
+    color cylinder1_color = {0, 255, 0};
+    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 5, {0, 1, 0}, cylinder1_color);
+    objects_.push_back(cylinder0);
 
     //luces
     light* light0 = new light({5, 5, 0}, {255, 255, 255}, 0.5f);
