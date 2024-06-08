@@ -103,7 +103,7 @@ image new_scene::Render()
     float x_factor = 2.0f / (float)width_;
     float y_factor = 2.0f / (float)height_;
     
-    /* Whitted Ray-Tracing */
+    /* Caculamos todos los pixeles */
     for(int x = 0 ; x < width_ ; x++)
     {
         for(int y = 0 ; y < height_ ; y++)
@@ -151,50 +151,58 @@ color new_scene::whitted_ray_tracing(ray& rayo)
 {
     vector3 intersection_point = {0, 0, 0};//=> Variable en la que cargaremos el punto de interseccion con los objetos
     vector3 intersection_normal = {0, 0, 0};//=> Variable en la que cargaremos la normal del objeto en el punto de interseccion
-    float light_intensity = 0;//=> Variable en la que cargaremos la intensidad de la luz en el punto de interseccion
 
     /* La distancia mas cercana inicialmente es far */
     float z_buffer = get_far();
     
-    color px_color = get_background_color();//=> Variable en la que cargaremos el color del pixel
+    object* nearest_obj = nullptr;
     
-    /* Para cada objeto en la escena calcularemos si el rayo interseca con este  */
+    color px_color = get_background_color();//=> Variable en la que cargaremos el color del pixel
+
+    /* Calcularemos el objeto mas cercano con el que interseca el rayo */
     for(object* obj : objects_)
     {
-        /* Si el rayo interseca con el objeto entonces procederemos a calcular si esta iluminado en ese punto,
-           en otro caso hay 2 opciones:
-                - el rayo se intersecte con otro objeto => el color de pixel lo va a dar otro objeto
-                - el rayo no se intersecte nunca con un objeto => color de pixel = background color(ya esta cargado por default este caso)
-        */
-        if (obj->test_intersection(rayo, intersection_point, intersection_normal))
+        /* Para cada objeto en la escena calcularemos si el rayo interseca con este */
+        vector3 i_point = {0, 0, 0};
+        vector3 i_normal = {0, 0, 0};
+        if (obj->test_intersection(rayo, i_point, i_normal))
         {
-            float distance = (intersection_point - camera_->get_position()).get_norm();//=> Distancia entre la camara y el punto de interseccion
+            float distance = (i_point - camera_->get_position()).get_norm();//=> Distancia entre la camara y el punto de interseccion
             if(distance < get_far() && distance > get_near())// => checkeamos si el punto de interseccion esta en el rango de renderizado
             {
-                /* Si el punto de interseccion esta mas cerca que el mas cercano obtenido hasta hora para ese pixel
-                   significa que se va a ver ese nuevo punto en vez del viejo, porque simplemente esta delante y tapa al otro */
-                if(distance < z_buffer)
+                if(distance < z_buffer) // => si la distancia es menor a la del z-buffer actual, actualizamos el z-buffer
                 {
-                    /* Reseatemos el color para ese pixel asi partimos de 0 para agregarle la cantidad de luz que recibe
-                       el punto de interseccion */
-                    px_color = get_background_color();
+                    /* Guardamos los valores de la interseccion para usarlos a futuro */
+                    intersection_point = i_point;
+                    intersection_normal = i_normal;
+                    nearest_obj = obj;
                     z_buffer = distance;
-                    color acum_color = {0, 0, 0};
-                    /* Calcularemos cuanta luz recibe el punto de interseccion */
-                    for(light* luz : lights_)
-                    {
-                        /* Veremos si teniendo en cuenta la luz puntual "Luz" el punto de interseccion esta en sombra o no*/
-                        luz->compute_illumination(intersection_point, intersection_normal, objects_, obj, light_intensity);
-                        acum_color = obj->get_color();
-                        acum_color.set_red(acum_color.get_red() * light_intensity);
-                        acum_color.set_green(acum_color.get_green() * light_intensity);
-                        acum_color.set_blue(acum_color.get_blue() * light_intensity);
-                        px_color = px_color + acum_color;//=> Acumulamos la luz que recibe el punto de interseccion
-                    }
                 }
-            } 
+            }
         }
+    }
+    /* Calcularemos cuanta luz recibe el punto de interseccion */
+    if(nearest_obj != nullptr)
+    {
+        px_color = calculate_diffuse_color(intersection_point, intersection_normal, nearest_obj);
     }
     return px_color;
 }
 
+color new_scene::calculate_diffuse_color(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj)
+{
+    float light_intensity = 0;//=> Variable en la que cargaremos la intensidad de la luz en el punto de interseccion
+    color diffuse_color = get_background_color();
+    color acum_color = {0, 0, 0};
+    for(light* luz : lights_)
+    {
+        /* Veremos si teniendo en cuenta la luz puntual "Luz" el punto de interseccion esta en sombra o no */
+        luz->compute_illumination(intersection_point, intersection_normal, objects_, nearest_obj, light_intensity);
+        acum_color = nearest_obj->get_color();
+        acum_color.set_red(acum_color.get_red() * light_intensity);
+        acum_color.set_green(acum_color.get_green() * light_intensity);
+        acum_color.set_blue(acum_color.get_blue() * light_intensity);
+        diffuse_color = diffuse_color + acum_color;//=> Acumulamos la luz que recibe el punto de interseccion
+    }
+    return diffuse_color;
+}
