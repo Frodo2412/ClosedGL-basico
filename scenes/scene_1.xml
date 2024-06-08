@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <document>
     <scene name="Our First Scene">
+        <background>
+            <color red="0" blue="0" green="0"/>
+        </background>
+        <camera>
+            <position x="0" y="0" z="0"/>
+            <look_at x="0" y="0" z="-1"/>
+            <up x="0" y="1" z="0"/>
+        </camera>
         <shape id="back_plane" type="plane" height="50" width="50">
             <color red="255" green="255" blue="255"/>
             <properties>
@@ -91,11 +99,11 @@
         </shape>
         <light id="light_0" intensity="0.5">
             <position x="5" y="5" z="0"/>
-            <color red="255" green="255" blue="255" />
+            <color red="255" green="255" blue="255"/>
         </light>
         <light id="light_1" intensity="0.5">
             <position x="-10" y="0" z="0"/>
-            <color red="255" green="255" blue="255" />
+            <color red="255" green="255" blue="255"/>
         </light>
     </scene>
 </document>

@@ -1,23 +1,56 @@
 ﻿#include "new_scene.h"
-#include <utility>
 #include <vector>
+#include <string>
 #include "../ray-tracing/plane.h"
+#include "../xml/tinyxml2.h"
+#include "../xml/scene_parser.h"
 
-new_scene::new_scene(int width, int height, std::vector<object*> objects, std::vector<light*> lights)
+
+new_scene::new_scene(const int width, const int height, const char* filename) : width_(width), height_(height)
 {
-    background_color_ = {0, 0, 0};
     near_ = 0.1;
     far_ = 100;
-    width_ = width;
-    height_ = height;
-    vector3 cam_position = {0, 0, 0};
-    vector3 cam_look_at = {0, 0, -1};
-    //nuestro sistema de coordenadas tiene el z invertido, quedo como en lo teniamos en opengl
-    vector3 cam_up = {0, 1, 0};
 
-    camera_ = new camera(cam_position, cam_look_at, cam_up);
-    objects_ = std::move(objects);
-    lights_ = std::move(lights);
+    tinyxml2::XMLDocument doc;
+    auto res = doc.LoadFile(filename);
+    if (res != tinyxml2::XML_SUCCESS)
+    {
+        throw std::runtime_error("Failed to load file " + std::string(filename) + ": " + std::to_string(res));
+    }
+
+    tinyxml2::XMLPrinter printer;
+    doc.Print(&printer);
+
+    auto dom_scene = doc.FirstChildElement("document")->FirstChildElement("scene");
+    if (!dom_scene)
+    {
+        throw std::runtime_error("'scene' element not found");
+    }
+
+    if (dom_scene->NoChildren())
+    {
+        throw std::runtime_error("No objects found in scene");
+    }
+
+    tinyxml2::XMLNode* node = dom_scene->FirstChild();
+    do
+    {
+        const auto element = node->ToElement();
+
+        const auto element_type = std::string(element->Name());
+
+        if (element_type == "shape") { objects_.push_back(scene_parser::parse_object(element)); }
+        else if (element_type == "light") { lights_.push_back(scene_parser::parse_light(element)); }
+        else if (element_type == "camera") { camera_ = scene_parser::parse_camera(element); }
+        else if (element_type == "background") { background_color_ = scene_parser::parse_color(element); }
+        else { throw std::runtime_error("Unknown element type: " + element_type); }
+
+        node = node->NextSibling();
+    }
+    while (node != nullptr);
+
+    std::cout << "Scene loaded" << '\n' << "- Shapes: " << objects_.size() << '\n' << "- Lights: " << lights_.size() <<
+        '\n';
 }
 
 image new_scene::Render()

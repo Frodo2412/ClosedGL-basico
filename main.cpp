@@ -13,9 +13,7 @@ int main(int argc, char* argv[])
         int width = 800;
         int height = 600;
 
-        scene_parser parser(width, height);
-
-        new_scene scene = parser.from_xml("../scenes/scene_1.xml");
+        new_scene scene = new_scene(width, height, "../scenes/scene_1.xml");
         image img = scene.Render();
         renderer::render_image(img); // renders image to screen
 
