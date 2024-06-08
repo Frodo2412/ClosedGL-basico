@@ -218,25 +218,22 @@ color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vecto
         {
             vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
             
-            ray sombra = ray(intersection_point, rayo_s);
+            ray sombra = ray(intersection_point - rayo_s, rayo_s);
             bool hay_sombra = false;
             for(object* obj : objects_)
             {
-                if (obj != nearest_obj)
+                vector3 inter = {0, 0, 0};
+                vector3 trash1 = {0, 0, 0};
+                if(obj->test_intersection(sombra, inter, trash1))
                 {
-                    vector3 inter = {0, 0, 0};
-                    vector3 trash1 = {0, 0, 0};
-                    if(obj->test_intersection(sombra, inter, trash1))
+                    float intersection_distance = (inter - intersection_point).get_norm();
+                    float light_distance = (luz->get_position() - intersection_point).get_norm();
+                    if(intersection_distance > light_distance)//si intersecto con otro objeto pero mas lejos que la ubicacion de la luz, entonces le llega luz
                     {
-                        float intersection_distance = (inter - intersection_point).get_norm();
-                        float light_distance = (luz->get_position() - intersection_point).get_norm();
-                        if(intersection_distance > light_distance)//si intersecto con otro objeto pero mas lejos que la ubicacion de la luz, entonces le llega luz
-                        {
-                            continue;
-                        }
-                        hay_sombra = true;
-                        break;
+                        continue;
                     }
+                    hay_sombra = true;
+                    break;
                 }
             }
             if(!hay_sombra)
