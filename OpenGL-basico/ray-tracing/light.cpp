@@ -2,11 +2,12 @@
 
 #include <iostream>
 
-bool light::compute_illumination(vector3 &intersection_point, vector3 &normal, std::vector<object*> objects, object* current, float & intensity)
+bool light::compute_illumination(vector3 &intersection_point, vector3 &normal, std::vector<object*> objects, object* current, double & intensity)
 {
+    intensity = 0.0;
     vector3 rayo_s = (position_ - intersection_point).normalize();
-    float prod = normal.dot_product(rayo_s);
-    if(prod > 0.0f)
+    double prod = normal.dot_product(rayo_s);
+    if(prod >= 0.0)
     {
         intensity = get_intensity() * prod;
         /* rayo que va desde el punto de interseccion hacia la luz, si interseca con un objeto significa
@@ -21,20 +22,17 @@ bool light::compute_illumination(vector3 &intersection_point, vector3 &normal, s
                 vector3 trash1 = {0, 0, 0};
                 if(obj->test_intersection(sombra, inter, trash1))
                 {
-                    float intersection_distance = (inter - intersection_point).get_norm();
-                    float light_distance = (position_ - intersection_point).get_norm();
+                    double intersection_distance = (inter - intersection_point).get_norm();
+                    double light_distance = (position_ - intersection_point).get_norm();
                     if(intersection_distance > light_distance)//si intersecto con otro objeto pero mas lejos que la ubicacion de la luz, entonces le llega luz
                     {
                         continue;
                     }
-                    intensity = 0.0f;
+                    intensity = 0.0;
                     break;
                 }
             }
         }
-    } else
-    {
-        intensity = 0.0f;
     }
     return true;
 }
@@ -49,7 +47,7 @@ color light::get_color()
     return color_;
 }
 
-float light::get_intensity()
+double light::get_intensity()
 {
     return intensity_;
 }

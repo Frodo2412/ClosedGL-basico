@@ -1,6 +1,6 @@
 #include "vector2.h"
 
-vector2::vector2(const float x, const float y)
+vector2::vector2(const double x, const double y)
 {
     this->x = x;
     this->y = y;
@@ -12,12 +12,12 @@ std::ostream& operator<<(std::ostream& os, const vector2& v)
     return os;
 }
 
-float vector2::get_x() const
+double vector2::get_x() const
 {
     return x;
 }
 
-float vector2::get_y() const
+double vector2::get_y() const
 {
     return y;
 }

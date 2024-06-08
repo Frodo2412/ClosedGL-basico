@@ -5,12 +5,12 @@
 class plane : public object
 {
     vector3 normal_;
-    float A_, B_, C_, D_;
+    double A_, B_, C_, D_;
     vector3 U_, V_;//coordenadas de ancho y largo para el plano. las usaremos para limitarlo y que no sea infinito😀 
-    float width_;
-    float height_;
+    double width_;
+    double height_;
 public:
-    plane(vector3 pos, vector3 normal, color color, float width, float height) : object(pos, color)
+    plane(vector3 pos, vector3 normal, color color, double width, double height, double reflectivity, double shininess) : object(pos, color, reflectivity, shininess)
     {
         width_ = width;
         height_ = height;

@@ -9,15 +9,16 @@ class camera
     vector3 direction_;
     vector3 U_, V_; //NO ESTAN NORMALIZADOS, REPRESENTAN LAS DIMENSIONES DE LA PANTALLA
     vector3 camera_centre_;
-    float aspect_ratio_;
-    float horizontal_size_;
-    float length_;
+    int width_, height_;
+    double aspect_ratio_;
+    double horizontal_size_;
+    double length_;
 public:
-    explicit camera(const vector3& position, const vector3& look_at, const vector3& up)
-        : position_(position), look_at_(look_at), up_(up.normalize())
+    explicit camera(const vector3& position, const vector3& look_at, const vector3& up, int width, int height)
+        : position_(position), look_at_(look_at), up_(up.normalize()), width_(width), height_(height)
     {
-        aspect_ratio_ = (float)800 / (float)600;
-        horizontal_size_ = 400;
+        aspect_ratio_ = (double)width_ / (double)height_;
+        horizontal_size_ = (double)width_/2;
         length_ = 100;
         direction_ = (look_at_ - position_).normalize();
         U_ = (direction_ * up_).normalize();
@@ -34,9 +35,9 @@ public:
         V_.print();
     }
     
-    float get_aspect_ratio() const;
-    float get_horizontal_size() const;
-    float get_length() const;
+    double get_aspect_ratio() const;
+    double get_horizontal_size() const;
+    double get_length() const;
     vector3 get_position() const;
     vector3 get_direction() const;
     vector3 get_up() const;
@@ -44,5 +45,5 @@ public:
     vector3 get_V() const;
 
     // u, v in [-1, 1], voy actualizando el rayo
-    void generate_ray(float u, float v, ray& ray);
+    void generate_ray(double u, double v, ray& ray);
 };

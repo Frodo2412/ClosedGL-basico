@@ -8,16 +8,16 @@ class light
 {
     vector3 position_;
     color color_;
-    float intensity_;//entre 0 y 1, multiplica el r g b del color_
+    double intensity_;//entre 0 y 1, multiplica el r g b del color_
 public:
-    light(vector3 pos, color color, float intensity) : position_(pos), color_(color), intensity_(intensity)
+    light(vector3 pos, color color, double intensity) : position_(pos), color_(color), intensity_(intensity)
     {
         
     }
     
-    bool compute_illumination(vector3 &intersection_point, vector3 &normal, std::vector<object*> objects, object* current, float & intensity);
+    bool compute_illumination(vector3 &intersection_point, vector3 &normal, std::vector<object*> objects, object* current, double & intensity);
     vector3 get_position();
     color get_color();
-    float get_intensity();
+    double get_intensity();
     ~light();
 };

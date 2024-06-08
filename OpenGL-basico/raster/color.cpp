@@ -9,12 +9,12 @@ RGBQUAD color::to_rgb() const
     return rgba;
 }
 
-void color::set_alpha(float alpha)
+void color::set_alpha(double alpha)
 {
     alpha_ = alpha;
 }
 
-float color::get_alpha() const
+double color::get_alpha() const
 {
     return alpha_;
 }
@@ -22,4 +22,23 @@ float color::get_alpha() const
 color color::operator+(const color &c) const
 {
     return color(red_ + c.red_, green_ + c.green_, blue_ + c.blue_, alpha_ + c.alpha_);
+}
+
+color color::operator*(double f) const
+{
+    return color(red_ * f, green_ * f, blue_ * f, alpha_ * f);
+}
+
+color color::operator/ (double f) const
+{
+    return color(red_ / f, green_ / f, blue_ / f, alpha_ / f);
+}
+
+color color::operator+= (const color &c)
+{
+    red_ += c.red_;
+    green_ += c.green_;
+    blue_ += c.blue_;
+    alpha_ += c.alpha_;
+    return *this;
 }

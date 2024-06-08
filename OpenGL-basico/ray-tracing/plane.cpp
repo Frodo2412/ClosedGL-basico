@@ -4,22 +4,21 @@
 bool plane::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
     vector3 ray_n = rayo.get_direction().normalize();
-    float denominador = normal_.dot_product(ray_n);
-    const float epsilon = 1e-6;
-    if (std::abs(denominador) < epsilon)
+    double denominador = normal_.dot_product(ray_n);
+    if (denominador == 0.0)
     {
         return false;
     } else
     {
         vector3 aux = get_position() - rayo.get_origin();
-        float t = normal_.dot_product(aux)/denominador;
-        if(t > 0.0f)
+        double t = normal_.dot_product(aux)/denominador;
+        if(t > 0.0)
         {
             vector3 aux_p = rayo.get_origin() + ray_n * t;//punto de interseccion
             vector3 pt = aux_p - get_position();
             
-            float u = (pt.get_z() * V_.get_x() - pt.get_x() * V_.get_z()) / (U_.get_z() * V_.get_x() - U_.get_x() * V_.get_z());
-            float v = (pt.get_x() * U_.get_z() - pt.get_z() * U_.get_x()) / (U_.get_z() * V_.get_x() - U_.get_x() * V_.get_z());
+            double u = (pt.get_z() * V_.get_x() - pt.get_x() * V_.get_z()) / (U_.get_z() * V_.get_x() - U_.get_x() * V_.get_z());
+            double v = (pt.get_x() * U_.get_z() - pt.get_z() * U_.get_x()) / (U_.get_z() * V_.get_x() - U_.get_x() * V_.get_z());
             
             //casos donde el denominador puede ser 0, son justamente cuando la normal es paralela a los ejes x, y o z
             
