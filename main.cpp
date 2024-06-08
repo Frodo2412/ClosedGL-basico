@@ -7,8 +7,8 @@
 int main(int argc, char* argv[])
 {
     FreeImage_Initialise();
-    int width = 800;
-    int height = 600;
+    int width = 400;
+    int height = 300;
 
     new_scene* scene = new new_scene(width, height);
     image img = scene->Render();

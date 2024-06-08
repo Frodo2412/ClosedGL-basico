@@ -5,7 +5,7 @@ bool plane::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
     vector3 ray_n = rayo.get_direction().normalize();
     float denominador = normal_.dot_product(ray_n);
-    const float epsilon = 1e-6;
+    const float epsilon = 1e-21;
     if (std::abs(denominador) < epsilon)
     {
         return false;

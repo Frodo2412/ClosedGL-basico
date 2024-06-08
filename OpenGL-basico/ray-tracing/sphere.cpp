@@ -26,11 +26,11 @@ bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal)
     
     float discriminante = (b*b) - 4.0f * a * c;
 
-    if (discriminante > 0.0f)
+    if (discriminante >= 0.0f)
     {
         float raiz = sqrtf(discriminante);
-        float x1 = (-b + raiz) / 2.0;
-        float x2 = (-b - raiz) / 2.0;
+        float x1 = (-b + raiz) / 2.0f;
+        float x2 = (-b - raiz) / 2.0f;
         
         if ((x1 < 0.0) || (x2 < 0.0)) //si las intersecciones estan detras del origen del rayo
         {

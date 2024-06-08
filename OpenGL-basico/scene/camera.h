@@ -9,15 +9,16 @@ class camera
     vector3 direction_;
     vector3 U_, V_; //NO ESTAN NORMALIZADOS, REPRESENTAN LAS DIMENSIONES DE LA PANTALLA
     vector3 camera_centre_;
+    int width_, height_;
     float aspect_ratio_;
     float horizontal_size_;
     float length_;
 public:
-    explicit camera(const vector3& position, const vector3& look_at, const vector3& up)
-        : position_(position), look_at_(look_at), up_(up.normalize())
+    explicit camera(const vector3& position, const vector3& look_at, const vector3& up, int width, int height)
+        : position_(position), look_at_(look_at), up_(up.normalize()), width_(width), height_(height)
     {
-        aspect_ratio_ = (float)800 / (float)600;
-        horizontal_size_ = 400;
+        aspect_ratio_ = (float)width_ / (float)height_;
+        horizontal_size_ = (float)width_/2;
         length_ = 100;
         direction_ = (look_at_ - position_).normalize();
         U_ = (direction_ * up_).normalize();

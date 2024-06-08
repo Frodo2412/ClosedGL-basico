@@ -14,7 +14,7 @@ new_scene::new_scene(int width, int height)
     vector3 cam_position = {0, 0, 0};
     vector3 cam_look_at = {0, 0, -1}; //nuestro sistema de coordenadas tiene el z invertido, quedo como en lo teniamos en opengl
     vector3 cam_up = {0, 1, 0};
-    camera_ = new camera(cam_position, cam_look_at, cam_up);
+    camera_ = new camera(cam_position, cam_look_at, cam_up, width, height);
 
     //dibujado de planos
     // plano del fondo
@@ -47,7 +47,7 @@ new_scene::new_scene(int width, int height)
     color plane4_color = {0, 255, 0};
     plane* plane4 = new plane(plane4_pos, plane4_normal, plane4_color, 50, 50, 0.0f, 0.0f);
     objects_.push_back(plane4);
-
+/*
     // mesa front
     vector3 mesa_front_pos = {0, -10, -10};
     vector3 mesa_front_normal = {0, 0, 1};
@@ -61,30 +61,44 @@ new_scene::new_scene(int width, int height)
     color mesa_mesa_up_color = {0, 255, 255};
     plane* mesa_mesa_up = new plane(mesa_mesa_up_pos, mesa_mesa_up_normal, mesa_mesa_up_color, 2, 5, 0.0f, 0.0f);
     objects_.push_back(mesa_mesa_up);
-
+    
+    // mesa izq
+    vector3 mesa_mesa_izq_pos = {-5, -10, -12};
+    vector3 mesa_mesa_izq_normal = {-1, 0, 0};
+    color mesa_mesa_izq_color = {0, 255, 255};
+    plane* mesa_mesa_izq = new plane(mesa_mesa_izq_pos, mesa_mesa_izq_normal, mesa_mesa_izq_color, 2, 2, 0.0f, 0.0f);
+    objects_.push_back(mesa_mesa_izq);
+    
+    // mesa der
+    vector3 mesa_mesa_der_pos = {5, -10, -12};
+    vector3 mesa_mesa_der_normal = {1, 0, 0};
+    color mesa_mesa_der_color = {0, 255, 255};
+    plane* mesa_mesa_der = new plane(mesa_mesa_der_pos, mesa_mesa_der_normal, mesa_mesa_der_color, 2, 2, 0.0f, 0.0f);
+    objects_.push_back(mesa_mesa_der);
+*/
     //dibujado de esferas
-    vector3 sphere0_pos = {5, 0, -20};
+    vector3 sphere0_pos = {5, 0, -10};
     color sphere0_color = {255, 0, 0};
-    sphere* sphere0 = new sphere(sphere0_pos, 10, sphere0_color, 0.5f, 10.f);
+    sphere* sphere0 = new sphere(sphere0_pos, 2, sphere0_color, 0.5f, 10.f);
     objects_.push_back(sphere0);
 
-    vector3 sphere1_pos = {-1, -1, -2};
+    vector3 sphere1_pos = {-5, 0, -10};
     color sphere1_color = {255, 255, 0};
-    sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color, 0.5f, 10.0f);
+    sphere* sphere1 = new sphere(sphere1_pos, 2, sphere1_color, 0.5f, 10.0f);
     objects_.push_back(sphere1);
 
-    vector3 sphere2_pos = {1, 0, -5};
+    vector3 sphere2_pos = {0, 0, -5};
     color sphere2_color = {0, 255, 255};
-    sphere* sphere2 = new sphere(sphere2_pos, 1, sphere2_color, 0.0f, 0.0f);
-    //objects_.push_back(sphere2);
+    sphere* sphere2 = new sphere(sphere2_pos, 2, sphere2_color, 1.0f, 10.0f);
+    objects_.push_back(sphere2);
 
-    vector3 cylinder1_pos = {0, -6, -8};
+    vector3 cylinder1_pos = {0, 3, -5};
     color cylinder1_color = {0, 255, 0};
-    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 5, {0,1, 0}, cylinder1_color, 0.0f, 0.0f);
-    //objects_.push_back(cylinder0);
+    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 2, {0,1, 0}, cylinder1_color, 0.3f, 10.0f);
+    objects_.push_back(cylinder0);
 
     //luces
-    light* light0 = new light({0, -5, 0}, {255, 255, 255}, 0.5f);
+    light* light0 = new light({10, 0, 0}, {255, 255, 255}, 0.5f);
     lights_.push_back(light0);
 
     light* light1 = new light({-10, 0, 0}, {255, 255, 255}, 0.5f);
@@ -185,8 +199,8 @@ color new_scene::whitted_ray_tracing(ray& rayo)
     if(nearest_obj != nullptr)
     {
         color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
-        color specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
-        px_color = diffuse_color + specular_color;
+        //color specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
+        px_color = diffuse_color;
     }
     return px_color;
 }
