@@ -83,397 +83,397 @@
     </ItemDefinitionGroup>
     <ItemGroup>
         <ClCompile Include="..\main.cpp"/>
-        <ClCompile Include="geometry\vector3.cpp" />
-        <ClCompile Include="ray-tracing\cylinder.cpp" />
+        <ClCompile Include="geometry\vector3.cpp"/>
+        <ClCompile Include="ray-tracing\cylinder.cpp"/>
         <ClCompile Include="graphics\image.cpp">
-          <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
-          <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-          <Optimization>Disabled</Optimization>
-          <SupportJustMyCode>true</SupportJustMyCode>
-          <AssemblerOutput>NoListing</AssemblerOutput>
-          <AssemblerListingLocation>Debug\</AssemblerListingLocation>
-          <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-          <BrowseInformation>false</BrowseInformation>
-          <BrowseInformationFile>Debug\</BrowseInformationFile>
-          <CompileAs>Default</CompileAs>
-          <ConformanceMode>Default</ConformanceMode>
-          <DiagnosticsFormat>Column</DiagnosticsFormat>
-          <DisableLanguageExtensions>false</DisableLanguageExtensions>
-          <ErrorReporting>Prompt</ErrorReporting>
-          <ExpandAttributedSource>false</ExpandAttributedSource>
-          <ExceptionHandling>Sync</ExceptionHandling>
-          <EnableASAN>false</EnableASAN>
-          <EnableFuzzer>false</EnableFuzzer>
-          <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-          <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-          <FloatingPointModel>Precise</FloatingPointModel>
-          <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-          <GenerateModuleDependencies>false</GenerateModuleDependencies>
-          <GenerateSourceDependencies>false</GenerateSourceDependencies>
-          <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-          <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-          <IntrinsicFunctions>false</IntrinsicFunctions>
-          <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-          <LanguageStandard>Default</LanguageStandard>
-          <LanguageStandard_C>Default</LanguageStandard_C>
-          <MinimalRebuild>false</MinimalRebuild>
-          <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
-          <ModuleOutputFile>Debug\</ModuleOutputFile>
-          <OmitDefaultLibName>false</OmitDefaultLibName>
-          <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-          <WholeProgramOptimization>false</WholeProgramOptimization>
-          <ObjectFileName>Debug\</ObjectFileName>
-          <CallingConvention>Cdecl</CallingConvention>
-          <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
-          <PrecompiledHeader>NotUsing</PrecompiledHeader>
-          <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-          <PrecompiledHeaderOutputFile>Debug\OpenGL-basico.pch</PrecompiledHeaderOutputFile>
-          <PreprocessToFile>false</PreprocessToFile>
-          <PreprocessKeepComments>false</PreprocessKeepComments>
-          <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-          <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-          <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-          <ShowIncludes>false</ShowIncludes>
-          <SourceDependenciesFile>Debug\</SourceDependenciesFile>
-          <SuppressStartupBanner>true</SuppressStartupBanner>
-          <BufferSecurityCheck>true</BufferSecurityCheck>
-          <SmallerTypeCheck>false</SmallerTypeCheck>
-          <SpectreMitigation>false</SpectreMitigation>
-          <StructMemberAlignment>Default</StructMemberAlignment>
-          <TrackerLogDirectory>Debug\OpenGL-basico.tlog\</TrackerLogDirectory>
-          <TranslateIncludes>false</TranslateIncludes>
-          <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-          <TreatWarningAsError>false</TreatWarningAsError>
-          <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-          <UseFullPaths>true</UseFullPaths>
-          <WarningLevel>Level3</WarningLevel>
-          <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
-          <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-          <IntelJCCErratum>false</IntelJCCErratum>
-          <BuildStlModules>false</BuildStlModules>
-          <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-          <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-          <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-          <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-          <PreprocessorDefinitions>_MBCS;</PreprocessorDefinitions>
-          <EnablePREfast>false</EnablePREfast>
-          <OmitFramePointers>false</OmitFramePointers>
-          <SDLCheck>true</SDLCheck>
-          <AdditionalIncludeDirectories>C:\Users\Bruno\RiderProjects\ClosedGLBasico\\Assimp\include;;C:\Users\Bruno\vcpkg\installed\x86-windows\include</AdditionalIncludeDirectories>
-          <LinkCompiled>true</LinkCompiled>
+            <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+            <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+            <Optimization>Disabled</Optimization>
+            <SupportJustMyCode>true</SupportJustMyCode>
+            <AssemblerOutput>NoListing</AssemblerOutput>
+            <AssemblerListingLocation>Debug\</AssemblerListingLocation>
+            <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+            <BrowseInformation>false</BrowseInformation>
+            <BrowseInformationFile>Debug\</BrowseInformationFile>
+            <CompileAs>Default</CompileAs>
+            <ConformanceMode>Default</ConformanceMode>
+            <DiagnosticsFormat>Column</DiagnosticsFormat>
+            <DisableLanguageExtensions>false</DisableLanguageExtensions>
+            <ErrorReporting>Prompt</ErrorReporting>
+            <ExpandAttributedSource>false</ExpandAttributedSource>
+            <ExceptionHandling>Sync</ExceptionHandling>
+            <EnableASAN>false</EnableASAN>
+            <EnableFuzzer>false</EnableFuzzer>
+            <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+            <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+            <FloatingPointModel>Precise</FloatingPointModel>
+            <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+            <GenerateModuleDependencies>false</GenerateModuleDependencies>
+            <GenerateSourceDependencies>false</GenerateSourceDependencies>
+            <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+            <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+            <IntrinsicFunctions>false</IntrinsicFunctions>
+            <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+            <LanguageStandard>Default</LanguageStandard>
+            <LanguageStandard_C>Default</LanguageStandard_C>
+            <MinimalRebuild>false</MinimalRebuild>
+            <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
+            <ModuleOutputFile>Debug\</ModuleOutputFile>
+            <OmitDefaultLibName>false</OmitDefaultLibName>
+            <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+            <WholeProgramOptimization>false</WholeProgramOptimization>
+            <ObjectFileName>Debug\</ObjectFileName>
+            <CallingConvention>Cdecl</CallingConvention>
+            <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
+            <PrecompiledHeader>NotUsing</PrecompiledHeader>
+            <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+            <PrecompiledHeaderOutputFile>Debug\OpenGL-basico.pch</PrecompiledHeaderOutputFile>
+            <PreprocessToFile>false</PreprocessToFile>
+            <PreprocessKeepComments>false</PreprocessKeepComments>
+            <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+            <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+            <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+            <ShowIncludes>false</ShowIncludes>
+            <SourceDependenciesFile>Debug\</SourceDependenciesFile>
+            <SuppressStartupBanner>true</SuppressStartupBanner>
+            <BufferSecurityCheck>true</BufferSecurityCheck>
+            <SmallerTypeCheck>false</SmallerTypeCheck>
+            <SpectreMitigation>false</SpectreMitigation>
+            <StructMemberAlignment>Default</StructMemberAlignment>
+            <TrackerLogDirectory>Debug\OpenGL-basico.tlog\</TrackerLogDirectory>
+            <TranslateIncludes>false</TranslateIncludes>
+            <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+            <TreatWarningAsError>false</TreatWarningAsError>
+            <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+            <UseFullPaths>true</UseFullPaths>
+            <WarningLevel>Level3</WarningLevel>
+            <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
+            <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+            <IntelJCCErratum>false</IntelJCCErratum>
+            <BuildStlModules>false</BuildStlModules>
+            <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+            <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+            <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+            <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+            <PreprocessorDefinitions>_MBCS;</PreprocessorDefinitions>
+            <EnablePREfast>false</EnablePREfast>
+            <OmitFramePointers>false</OmitFramePointers>
+            <SDLCheck>true</SDLCheck>
+            <AdditionalIncludeDirectories>C:\Users\Bruno\RiderProjects\ClosedGLBasico\\Assimp\include;;C:\Users\Bruno\vcpkg\installed\x86-windows\include</AdditionalIncludeDirectories>
+            <LinkCompiled>true</LinkCompiled>
         </ClCompile>
         <ClCompile Include="graphics\renderer.cpp">
-          <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
-          <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-          <Optimization>Disabled</Optimization>
-          <SupportJustMyCode>true</SupportJustMyCode>
-          <AssemblerOutput>NoListing</AssemblerOutput>
-          <AssemblerListingLocation>Debug\</AssemblerListingLocation>
-          <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-          <BrowseInformation>false</BrowseInformation>
-          <BrowseInformationFile>Debug\</BrowseInformationFile>
-          <CompileAs>Default</CompileAs>
-          <ConformanceMode>Default</ConformanceMode>
-          <DiagnosticsFormat>Column</DiagnosticsFormat>
-          <DisableLanguageExtensions>false</DisableLanguageExtensions>
-          <ErrorReporting>Prompt</ErrorReporting>
-          <ExpandAttributedSource>false</ExpandAttributedSource>
-          <ExceptionHandling>Sync</ExceptionHandling>
-          <EnableASAN>false</EnableASAN>
-          <EnableFuzzer>false</EnableFuzzer>
-          <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-          <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-          <FloatingPointModel>Precise</FloatingPointModel>
-          <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-          <GenerateModuleDependencies>false</GenerateModuleDependencies>
-          <GenerateSourceDependencies>false</GenerateSourceDependencies>
-          <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-          <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-          <IntrinsicFunctions>false</IntrinsicFunctions>
-          <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-          <LanguageStandard>Default</LanguageStandard>
-          <LanguageStandard_C>Default</LanguageStandard_C>
-          <MinimalRebuild>false</MinimalRebuild>
-          <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
-          <ModuleOutputFile>Debug\</ModuleOutputFile>
-          <OmitDefaultLibName>false</OmitDefaultLibName>
-          <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-          <WholeProgramOptimization>false</WholeProgramOptimization>
-          <ObjectFileName>Debug\</ObjectFileName>
-          <CallingConvention>Cdecl</CallingConvention>
-          <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
-          <PrecompiledHeader>NotUsing</PrecompiledHeader>
-          <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-          <PrecompiledHeaderOutputFile>Debug\OpenGL-basico.pch</PrecompiledHeaderOutputFile>
-          <PreprocessToFile>false</PreprocessToFile>
-          <PreprocessKeepComments>false</PreprocessKeepComments>
-          <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-          <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-          <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-          <ShowIncludes>false</ShowIncludes>
-          <SourceDependenciesFile>Debug\</SourceDependenciesFile>
-          <SuppressStartupBanner>true</SuppressStartupBanner>
-          <BufferSecurityCheck>true</BufferSecurityCheck>
-          <SmallerTypeCheck>false</SmallerTypeCheck>
-          <SpectreMitigation>false</SpectreMitigation>
-          <StructMemberAlignment>Default</StructMemberAlignment>
-          <TrackerLogDirectory>Debug\OpenGL-basico.tlog\</TrackerLogDirectory>
-          <TranslateIncludes>false</TranslateIncludes>
-          <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-          <TreatWarningAsError>false</TreatWarningAsError>
-          <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-          <UseFullPaths>true</UseFullPaths>
-          <WarningLevel>Level3</WarningLevel>
-          <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
-          <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-          <IntelJCCErratum>false</IntelJCCErratum>
-          <BuildStlModules>false</BuildStlModules>
-          <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-          <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-          <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-          <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-          <PreprocessorDefinitions>_MBCS;</PreprocessorDefinitions>
-          <EnablePREfast>false</EnablePREfast>
-          <OmitFramePointers>false</OmitFramePointers>
-          <SDLCheck>true</SDLCheck>
-          <AdditionalIncludeDirectories>C:\Users\Bruno\RiderProjects\ClosedGLBasico\\Assimp\include;;C:\Users\Bruno\vcpkg\installed\x86-windows\include</AdditionalIncludeDirectories>
-          <LinkCompiled>true</LinkCompiled>
+            <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+            <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+            <Optimization>Disabled</Optimization>
+            <SupportJustMyCode>true</SupportJustMyCode>
+            <AssemblerOutput>NoListing</AssemblerOutput>
+            <AssemblerListingLocation>Debug\</AssemblerListingLocation>
+            <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+            <BrowseInformation>false</BrowseInformation>
+            <BrowseInformationFile>Debug\</BrowseInformationFile>
+            <CompileAs>Default</CompileAs>
+            <ConformanceMode>Default</ConformanceMode>
+            <DiagnosticsFormat>Column</DiagnosticsFormat>
+            <DisableLanguageExtensions>false</DisableLanguageExtensions>
+            <ErrorReporting>Prompt</ErrorReporting>
+            <ExpandAttributedSource>false</ExpandAttributedSource>
+            <ExceptionHandling>Sync</ExceptionHandling>
+            <EnableASAN>false</EnableASAN>
+            <EnableFuzzer>false</EnableFuzzer>
+            <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+            <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+            <FloatingPointModel>Precise</FloatingPointModel>
+            <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+            <GenerateModuleDependencies>false</GenerateModuleDependencies>
+            <GenerateSourceDependencies>false</GenerateSourceDependencies>
+            <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+            <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+            <IntrinsicFunctions>false</IntrinsicFunctions>
+            <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+            <LanguageStandard>Default</LanguageStandard>
+            <LanguageStandard_C>Default</LanguageStandard_C>
+            <MinimalRebuild>false</MinimalRebuild>
+            <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
+            <ModuleOutputFile>Debug\</ModuleOutputFile>
+            <OmitDefaultLibName>false</OmitDefaultLibName>
+            <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+            <WholeProgramOptimization>false</WholeProgramOptimization>
+            <ObjectFileName>Debug\</ObjectFileName>
+            <CallingConvention>Cdecl</CallingConvention>
+            <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
+            <PrecompiledHeader>NotUsing</PrecompiledHeader>
+            <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+            <PrecompiledHeaderOutputFile>Debug\OpenGL-basico.pch</PrecompiledHeaderOutputFile>
+            <PreprocessToFile>false</PreprocessToFile>
+            <PreprocessKeepComments>false</PreprocessKeepComments>
+            <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+            <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+            <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+            <ShowIncludes>false</ShowIncludes>
+            <SourceDependenciesFile>Debug\</SourceDependenciesFile>
+            <SuppressStartupBanner>true</SuppressStartupBanner>
+            <BufferSecurityCheck>true</BufferSecurityCheck>
+            <SmallerTypeCheck>false</SmallerTypeCheck>
+            <SpectreMitigation>false</SpectreMitigation>
+            <StructMemberAlignment>Default</StructMemberAlignment>
+            <TrackerLogDirectory>Debug\OpenGL-basico.tlog\</TrackerLogDirectory>
+            <TranslateIncludes>false</TranslateIncludes>
+            <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+            <TreatWarningAsError>false</TreatWarningAsError>
+            <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+            <UseFullPaths>true</UseFullPaths>
+            <WarningLevel>Level3</WarningLevel>
+            <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
+            <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+            <IntelJCCErratum>false</IntelJCCErratum>
+            <BuildStlModules>false</BuildStlModules>
+            <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+            <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+            <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+            <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+            <PreprocessorDefinitions>_MBCS;</PreprocessorDefinitions>
+            <EnablePREfast>false</EnablePREfast>
+            <OmitFramePointers>false</OmitFramePointers>
+            <SDLCheck>true</SDLCheck>
+            <AdditionalIncludeDirectories>C:\Users\Bruno\RiderProjects\ClosedGLBasico\\Assimp\include;;C:\Users\Bruno\vcpkg\installed\x86-windows\include</AdditionalIncludeDirectories>
+            <LinkCompiled>true</LinkCompiled>
         </ClCompile>
-        <ClCompile Include="raster\color.cpp" />
-        <ClCompile Include="raster\pixel.cpp" />
-        <ClCompile Include="raster\point.cpp" />
-        <ClCompile Include="ray-tracing\light.cpp" />
-        <ClCompile Include="ray-tracing\object.cpp" />
-        <ClCompile Include="ray-tracing\plane.cpp" />
-        <ClCompile Include="ray-tracing\ray.cpp" />
-        <ClCompile Include="ray-tracing\sphere.cpp" />
-        <ClCompile Include="scene\camera.cpp" />
+        <ClCompile Include="raster\color.cpp"/>
+        <ClCompile Include="raster\pixel.cpp"/>
+        <ClCompile Include="raster\point.cpp"/>
+        <ClCompile Include="ray-tracing\light.cpp"/>
+        <ClCompile Include="ray-tracing\object.cpp"/>
+        <ClCompile Include="ray-tracing\plane.cpp"/>
+        <ClCompile Include="ray-tracing\ray.cpp"/>
+        <ClCompile Include="ray-tracing\sphere.cpp"/>
+        <ClCompile Include="scene\camera.cpp"/>
         <ClCompile Include="scene\new_scene.cpp">
-          <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
-          <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-          <Optimization>Disabled</Optimization>
-          <SupportJustMyCode>true</SupportJustMyCode>
-          <AssemblerOutput>NoListing</AssemblerOutput>
-          <AssemblerListingLocation>Debug\</AssemblerListingLocation>
-          <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-          <BrowseInformation>false</BrowseInformation>
-          <BrowseInformationFile>Debug\</BrowseInformationFile>
-          <CompileAs>Default</CompileAs>
-          <ConformanceMode>Default</ConformanceMode>
-          <DiagnosticsFormat>Column</DiagnosticsFormat>
-          <DisableLanguageExtensions>false</DisableLanguageExtensions>
-          <ErrorReporting>Prompt</ErrorReporting>
-          <ExpandAttributedSource>false</ExpandAttributedSource>
-          <ExceptionHandling>Sync</ExceptionHandling>
-          <EnableASAN>false</EnableASAN>
-          <EnableFuzzer>false</EnableFuzzer>
-          <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-          <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-          <FloatingPointModel>Precise</FloatingPointModel>
-          <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-          <GenerateModuleDependencies>false</GenerateModuleDependencies>
-          <GenerateSourceDependencies>false</GenerateSourceDependencies>
-          <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-          <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-          <IntrinsicFunctions>false</IntrinsicFunctions>
-          <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-          <LanguageStandard>Default</LanguageStandard>
-          <LanguageStandard_C>Default</LanguageStandard_C>
-          <MinimalRebuild>false</MinimalRebuild>
-          <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
-          <ModuleOutputFile>Debug\</ModuleOutputFile>
-          <OmitDefaultLibName>false</OmitDefaultLibName>
-          <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-          <WholeProgramOptimization>false</WholeProgramOptimization>
-          <ObjectFileName>Debug\</ObjectFileName>
-          <CallingConvention>Cdecl</CallingConvention>
-          <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
-          <PrecompiledHeader>NotUsing</PrecompiledHeader>
-          <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-          <PrecompiledHeaderOutputFile>Debug\OpenGL-basico.pch</PrecompiledHeaderOutputFile>
-          <PreprocessToFile>false</PreprocessToFile>
-          <PreprocessKeepComments>false</PreprocessKeepComments>
-          <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-          <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-          <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-          <ShowIncludes>false</ShowIncludes>
-          <SourceDependenciesFile>Debug\</SourceDependenciesFile>
-          <SuppressStartupBanner>true</SuppressStartupBanner>
-          <BufferSecurityCheck>true</BufferSecurityCheck>
-          <SmallerTypeCheck>false</SmallerTypeCheck>
-          <SpectreMitigation>false</SpectreMitigation>
-          <StructMemberAlignment>Default</StructMemberAlignment>
-          <TrackerLogDirectory>Debug\OpenGL-basico.tlog\</TrackerLogDirectory>
-          <TranslateIncludes>false</TranslateIncludes>
-          <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-          <TreatWarningAsError>false</TreatWarningAsError>
-          <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-          <UseFullPaths>true</UseFullPaths>
-          <WarningLevel>Level3</WarningLevel>
-          <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
-          <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-          <IntelJCCErratum>false</IntelJCCErratum>
-          <BuildStlModules>false</BuildStlModules>
-          <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-          <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-          <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-          <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-          <PreprocessorDefinitions>_MBCS;</PreprocessorDefinitions>
-          <EnablePREfast>false</EnablePREfast>
-          <OmitFramePointers>false</OmitFramePointers>
-          <SDLCheck>true</SDLCheck>
-          <AdditionalIncludeDirectories>C:\Users\Administrador\RiderProjects\ClosedGL-basico\\Assimp\include;</AdditionalIncludeDirectories>
-          <LinkCompiled>true</LinkCompiled>
+            <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+            <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+            <Optimization>Disabled</Optimization>
+            <SupportJustMyCode>true</SupportJustMyCode>
+            <AssemblerOutput>NoListing</AssemblerOutput>
+            <AssemblerListingLocation>Debug\</AssemblerListingLocation>
+            <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+            <BrowseInformation>false</BrowseInformation>
+            <BrowseInformationFile>Debug\</BrowseInformationFile>
+            <CompileAs>Default</CompileAs>
+            <ConformanceMode>Default</ConformanceMode>
+            <DiagnosticsFormat>Column</DiagnosticsFormat>
+            <DisableLanguageExtensions>false</DisableLanguageExtensions>
+            <ErrorReporting>Prompt</ErrorReporting>
+            <ExpandAttributedSource>false</ExpandAttributedSource>
+            <ExceptionHandling>Sync</ExceptionHandling>
+            <EnableASAN>false</EnableASAN>
+            <EnableFuzzer>false</EnableFuzzer>
+            <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+            <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+            <FloatingPointModel>Precise</FloatingPointModel>
+            <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+            <GenerateModuleDependencies>false</GenerateModuleDependencies>
+            <GenerateSourceDependencies>false</GenerateSourceDependencies>
+            <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+            <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+            <IntrinsicFunctions>false</IntrinsicFunctions>
+            <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+            <LanguageStandard>Default</LanguageStandard>
+            <LanguageStandard_C>Default</LanguageStandard_C>
+            <MinimalRebuild>false</MinimalRebuild>
+            <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
+            <ModuleOutputFile>Debug\</ModuleOutputFile>
+            <OmitDefaultLibName>false</OmitDefaultLibName>
+            <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+            <WholeProgramOptimization>false</WholeProgramOptimization>
+            <ObjectFileName>Debug\</ObjectFileName>
+            <CallingConvention>Cdecl</CallingConvention>
+            <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
+            <PrecompiledHeader>NotUsing</PrecompiledHeader>
+            <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+            <PrecompiledHeaderOutputFile>Debug\OpenGL-basico.pch</PrecompiledHeaderOutputFile>
+            <PreprocessToFile>false</PreprocessToFile>
+            <PreprocessKeepComments>false</PreprocessKeepComments>
+            <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+            <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+            <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+            <ShowIncludes>false</ShowIncludes>
+            <SourceDependenciesFile>Debug\</SourceDependenciesFile>
+            <SuppressStartupBanner>true</SuppressStartupBanner>
+            <BufferSecurityCheck>true</BufferSecurityCheck>
+            <SmallerTypeCheck>false</SmallerTypeCheck>
+            <SpectreMitigation>false</SpectreMitigation>
+            <StructMemberAlignment>Default</StructMemberAlignment>
+            <TrackerLogDirectory>Debug\OpenGL-basico.tlog\</TrackerLogDirectory>
+            <TranslateIncludes>false</TranslateIncludes>
+            <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+            <TreatWarningAsError>false</TreatWarningAsError>
+            <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+            <UseFullPaths>true</UseFullPaths>
+            <WarningLevel>Level3</WarningLevel>
+            <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
+            <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+            <IntelJCCErratum>false</IntelJCCErratum>
+            <BuildStlModules>false</BuildStlModules>
+            <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+            <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+            <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+            <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+            <PreprocessorDefinitions>_MBCS;</PreprocessorDefinitions>
+            <EnablePREfast>false</EnablePREfast>
+            <OmitFramePointers>false</OmitFramePointers>
+            <SDLCheck>true</SDLCheck>
+            <AdditionalIncludeDirectories>C:\Users\Administrador\RiderProjects\ClosedGL-basico\\Assimp\include;</AdditionalIncludeDirectories>
+            <LinkCompiled>true</LinkCompiled>
         </ClCompile>
-        <ClCompile Include="xml\scene_parser.cpp" />
-        <ClCompile Include="xml\tinyxml2.cpp" />
+        <ClCompile Include="xml\scene_parser.cpp"/>
+        <ClCompile Include="xml\tinyxml2.cpp"/>
 
     </ItemGroup>
     <ItemGroup>
-        <ClInclude Include="geometry\vector2.h" />
-        <ClInclude Include="geometry\vector3.h" />
-        <ClInclude Include="graphics\image.h" />
-        <ClInclude Include="graphics\renderer.h" />
-        <ClInclude Include="raster\color.h" />
-        <ClInclude Include="raster\pixel.h" />
-        <ClInclude Include="raster\point.h" />
-        <ClInclude Include="ray-tracing\cylinder.h" />
-        <ClInclude Include="ray-tracing\light.h" />
-        <ClInclude Include="ray-tracing\object.h" />
-        <ClInclude Include="ray-tracing\plane.h" />
-        <ClInclude Include="ray-tracing\ray.h" />
-        <ClInclude Include="ray-tracing\sphere.h" />
-        <ClInclude Include="scene\camera.h" />
-        <ClInclude Include="scene\new_scene.h" />
-        <ClInclude Include="xml\scene_parser.h" />
-        <ClInclude Include="xml\tinyxml2.h" />
+        <ClInclude Include="geometry\vector2.h"/>
+        <ClInclude Include="geometry\vector3.h"/>
+        <ClInclude Include="graphics\image.h"/>
+        <ClInclude Include="graphics\renderer.h"/>
+        <ClInclude Include="raster\color.h"/>
+        <ClInclude Include="raster\pixel.h"/>
+        <ClInclude Include="raster\point.h"/>
+        <ClInclude Include="ray-tracing\cylinder.h"/>
+        <ClInclude Include="ray-tracing\light.h"/>
+        <ClInclude Include="ray-tracing\object.h"/>
+        <ClInclude Include="ray-tracing\plane.h"/>
+        <ClInclude Include="ray-tracing\ray.h"/>
+        <ClInclude Include="ray-tracing\sphere.h"/>
+        <ClInclude Include="scene\camera.h"/>
+        <ClInclude Include="scene\new_scene.h"/>
+        <ClInclude Include="xml\scene_parser.h"/>
+        <ClInclude Include="xml\tinyxml2.h"/>
 
     </ItemGroup>
     <ItemGroup>
-        <ClCompile Include="geometry\vector2.cpp" />
-        <ClCompile Include="geometry\vector3.cpp" />
+        <ClCompile Include="geometry\vector2.cpp"/>
+        <ClCompile Include="geometry\vector3.cpp"/>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="old-images\20240530_233405.png" />
-      <Content Include="old-images\20240604_143127.png" />
-      <Content Include="old-images\20240604_151918.png" />
-      <Content Include="old-images\20240604_152048.png" />
-      <Content Include="old-images\20240604_182644.png" />
-      <Content Include="old-images\20240604_183013.png" />
-      <Content Include="old-images\20240604_183157.png" />
-      <Content Include="old-images\20240604_183311.png" />
-      <Content Include="old-images\20240604_183518.png" />
-      <Content Include="old-images\20240604_183712.png" />
-      <Content Include="old-images\20240604_184024.png" />
-      <Content Include="old-images\20240604_190222.png" />
-      <Content Include="old-images\20240604_190300.png" />
-      <Content Include="old-images\20240604_225446.png" />
-      <Content Include="old-images\20240604_225510.png" />
-      <Content Include="old-images\20240604_225636.png" />
-      <Content Include="old-images\20240604_225749.png" />
-      <Content Include="old-images\20240604_225858.png" />
-      <Content Include="old-images\20240604_230603.png" />
-      <Content Include="old-images\20240604_231045.png" />
-      <Content Include="old-images\20240604_231434.png" />
-      <Content Include="old-images\20240604_232152.png" />
-      <Content Include="old-images\20240604_233336.png" />
-      <Content Include="old-images\20240604_233413.png" />
-      <Content Include="old-images\20240604_233556.png" />
-      <Content Include="old-images\20240605_122242.png" />
-      <Content Include="old-images\20240605_123646.png" />
-      <Content Include="old-images\20240605_133444.png" />
-      <Content Include="old-images\20240605_145814.png" />
-      <Content Include="old-images\20240605_153614.png" />
-      <Content Include="old-images\20240605_155233.png" />
-      <Content Include="old-images\20240605_155937.png" />
-      <Content Include="old-images\20240605_160027.png" />
-      <Content Include="old-images\20240605_162305.png" />
-      <Content Include="old-images\20240605_163353.png" />
-      <Content Include="old-images\20240605_223444.png" />
-      <Content Include="old-images\20240608_094905.png" />
-      <Content Include="old-images\20240608_095045.png" />
-      <Content Include="old-images\20240608_101949.png" />
-      <Content Include="old-images\20240608_111904.png" />
-      <Content Include="old-images\20240608_112334.png" />
-      <Content Include="old-images\20240608_113039.png" />
-      <Content Include="old-images\20240608_115345.png" />
-      <Content Include="old-images\20240608_115613.png" />
-      <Content Include="old-images\20240608_120246.png" />
-      <Content Include="old-images\20240608_120933.png" />
-      <Content Include="old-images\20240608_131121.png" />
-      <Content Include="old-images\20240608_131513.png" />
-      <Content Include="old-images\20240608_131552.png" />
-      <Content Include="old-images\20240608_131731.png" />
-      <Content Include="old-images\20240608_131834.png" />
-      <Content Include="old-images\20240608_131949.png" />
-      <Content Include="old-images\20240608_132032.png" />
-      <Content Include="old-images\20240608_132124.png" />
-      <Content Include="old-images\20240608_132206.png" />
-      <Content Include="old-images\20240608_132244.png" />
-      <Content Include="old-images\20240608_132503.png" />
-      <Content Include="old-images\20240608_132636.png" />
-      <Content Include="old-images\20240608_132748.png" />
-      <Content Include="old-images\20240608_132826.png" />
-      <Content Include="old-images\20240608_132912.png" />
-      <Content Include="old-images\20240608_133018.png" />
-      <Content Include="old-images\20240608_133121.png" />
-      <Content Include="old-images\20240608_133523.png" />
-      <Content Include="old-images\20240608_133933.png" />
-      <Content Include="old-images\20240608_134006.png" />
-      <Content Include="old-images\20240608_134537.png" />
-      <Content Include="old-images\20240608_134613.png" />
-      <Content Include="old-images\20240608_134725.png" />
-      <Content Include="old-images\20240608_134820.png" />
-      <Content Include="old-images\20240608_134906.png" />
-      <Content Include="old-images\20240608_135129.png" />
-      <Content Include="old-images\20240608_135243.png" />
-      <Content Include="old-images\20240608_135405.png" />
-      <Content Include="old-images\20240608_135614.png" />
-      <Content Include="old-images\20240608_135855.png" />
-      <Content Include="old-images\20240608_140013.png" />
-      <Content Include="old-images\20240608_140121.png" />
-      <Content Include="old-images\20240608_140206.png" />
-      <Content Include="old-images\20240608_140323.png" />
-      <Content Include="old-images\20240608_140535.png" />
-      <Content Include="old-images\20240608_140617.png" />
-      <Content Include="old-images\20240608_140724.png" />
-      <Content Include="old-images\20240608_141336.png" />
-      <Content Include="old-images\20240608_141549.png" />
-      <Content Include="old-images\20240608_141717.png" />
-      <Content Include="old-images\20240608_141755.png" />
-      <Content Include="old-images\20240608_141851.png" />
-      <Content Include="old-images\20240608_142401.png" />
-      <Content Include="old-images\20240608_142436.png" />
-      <Content Include="old-images\20240608_142514.png" />
-      <Content Include="old-images\20240608_142629.png" />
-      <Content Include="old-images\20240608_142707.png" />
-      <Content Include="old-images\20240608_142850.png" />
-      <Content Include="old-images\20240608_143221.png" />
-      <Content Include="old-images\20240608_143316.png" />
-      <Content Include="old-images\20240608_143425.png" />
-      <Content Include="old-images\20240608_143646.png" />
-      <Content Include="old-images\20240608_144217.png" />
-      <Content Include="old-images\20240608_144336.png" />
-      <Content Include="old-images\20240608_145843.png" />
-      <Content Include="old-images\20240608_150343.png" />
-      <Content Include="old-images\20240608_150634.png" />
-      <Content Include="old-images\20240608_150735.png" />
-      <Content Include="old-images\20240608_150848.png" />
-      <Content Include="old-images\20240608_151106.png" />
-      <Content Include="old-images\20240608_151141.png" />
-      <Content Include="old-images\20240608_151203.png" />
-      <Content Include="old-images\20240608_151224.png" />
-      <Content Include="old-images\20240608_151341.png" />
-      <Content Include="old-images\20240608_151406.png" />
-      <Content Include="old-images\20240608_151429.png" />
-      <Content Include="old-images\20240608_151449.png" />
-      <Content Include="old-images\20240608_151515.png" />
-      <Content Include="old-images\20240608_151532.png" />
-      <Content Include="old-images\20240608_151649.png" />
-      <Content Include="old-images\20240608_152213.png" />
-      <Content Include="old-images\20240608_152616.png" />
-      <Content Include="old-images\20240608_152824.png" />
-      <Content Include="old-images\20240608_152930.png" />
+        <Content Include="old-images\20240530_233405.png"/>
+        <Content Include="old-images\20240604_143127.png"/>
+        <Content Include="old-images\20240604_151918.png"/>
+        <Content Include="old-images\20240604_152048.png"/>
+        <Content Include="old-images\20240604_182644.png"/>
+        <Content Include="old-images\20240604_183013.png"/>
+        <Content Include="old-images\20240604_183157.png"/>
+        <Content Include="old-images\20240604_183311.png"/>
+        <Content Include="old-images\20240604_183518.png"/>
+        <Content Include="old-images\20240604_183712.png"/>
+        <Content Include="old-images\20240604_184024.png"/>
+        <Content Include="old-images\20240604_190222.png"/>
+        <Content Include="old-images\20240604_190300.png"/>
+        <Content Include="old-images\20240604_225446.png"/>
+        <Content Include="old-images\20240604_225510.png"/>
+        <Content Include="old-images\20240604_225636.png"/>
+        <Content Include="old-images\20240604_225749.png"/>
+        <Content Include="old-images\20240604_225858.png"/>
+        <Content Include="old-images\20240604_230603.png"/>
+        <Content Include="old-images\20240604_231045.png"/>
+        <Content Include="old-images\20240604_231434.png"/>
+        <Content Include="old-images\20240604_232152.png"/>
+        <Content Include="old-images\20240604_233336.png"/>
+        <Content Include="old-images\20240604_233413.png"/>
+        <Content Include="old-images\20240604_233556.png"/>
+        <Content Include="old-images\20240605_122242.png"/>
+        <Content Include="old-images\20240605_123646.png"/>
+        <Content Include="old-images\20240605_133444.png"/>
+        <Content Include="old-images\20240605_145814.png"/>
+        <Content Include="old-images\20240605_153614.png"/>
+        <Content Include="old-images\20240605_155233.png"/>
+        <Content Include="old-images\20240605_155937.png"/>
+        <Content Include="old-images\20240605_160027.png"/>
+        <Content Include="old-images\20240605_162305.png"/>
+        <Content Include="old-images\20240605_163353.png"/>
+        <Content Include="old-images\20240605_223444.png"/>
+        <Content Include="old-images\20240608_094905.png"/>
+        <Content Include="old-images\20240608_095045.png"/>
+        <Content Include="old-images\20240608_101949.png"/>
+        <Content Include="old-images\20240608_111904.png"/>
+        <Content Include="old-images\20240608_112334.png"/>
+        <Content Include="old-images\20240608_113039.png"/>
+        <Content Include="old-images\20240608_115345.png"/>
+        <Content Include="old-images\20240608_115613.png"/>
+        <Content Include="old-images\20240608_120246.png"/>
+        <Content Include="old-images\20240608_120933.png"/>
+        <Content Include="old-images\20240608_131121.png"/>
+        <Content Include="old-images\20240608_131513.png"/>
+        <Content Include="old-images\20240608_131552.png"/>
+        <Content Include="old-images\20240608_131731.png"/>
+        <Content Include="old-images\20240608_131834.png"/>
+        <Content Include="old-images\20240608_131949.png"/>
+        <Content Include="old-images\20240608_132032.png"/>
+        <Content Include="old-images\20240608_132124.png"/>
+        <Content Include="old-images\20240608_132206.png"/>
+        <Content Include="old-images\20240608_132244.png"/>
+        <Content Include="old-images\20240608_132503.png"/>
+        <Content Include="old-images\20240608_132636.png"/>
+        <Content Include="old-images\20240608_132748.png"/>
+        <Content Include="old-images\20240608_132826.png"/>
+        <Content Include="old-images\20240608_132912.png"/>
+        <Content Include="old-images\20240608_133018.png"/>
+        <Content Include="old-images\20240608_133121.png"/>
+        <Content Include="old-images\20240608_133523.png"/>
+        <Content Include="old-images\20240608_133933.png"/>
+        <Content Include="old-images\20240608_134006.png"/>
+        <Content Include="old-images\20240608_134537.png"/>
+        <Content Include="old-images\20240608_134613.png"/>
+        <Content Include="old-images\20240608_134725.png"/>
+        <Content Include="old-images\20240608_134820.png"/>
+        <Content Include="old-images\20240608_134906.png"/>
+        <Content Include="old-images\20240608_135129.png"/>
+        <Content Include="old-images\20240608_135243.png"/>
+        <Content Include="old-images\20240608_135405.png"/>
+        <Content Include="old-images\20240608_135614.png"/>
+        <Content Include="old-images\20240608_135855.png"/>
+        <Content Include="old-images\20240608_140013.png"/>
+        <Content Include="old-images\20240608_140121.png"/>
+        <Content Include="old-images\20240608_140206.png"/>
+        <Content Include="old-images\20240608_140323.png"/>
+        <Content Include="old-images\20240608_140535.png"/>
+        <Content Include="old-images\20240608_140617.png"/>
+        <Content Include="old-images\20240608_140724.png"/>
+        <Content Include="old-images\20240608_141336.png"/>
+        <Content Include="old-images\20240608_141549.png"/>
+        <Content Include="old-images\20240608_141717.png"/>
+        <Content Include="old-images\20240608_141755.png"/>
+        <Content Include="old-images\20240608_141851.png"/>
+        <Content Include="old-images\20240608_142401.png"/>
+        <Content Include="old-images\20240608_142436.png"/>
+        <Content Include="old-images\20240608_142514.png"/>
+        <Content Include="old-images\20240608_142629.png"/>
+        <Content Include="old-images\20240608_142707.png"/>
+        <Content Include="old-images\20240608_142850.png"/>
+        <Content Include="old-images\20240608_143221.png"/>
+        <Content Include="old-images\20240608_143316.png"/>
+        <Content Include="old-images\20240608_143425.png"/>
+        <Content Include="old-images\20240608_143646.png"/>
+        <Content Include="old-images\20240608_144217.png"/>
+        <Content Include="old-images\20240608_144336.png"/>
+        <Content Include="old-images\20240608_145843.png"/>
+        <Content Include="old-images\20240608_150343.png"/>
+        <Content Include="old-images\20240608_150634.png"/>
+        <Content Include="old-images\20240608_150735.png"/>
+        <Content Include="old-images\20240608_150848.png"/>
+        <Content Include="old-images\20240608_151106.png"/>
+        <Content Include="old-images\20240608_151141.png"/>
+        <Content Include="old-images\20240608_151203.png"/>
+        <Content Include="old-images\20240608_151224.png"/>
+        <Content Include="old-images\20240608_151341.png"/>
+        <Content Include="old-images\20240608_151406.png"/>
+        <Content Include="old-images\20240608_151429.png"/>
+        <Content Include="old-images\20240608_151449.png"/>
+        <Content Include="old-images\20240608_151515.png"/>
+        <Content Include="old-images\20240608_151532.png"/>
+        <Content Include="old-images\20240608_151649.png"/>
+        <Content Include="old-images\20240608_152213.png"/>
+        <Content Include="old-images\20240608_152616.png"/>
+        <Content Include="old-images\20240608_152824.png"/>
+        <Content Include="old-images\20240608_152930.png"/>
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">

@@ -14,22 +14,21 @@ public:
         blue_ = 0;
         alpha_ = 255;
     }
-    
-    color(double red, double green, double blue, double alpha = 255)
+
+    color(const double red, const double green, const double blue, const double alpha = 255)
     {
         red_ = red;
         green_ = green;
         blue_ = blue;
         alpha_ = alpha;
-        if ( red < 0 ) red_ = 0;
-        if ( red > 255 ) red_ = 255;
-        if ( green < 0 ) green_ = 0;
-        if ( green > 255 ) green_ = 255;
-        if ( blue < 0 ) blue_ = 0;
-        if ( blue > 255 ) blue_ = 255;
-        if ( alpha < 0 ) alpha_ = 0;
-        if ( alpha > 255 ) alpha_ = 255;
-        
+        if (red < 0) red_ = 0;
+        if (red > 255) red_ = 255;
+        if (green < 0) green_ = 0;
+        if (green > 255) green_ = 255;
+        if (blue < 0) blue_ = 0;
+        if (blue > 255) blue_ = 255;
+        if (alpha < 0) alpha_ = 0;
+        if (alpha > 255) alpha_ = 255;
     }
 
     RGBQUAD to_rgb() const;
@@ -41,10 +40,10 @@ public:
     double get_red() const { return red_; }
     double get_green() const { return green_; }
     double get_blue() const { return blue_; }
-    color operator+= (const color &c);
-    color operator/ (double f) const;
+    color operator+=(const color& c);
+    color operator/(double f) const;
 
-    color operator+(const color &c) const;
+    color operator+(const color& c) const;
     color operator*(double f) const;
     friend std::ostream& operator<<(std::ostream& os, const color& c);
 };

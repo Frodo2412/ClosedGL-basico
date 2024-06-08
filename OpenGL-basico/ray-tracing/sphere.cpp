@@ -4,7 +4,6 @@
 
 sphere::~sphere()
 {
-
 }
 
 double sphere::get_radius() const
@@ -12,26 +11,26 @@ double sphere::get_radius() const
     return radius_;
 }
 
-bool sphere::test_intersection(ray &rayo, vector3 &point, vector3 &normal)
+bool sphere::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
-    vector3 L = rayo.get_origin() - get_position();//vector desde el centro de la esfera al origen del rayo
-    
+    vector3 L = rayo.get_origin() - get_position(); //vector desde el centro de la esfera al origen del rayo
+
     vector3 rayo_n = rayo.get_direction().normalize();
 
     double a = rayo_n.dot_product(rayo_n);
-    
+
     double b = 2.0 * L.dot_product(rayo_n);
-    
-    double c =L.dot_product(L) - radius_*radius_;
-    
-    double discriminante = (b*b) - 4.0 * a * c;
+
+    double c = L.dot_product(L) - radius_ * radius_;
+
+    double discriminante = (b * b) - 4.0 * a * c;
 
     if (discriminante >= 0.0)
     {
         double raiz = sqrt(discriminante);
         double x1 = (-b + raiz) / 2.0;
         double x2 = (-b - raiz) / 2.0;
-        
+
         if ((x1 < 0.0) || (x2 < 0.0)) //si las intersecciones estan detras del origen del rayo
         {
             return false;

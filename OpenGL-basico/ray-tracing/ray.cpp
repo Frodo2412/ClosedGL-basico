@@ -24,4 +24,3 @@ void ray::set_direction(vector3 dir)
 {
     direction_ = dir;
 }
-

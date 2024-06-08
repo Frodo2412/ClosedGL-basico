@@ -2,10 +2,9 @@
 
 object::~object()
 {
-
 }
 
-bool object::test_intersection(ray &rayo, vector3 &point, vector3 &normal)
+bool object::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
     return false;
 }
@@ -29,4 +28,3 @@ double object::get_reflectivity()
 {
     return reflectivity_;
 }
-
