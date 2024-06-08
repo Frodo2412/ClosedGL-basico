@@ -93,7 +93,7 @@
         <shape id="cylinder_1" type="cylinder" reflectivity="50" shininess="50" radius="2" height="5">
             <color red="0" green="255" blue="0"/>
             <properties>
-                <position x="0" y="-6" z="-8"/>
+                <position x="1" y="-6" z="-8"/>
                 <axis x="0" y="1" z="0"/>
             </properties>
         </shape>
