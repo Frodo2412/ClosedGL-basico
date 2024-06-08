@@ -184,12 +184,12 @@ color new_scene::whitted_ray_tracing(ray& rayo)
     /* Calcularemos cuanta luz recibe el punto de interseccion */
     if(nearest_obj != nullptr)
     {
-        px_color = calculate_diffuse_color(intersection_point, intersection_normal, nearest_obj);
+        px_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
     }
     return px_color;
 }
 
-color new_scene::calculate_diffuse_color(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj)
+color new_scene::calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj)
 {
     float light_intensity = 0;//=> Variable en la que cargaremos la intensidad de la luz en el punto de interseccion
     color diffuse_color = get_background_color();
