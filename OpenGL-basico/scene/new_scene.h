@@ -7,6 +7,8 @@
 
 class new_scene
 {
+    color background_color_;
+    float near_, far_;
     int width_, height_;
     camera* camera_;
     std::vector<object*> objects_;
@@ -16,5 +18,8 @@ public:
     image Render();
     int get_width();
     int get_height();
-    color sombra_RR(object* obj, vector3& intersection_point, vector3& normal);
+    float get_far();
+    float get_near();
+    color get_background_color();
+    color whitted_ray_tracing(ray& rayo);
 };
