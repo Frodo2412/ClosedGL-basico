@@ -41,7 +41,7 @@ new_scene::new_scene(const int width, const int height, const char* filename) : 
 
         if (element_type == "shape") { objects_.push_back(scene_parser::parse_object(element)); }
         else if (element_type == "light") { lights_.push_back(scene_parser::parse_light(element)); }
-        else if (element_type == "camera") { camera_ = scene_parser::parse_camera(element); }
+        else if (element_type == "camera") { camera_ = scene_parser::parse_camera(element, width_, height_); }
         else if (element_type == "background") { background_color_ = scene_parser::parse_color(element); }
         else { throw std::runtime_error("Unknown element type: " + element_type); }
 

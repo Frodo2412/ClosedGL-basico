@@ -34,6 +34,8 @@ plane* scene_parser::parse_plane(tinyxml2::XMLElement* element)
     const auto id = std::string(element->Attribute("id"));
     const auto width = element->FloatAttribute("width");
     const auto height = element->FloatAttribute("height");
+    const auto reflectivity = element->FloatAttribute("reflectivity");
+    const auto shininess = element->FloatAttribute("shininess");
 
     const auto color = parse_color(element);
     const auto properties = element->FirstChildElement("properties");
@@ -44,13 +46,15 @@ plane* scene_parser::parse_plane(tinyxml2::XMLElement* element)
     std::cout << id << "\n- " << position << "\n- " << normal << "\n- " << color << "\n- " << width << "\n- " << height
         << '\n';
 
-    return new plane(position, normal, color, width, height);
+    return new plane(position, normal, color, width, height, reflectivity, shininess);
 }
 
 sphere* scene_parser::parse_sphere(tinyxml2::XMLElement* element)
 {
     const auto id = std::string(element->Attribute("id"));
     const auto radius = element->FloatAttribute("radius");
+    const auto reflectivity = element->FloatAttribute("reflectivity");
+    const auto shininess = element->FloatAttribute("shininess");
 
     const auto color = parse_color(element);
     const auto properties = element->FirstChildElement("properties");
@@ -58,7 +62,7 @@ sphere* scene_parser::parse_sphere(tinyxml2::XMLElement* element)
 
     std::cout << id << "\n- " << position << "\n- " << radius << "\n- " << color << '\n';
 
-    return new sphere(position, radius, color);
+    return new sphere(position, radius, color, reflectivity, shininess);
 }
 
 cylinder* scene_parser::parse_cylinder(tinyxml2::XMLElement* element)
@@ -66,6 +70,8 @@ cylinder* scene_parser::parse_cylinder(tinyxml2::XMLElement* element)
     const auto id = std::string(element->Attribute("id"));
     const auto radius = element->FloatAttribute("radius");
     const auto height = element->FloatAttribute("height");
+    const auto reflectivity = element->FloatAttribute("reflectivity");
+    const auto shininess = element->FloatAttribute("shininess");
 
     const auto color = parse_color(element);
     const auto properties = element->FirstChildElement("properties");
@@ -76,16 +82,16 @@ cylinder* scene_parser::parse_cylinder(tinyxml2::XMLElement* element)
     std::cout << id << "\n- " << position << "\n- " << radius << "\n- " << height << "\n- " << axis << "\n- " << color
         << '\n';
 
-    return new cylinder(position, radius, height, axis, color);
+    return new cylinder(position, radius, height, axis, color, reflectivity, shininess);
 }
 
-camera* scene_parser::parse_camera(tinyxml2::XMLElement* element)
+camera* scene_parser::parse_camera(tinyxml2::XMLElement* element, const int width, const int height)
 {
     const auto position = parse_vector3("position", element);
     const auto look_at = parse_vector3("look_at", element);
     const auto up = parse_vector3("up", element);
 
-    return new camera(position, look_at, up);
+    return new camera(position, look_at, up, width, height);
 }
 
 object* scene_parser::parse_object(tinyxml2::XMLElement* element)

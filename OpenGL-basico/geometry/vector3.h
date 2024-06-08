@@ -48,7 +48,6 @@ struct vector3
     void reset();
 
     double get_norm() const;
-    float get_norm() const;
 
     friend std::ostream& operator<<(std::ostream& os, const vector3& v);
 };

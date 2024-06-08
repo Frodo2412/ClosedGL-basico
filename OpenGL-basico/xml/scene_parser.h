@@ -16,7 +16,7 @@ class scene_parser
 
 public:
     static color parse_color(tinyxml2::XMLElement* element);
-    static camera* parse_camera(tinyxml2::XMLElement* element);
+    static camera* parse_camera(tinyxml2::XMLElement* element, int width, int height);
     static object* parse_object(tinyxml2::XMLElement* element);
     static light* parse_light(tinyxml2::XMLElement* element);
 };
