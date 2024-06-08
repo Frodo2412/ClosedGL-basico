@@ -1,32 +1,33 @@
 ﻿#include "object.h"
 
-object::~object()
-{
+object::~object() = default;
 
+double object::get_translucency() const
+{
+    return translucency_;
 }
 
-bool object::test_intersection(ray &rayo, vector3 &point, vector3 &normal)
+bool object::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
     return false;
 }
 
-color object::get_color()
+color object::get_color() const
 {
     return color_;
 }
 
-vector3 object::get_position()
+vector3 object::get_position() const
 {
     return position_;
 }
 
-double object::get_shininess()
+double object::get_shininess() const
 {
     return shininess_;
 }
 
-double object::get_reflectivity()
+double object::get_reflectivity() const
 {
     return reflectivity_;
 }
-

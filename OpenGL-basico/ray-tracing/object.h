@@ -16,9 +16,10 @@ public:
     {
     };
     virtual bool test_intersection(ray& rayo, vector3& point, vector3& normal);
-    color get_color();
-    vector3 get_position();
-    double get_shininess();
-    double get_reflectivity();
+    color get_color() const;
+    vector3 get_position() const;
+    double get_shininess() const;
+    double get_reflectivity() const;
     virtual ~object();
+    double get_translucency() const;
 };
