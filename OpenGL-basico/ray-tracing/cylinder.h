@@ -7,8 +7,7 @@ class cylinder : public object
     float height_;
     vector3 axis_;
 public:
-    cylinder(vector3 pos, float radius, float height, vector3 axis, color color) 
-        : object(pos, color), radius_(radius), height_(height), axis_(axis.normalize())
+    cylinder(vector3 pos, float radius, float height, vector3 axis, color color, float reflectivity, float shininess) : object(pos, color, reflectivity, shininess), radius_(radius), height_(height), axis_(axis.normalize())
     {
     }
 

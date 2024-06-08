@@ -42,4 +42,5 @@ public:
     float get_blue() const { return blue_; }
 
     color operator+(const color &c) const;
+    color operator*(float f) const;
 };

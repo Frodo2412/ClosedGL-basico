@@ -6,7 +6,7 @@ class sphere : public object
 {
 	float radius_;
 public:
-    sphere(vector3 pos, float radius, color color) : object(pos, color), radius_(radius)
+    sphere(vector3 pos, float radius, color color, float reflectivity, float shininess) : object(pos, color, reflectivity, shininess), radius_(radius)
     {
     }
 	

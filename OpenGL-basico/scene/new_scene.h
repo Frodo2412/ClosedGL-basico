@@ -23,4 +23,5 @@ public:
     color get_background_color();
     color whitted_ray_tracing(ray& rayo);
     color calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
+    color calculate_specular(ray& rayo, vector3 interction_point, vector3 intersection_normal, object* nearest_obj);
 };

@@ -10,7 +10,7 @@ class plane : public object
     float width_;
     float height_;
 public:
-    plane(vector3 pos, vector3 normal, color color, float width, float height) : object(pos, color)
+    plane(vector3 pos, vector3 normal, color color, float width, float height, float reflectivity, float shininess) : object(pos, color, reflectivity, shininess)
     {
         width_ = width;
         height_ = height;

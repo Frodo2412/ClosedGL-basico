@@ -27,3 +27,13 @@ vector3 object::get_position()
     return position_;
 }
 
+float object::get_shininess()
+{
+    return shininess_;
+}
+
+float object::get_reflectivity()
+{
+    return reflectivity_;
+}
+

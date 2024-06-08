@@ -23,3 +23,8 @@ color color::operator+(const color &c) const
 {
     return color(red_ + c.red_, green_ + c.green_, blue_ + c.blue_, alpha_ + c.alpha_);
 }
+
+color color::operator*(float f) const
+{
+    return color(red_ * f, green_ * f, blue_ * f, alpha_ * f);
+}

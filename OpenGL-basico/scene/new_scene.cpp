@@ -21,70 +21,70 @@ new_scene::new_scene(int width, int height)
     vector3 plane0_pos = {0, 0, -50};
     vector3 plane0_normal = {0, 0, 1};
     color plane0_color = {255, 255, 255};
-    plane* plane0 = new plane(plane0_pos, plane0_normal, plane0_color, 50, 50);
+    plane* plane0 = new plane(plane0_pos, plane0_normal, plane0_color, 50, 50, 0.0f, 0.0f);
     objects_.push_back(plane0);
     // plano del techo
     vector3 plane1_pos = {0, 50, -50};
     vector3 plane1_normal = {0, -1, 0};
     color plane1_color = {100, 100, 100};
-    plane* plane1 = new plane(plane1_pos, plane1_normal, plane1_color, 50, 50);
+    plane* plane1 = new plane(plane1_pos, plane1_normal, plane1_color, 50, 50, 1.f, 10.0f);
     objects_.push_back(plane1);
     // plano del piso
     vector3 plane2_pos = {0, -50, -50};
     vector3 plane2_normal = {0, 1, 0};
     color plane2_color = {255, 255, 255};
-    plane* plane2 = new plane(plane2_pos, plane2_normal, plane2_color, 50, 50);
+    plane* plane2 = new plane(plane2_pos, plane2_normal, plane2_color, 50, 50, 0.0f, 0.0f);
     objects_.push_back(plane2);
     // plano de la izquierda
     vector3 plane3_pos = {-50, 0, 0};
     vector3 plane3_normal = {1, 0, 0};
     color plane3_color = {255, 0, 0};
-    plane* plane3 = new plane(plane3_pos, plane3_normal, plane3_color, 50, 50);
+    plane* plane3 = new plane(plane3_pos, plane3_normal, plane3_color, 50, 50, 0.0f, 0.0f);
     objects_.push_back(plane3);
     // plano de la derecha
     vector3 plane4_pos = {50, 0, 0};
     vector3 plane4_normal = {-1, 0, 0};
     color plane4_color = {0, 255, 0};
-    plane* plane4 = new plane(plane4_pos, plane4_normal, plane4_color, 50, 50);
+    plane* plane4 = new plane(plane4_pos, plane4_normal, plane4_color, 50, 50, 0.0f, 0.0f);
     objects_.push_back(plane4);
 
     // mesa front
     vector3 mesa_front_pos = {0, -10, -10};
     vector3 mesa_front_normal = {0, 0, 1};
     color mesa_front_color = {255, 0, 255};
-    plane* mesa_front = new plane(mesa_front_pos, mesa_front_normal, mesa_front_color, 5, 2);
+    plane* mesa_front = new plane(mesa_front_pos, mesa_front_normal, mesa_front_color, 5, 2, 0.0f, 0.0f);
     objects_.push_back(mesa_front);
 
     // mesa up
     vector3 mesa_mesa_up_pos = {0, -8, -12};
     vector3 mesa_mesa_up_normal = {0, 1, 0};
     color mesa_mesa_up_color = {0, 255, 255};
-    plane* mesa_mesa_up = new plane(mesa_mesa_up_pos, mesa_mesa_up_normal, mesa_mesa_up_color, 2, 5);
+    plane* mesa_mesa_up = new plane(mesa_mesa_up_pos, mesa_mesa_up_normal, mesa_mesa_up_color, 2, 5, 0.0f, 0.0f);
     objects_.push_back(mesa_mesa_up);
 
     //dibujado de esferas
-    vector3 sphere0_pos = {0, 0, -20};
+    vector3 sphere0_pos = {5, 0, -20};
     color sphere0_color = {255, 0, 0};
-    sphere* sphere0 = new sphere(sphere0_pos, 10, sphere0_color);
+    sphere* sphere0 = new sphere(sphere0_pos, 10, sphere0_color, 0.5f, 10.f);
     objects_.push_back(sphere0);
 
-    vector3 sphere1_pos = {-1, -1, -5};
+    vector3 sphere1_pos = {-1, -1, -2};
     color sphere1_color = {255, 255, 0};
-    sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color);
+    sphere* sphere1 = new sphere(sphere1_pos, 1, sphere1_color, 0.5f, 10.0f);
     objects_.push_back(sphere1);
 
     vector3 sphere2_pos = {1, 0, -5};
     color sphere2_color = {0, 255, 255};
-    sphere* sphere2 = new sphere(sphere2_pos, 1, sphere2_color);
-    objects_.push_back(sphere2);
+    sphere* sphere2 = new sphere(sphere2_pos, 1, sphere2_color, 0.0f, 0.0f);
+    //objects_.push_back(sphere2);
 
     vector3 cylinder1_pos = {0, -6, -8};
     color cylinder1_color = {0, 255, 0};
-    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 5, {0,1, 0}, cylinder1_color);
-    objects_.push_back(cylinder0);
+    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 5, {0,1, 0}, cylinder1_color, 0.0f, 0.0f);
+    //objects_.push_back(cylinder0);
 
     //luces
-    light* light0 = new light({5, 5, 0}, {255, 255, 255}, 0.5f);
+    light* light0 = new light({0, -5, 0}, {255, 255, 255}, 0.5f);
     lights_.push_back(light0);
 
     light* light1 = new light({-10, 0, 0}, {255, 255, 255}, 0.5f);
@@ -184,7 +184,9 @@ color new_scene::whitted_ray_tracing(ray& rayo)
     /* Calcularemos cuanta luz recibe el punto de interseccion */
     if(nearest_obj != nullptr)
     {
-        px_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
+        color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
+        color specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
+        px_color = diffuse_color + specular_color;
     }
     return px_color;
 }
@@ -205,4 +207,51 @@ color new_scene::calculate_diffuse(vector3 intersection_point, vector3 intersect
         diffuse_color = diffuse_color + acum_color;//=> Acumulamos la luz que recibe el punto de interseccion
     }
     return diffuse_color;
+}
+
+color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj)
+{
+    color specular_color = {0, 0, 0};
+    if(nearest_obj->get_shininess() > 0.0f)
+    {
+        for(light* luz : lights_)
+        {
+            vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
+            
+            ray sombra = ray(intersection_point, rayo_s);
+            bool hay_sombra = false;
+            for(object* obj : objects_)
+            {
+                if (obj != nearest_obj)
+                {
+                    vector3 inter = {0, 0, 0};
+                    vector3 trash1 = {0, 0, 0};
+                    if(obj->test_intersection(sombra, inter, trash1))
+                    {
+                        float intersection_distance = (inter - intersection_point).get_norm();
+                        float light_distance = (luz->get_position() - intersection_point).get_norm();
+                        if(intersection_distance > light_distance)//si intersecto con otro objeto pero mas lejos que la ubicacion de la luz, entonces le llega luz
+                        {
+                            continue;
+                        }
+                        hay_sombra = true;
+                        break;
+                    }
+                }
+            }
+            if(!hay_sombra)
+            {
+                vector3 light_ray = sombra.get_ray_vector().normalize();
+                vector3 reflection_vector = (light_ray - (intersection_normal * 2 * light_ray.dot_product(intersection_normal))).normalize();
+                vector3 camera_vector = rayo.get_ray_vector().normalize();
+                float prod = reflection_vector.dot_product(camera_vector);
+                if(prod > 0.0f)
+                {
+                    float specular_intensity = nearest_obj->get_reflectivity() * pow(prod, nearest_obj->get_shininess());
+                    specular_color = specular_color + (luz->get_color() * specular_intensity);
+                }
+            }
+        }
+    }
+    return specular_color;
 }
