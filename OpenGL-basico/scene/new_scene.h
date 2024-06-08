@@ -8,7 +8,7 @@
 class new_scene
 {
     color background_color_;
-    float near_, far_;
+    double near_, far_;
     int width_, height_;
     camera* camera_;
     std::vector<object*> objects_;
@@ -18,8 +18,8 @@ public:
     image Render();
     int get_width();
     int get_height();
-    float get_far();
-    float get_near();
+    double get_far();
+    double get_near();
     color get_background_color();
     color whitted_ray_tracing(ray& rayo);
     color calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);

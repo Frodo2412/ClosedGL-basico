@@ -25,22 +25,22 @@ vector3 camera::get_V() const
     return V_;
 }
 
-float camera::get_aspect_ratio() const
+double camera::get_aspect_ratio() const
 {
     return aspect_ratio_;
 }
 
-float camera::get_horizontal_size() const
+double camera::get_horizontal_size() const
 {
     return horizontal_size_;
 }
 
-float camera::get_length() const
+double camera::get_length() const
 {
     return length_;
 }
 
-void camera::generate_ray(float u, float v, ray& ray)
+void camera::generate_ray(double u, double v, ray& ray)
 {
    
     //coordenadas en el plano de la camara (lo que vendrian a ser los pixeles por los que pasan los rayos)

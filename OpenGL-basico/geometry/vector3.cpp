@@ -2,13 +2,13 @@
 
 #include <cstdio>
 
-float vector3::get_x() const { return x; }
-float vector3::get_y() const { return y; }
-float vector3::get_z() const { return z; }
+double vector3::get_x() const { return x; }
+double vector3::get_y() const { return y; }
+double vector3::get_z() const { return z; }
 
-void vector3::set_x(const float new_x) { x = new_x; }
-void vector3::set_y(const float new_y) { y = new_y; }
-void vector3::set_z(const float new_z) { z = new_z; }
+void vector3::set_x(const double new_x) { x = new_x; }
+void vector3::set_y(const double new_y) { y = new_y; }
+void vector3::set_z(const double new_z) { z = new_z; }
 
 vector3 vector3::operator+(const vector3& other) const
 {
@@ -34,7 +34,7 @@ void vector3::operator-=(const vector3& other)
     z -= other.z;
 }
 
-vector3 vector3::operator*(const float s) const
+vector3 vector3::operator*(const double s) const
 {
     return vector3(x * s, y * s, z * s);
 }
@@ -64,12 +64,12 @@ bool vector3::operator==(const vector3& zero) const
     return x == zero.x && y == zero.y && z == zero.z;
 }
 
-float vector3::dot_product(const vector3& other) const
+double vector3::dot_product(const vector3& other) const
 {
     return x * other.x + y * other.y + z * other.z;
 }
 
-float vector3::angle_with(const vector3& other) const
+double vector3::angle_with(const vector3& other) const
 {
     const auto numerator = this->dot_product(other);
     const auto denominator = this->magnitude * other.magnitude;
@@ -87,7 +87,7 @@ vector3 vector3::normalize() const
 vector3 vector3::symmetrical(const vector3& other) const
 {
     const auto normalized_other = other.normalize();
-    const auto aux = normalized_other * (2 * normalized_other.dot_product(*this));
+    const auto aux = normalized_other * (2.0 * normalized_other.dot_product(*this));
     return aux - *this;
 }
 
@@ -108,8 +108,8 @@ void vector3::print() const
     printf("\nVECTOR3: (%.2f, %.2f, %.2f)\n", x, y, z);
 }
 
-float vector3::get_norm() const
+double vector3::get_norm() const
 {
-    float aux = x * x + y * y + z * z;
+    double aux = x * x + y * y + z * z;
     return sqrt(aux);
 }

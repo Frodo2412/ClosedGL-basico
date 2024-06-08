@@ -3,11 +3,11 @@
 
 struct vector2
 {
-    float x, y;
+    double x, y;
 
-    vector2(float x, float y);
-    float get_x() const;
-    float get_y() const;
+    vector2(double x, double y);
+    double get_x() const;
+    double get_y() const;
 
     friend std::ostream& operator<<(std::ostream& os, const vector2& v);
 };
