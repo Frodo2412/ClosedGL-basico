@@ -1,10 +1,9 @@
 ﻿#include "new_scene.h"
+#include <utility>
 #include <vector>
 #include "../ray-tracing/plane.h"
-#include "../ray-tracing/sphere.h"
-#include "../ray-tracing/cylinder.h"
 
-new_scene::new_scene(int width, int height)
+new_scene::new_scene(int width, int height, std::vector<object*> objects, std::vector<light*> lights)
 {
     background_color_ = {0, 0, 0};
     near_ = 0.1;
@@ -12,97 +11,13 @@ new_scene::new_scene(int width, int height)
     width_ = width;
     height_ = height;
     vector3 cam_position = {0, 0, 0};
-    vector3 cam_look_at = {0, 0, -1}; //nuestro sistema de coordenadas tiene el z invertido, quedo como en lo teniamos en opengl
+    vector3 cam_look_at = {0, 0, -1};
+    //nuestro sistema de coordenadas tiene el z invertido, quedo como en lo teniamos en opengl
     vector3 cam_up = {0, 1, 0};
-    camera_ = new camera(cam_position, cam_look_at, cam_up, width, height);
 
-    //dibujado de planos
-    // plano del fondo
-    vector3 plane0_pos = {0, 0, -50};
-    vector3 plane0_normal = {0, 0, 1};
-    color plane0_color = {255, 255, 255};
-    plane* plane0 = new plane(plane0_pos, plane0_normal, plane0_color, 50, 50, 0.0, 0.0);
-    objects_.push_back(plane0);
-    // plano del techo
-    vector3 plane1_pos = {0, 50, -50};
-    vector3 plane1_normal = {0, -1, 0};
-    color plane1_color = {100, 100, 100};
-    plane* plane1 = new plane(plane1_pos, plane1_normal, plane1_color, 50, 50, 1, 10.0);
-    objects_.push_back(plane1);
-    // plano del piso
-    vector3 plane2_pos = {0, -50, -50};
-    vector3 plane2_normal = {0, 1, 0};
-    color plane2_color = {255, 255, 255};
-    plane* plane2 = new plane(plane2_pos, plane2_normal, plane2_color, 50, 50, 0.0, 0.0);
-    objects_.push_back(plane2);
-    // plano de la izquierda
-    vector3 plane3_pos = {-50, 0, 0};
-    vector3 plane3_normal = {1, 0, 0};
-    color plane3_color = {255, 0, 0};
-    plane* plane3 = new plane(plane3_pos, plane3_normal, plane3_color, 50, 50, 0.0, 0.0);
-    objects_.push_back(plane3);
-    // plano de la derecha
-    vector3 plane4_pos = {50, 0, 0};
-    vector3 plane4_normal = {-1, 0, 0};
-    color plane4_color = {0, 255, 0};
-    plane* plane4 = new plane(plane4_pos, plane4_normal, plane4_color, 50, 50, 0.0, 0.0);
-    objects_.push_back(plane4);
-/*
-    // mesa front
-    vector3 mesa_front_pos = {0, -10, -10};
-    vector3 mesa_front_normal = {0, 0, 1};
-    color mesa_front_color = {255, 0, 255};
-    plane* mesa_front = new plane(mesa_front_pos, mesa_front_normal, mesa_front_color, 5, 2, 0.0, 0.0);
-    objects_.push_back(mesa_front);
-
-    // mesa up
-    vector3 mesa_mesa_up_pos = {0, -8, -12};
-    vector3 mesa_mesa_up_normal = {0, 1, 0};
-    color mesa_mesa_up_color = {0, 255, 255};
-    plane* mesa_mesa_up = new plane(mesa_mesa_up_pos, mesa_mesa_up_normal, mesa_mesa_up_color, 2, 5, 0.0, 0.0);
-    objects_.push_back(mesa_mesa_up);
-    
-    // mesa izq
-    vector3 mesa_mesa_izq_pos = {-5, -10, -12};
-    vector3 mesa_mesa_izq_normal = {-1, 0, 0};
-    color mesa_mesa_izq_color = {0, 255, 255};
-    plane* mesa_mesa_izq = new plane(mesa_mesa_izq_pos, mesa_mesa_izq_normal, mesa_mesa_izq_color, 2, 2, 0.0, 0.0);
-    objects_.push_back(mesa_mesa_izq);
-    
-    // mesa der
-    vector3 mesa_mesa_der_pos = {5, -10, -12};
-    vector3 mesa_mesa_der_normal = {1, 0, 0};
-    color mesa_mesa_der_color = {0, 255, 255};
-    plane* mesa_mesa_der = new plane(mesa_mesa_der_pos, mesa_mesa_der_normal, mesa_mesa_der_color, 2, 2, 0.0, 0.0);
-    objects_.push_back(mesa_mesa_der);
-*/
-    //dibujado de esferas
-    vector3 sphere0_pos = {5, 0, -10};
-    color sphere0_color = {255, 0, 0};
-    sphere* sphere0 = new sphere(sphere0_pos, 2, sphere0_color, 0.5, 10.);
-    objects_.push_back(sphere0);
-
-    vector3 sphere1_pos = {-5, 0, -10};
-    color sphere1_color = {255, 255, 0};
-    sphere* sphere1 = new sphere(sphere1_pos, 2, sphere1_color, 0.5, 10.0);
-    objects_.push_back(sphere1);
-
-    vector3 sphere2_pos = {0, 0, -5};
-    color sphere2_color = {0, 255, 255};
-    sphere* sphere2 = new sphere(sphere2_pos, 2, sphere2_color, 1.0, 10.0);
-    objects_.push_back(sphere2);
-
-    vector3 cylinder1_pos = {0, 3, -5};
-    color cylinder1_color = {0, 255, 0};
-    cylinder* cylinder0 = new cylinder(cylinder1_pos, 2, 2, {0,1, 0}, cylinder1_color, 0.3, 10.0);
-    objects_.push_back(cylinder0);
-
-    //luces
-    light* light0 = new light({10, 0, 0}, {255, 255, 255}, 0.5);
-    lights_.push_back(light0);
-
-    light* light1 = new light({-10, 0, 0}, {255, 255, 255}, 0.5);
-    lights_.push_back(light1);
+    camera_ = new camera(cam_position, cam_look_at, cam_up);
+    objects_ = std::move(objects);
+    lights_ = std::move(lights);
 }
 
 image new_scene::Render()

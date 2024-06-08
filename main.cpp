@@ -3,17 +3,28 @@
 #include "Freeimage/FreeImage.h"
 #include "OpenGL-basico/graphics/renderer.h"
 #include "OpenGL-basico/scene/new_scene.h"
+#include "OpenGL-basico/xml/scene_parser.h"
 
 int main(int argc, char* argv[])
 {
-    FreeImage_Initialise();
-    int width = 800;
-    int height = 600;
+    try
+    {
+        FreeImage_Initialise();
+        int width = 800;
+        int height = 600;
 
-    new_scene* scene = new new_scene(width, height);
-    image img = scene->Render();
-    renderer::render_image(img); // renders image to screen
+        scene_parser parser(width, height);
 
-    FreeImage_DeInitialise();
-    return 0;
+        new_scene scene = parser.from_xml("../scenes/scene_1.xml");
+        image img = scene.Render();
+        renderer::render_image(img); // renders image to screen
+
+        FreeImage_DeInitialise();
+        return 0;
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
 }

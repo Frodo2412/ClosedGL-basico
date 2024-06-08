@@ -85,7 +85,6 @@
         <ClCompile Include="..\main.cpp"/>
         <ClCompile Include="geometry\vector3.cpp" />
         <ClCompile Include="ray-tracing\cylinder.cpp" />
-        <ClCompile Include="scene\new_scene.cpp" />
         <ClCompile Include="graphics\image.cpp">
           <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
           <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -326,6 +325,8 @@
           <AdditionalIncludeDirectories>C:\Users\Administrador\RiderProjects\ClosedGL-basico\\Assimp\include;</AdditionalIncludeDirectories>
           <LinkCompiled>true</LinkCompiled>
         </ClCompile>
+        <ClCompile Include="xml\scene_parser.cpp" />
+        <ClCompile Include="xml\tinyxml2.cpp" />
 
     </ItemGroup>
     <ItemGroup>
@@ -344,6 +345,8 @@
         <ClInclude Include="ray-tracing\sphere.h" />
         <ClInclude Include="scene\camera.h" />
         <ClInclude Include="scene\new_scene.h" />
+        <ClInclude Include="xml\scene_parser.h" />
+        <ClInclude Include="xml\tinyxml2.h" />
 
     </ItemGroup>
     <ItemGroup>

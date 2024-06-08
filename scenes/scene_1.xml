@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document>
+    <scene name="Our First Scene">
+        <shape id="back_plane" type="plane" height="50" width="50">
+            <fill red="255" green="255" blue="255"/>
+            <properties>
+                <normal x="0" y="0" z="1"/>
+                <position x="0" y="0" z="-50"/>
+            </properties>
+        </shape>
+        <shape id="ceiling_plane" type="plane" height="50" width="50">
+            <fill red="100" green="100" blue="100"/>
+            <properties>
+                <normal x="0" y="-1" z="0"/>
+                <position x="0" y="50" z="-50"/>
+            </properties>
+        </shape>
+        <shape id="floor_plane" type="plane" height="50" width="50">
+            <fill red="255" green="255" blue="255"/>
+            <properties>
+                <normal x="0" y="1" z="0"/>
+                <position x="0" y="-50" z="-50"/>
+            </properties>
+        </shape>
+        <shape id="left_plane" type="plane" height="50" width="50">
+            <fill red="255" green="0" blue="0"/>
+            <properties>
+                <normal x="1" y="0" z="0"/>
+                <position x="-50" y="0" z="-50"/>
+            </properties>
+        </shape>
+        <shape id="right_plane" type="plane" height="50" width="50">
+            <fill red="0" green="255" blue="0"/>
+            <properties>
+                <normal x="-1" y="0" z="0"/>
+                <position x="50" y="0" z="-50"/>
+            </properties>
+        </shape>
+        <shape id="mesa_up" type="plane" height="5" width="2">
+            <fill red="0" green="255" blue="255"/>
+            <properties>
+                <normal x="0" y="1" z="0"/>
+                <position x="0" y="-8" z="-12"/>
+            </properties>
+        </shape>
+        <shape id="mesa_front" type="plane" height="2" width="5">
+            <fill red="255" green="0" blue="255"/>
+            <properties>
+                <normal x="0" y="0" z="1"/>
+                <position x="0" y="-10" z="-10"/>
+            </properties>
+        </shape>
+        <shape id="mesa_left" type="plane" height="2" width="2">
+            <fill red="255" green="255" blue="0"/>
+            <properties>
+                <normal x="1" y="0" z="0"/>
+                <position x="-5" y="-10" z="-12"/>
+            </properties>
+        </shape>
+        <shape id="mesa_right" type="plane" height="2" width="2">
+            <fill red="0" green="255" blue="255"/>
+            <properties>
+                <normal x="-1" y="0" z="0"/>
+                <position x="5" y="-10" z="-12"/>
+            </properties>
+        </shape>
+    </scene>
+</document>
+
