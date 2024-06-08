@@ -95,7 +95,15 @@ bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
     hit_point = rayo.get_origin() + d * t_cap;
 
     // Verificar si el punto está dentro del radio de la tapa
-    vector3 hit_point_base = hit_point - get_position() - n * (t_cap < 0.0 ? 0.0 : height_);
+    vector3 hit_point_base;
+    if (hit_height < 0.0)
+    {
+        hit_point_base = hit_point - get_position();
+    }
+    else
+    {
+        hit_point_base = hit_point - get_position() - n * height_;
+    }
     if (hit_point_base.dot_product(hit_point_base) > radius_ * radius_)
     {
         return false;
