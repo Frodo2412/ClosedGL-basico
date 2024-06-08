@@ -223,8 +223,8 @@ color new_scene::whitted_ray_tracing(ray& rayo)
     if(nearest_obj != nullptr)
     {
         color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
-        //color specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
-        px_color = diffuse_color;
+        color specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
+        px_color = diffuse_color + specular_color;
     }
     return px_color;
 }
