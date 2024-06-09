@@ -16,13 +16,13 @@ class new_scene
 
 public:
     new_scene(int width, int height, const char* filename);
-    image Render();
+    std::vector<image> Render();
     int get_width();
     int get_height();
     double get_far();
     double get_near();
     color get_background_color();
-    color whitted_ray_tracing(ray& rayo);
+    color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad);
     color calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
     color calculate_specular(ray& rayo, vector3 interction_point, vector3 intersection_normal, object* nearest_obj);
 };
