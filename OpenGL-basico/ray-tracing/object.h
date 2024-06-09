@@ -22,4 +22,5 @@ public:
     double get_reflectivity() const;
     virtual ~object();
     double get_translucency() const;
+    double get_refractive_index() const;
 };
