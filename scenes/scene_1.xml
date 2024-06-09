@@ -47,7 +47,7 @@
         <shape id="mesa_mesh_1" type="mesh" reflectivity="0.3" shininess="10" width="15" height="5" depth="5">
             <color red="255" green="255" blue="255"/>
             <properties>
-                <position x="-8.5" y="-11" z="-26"/>
+                <position x="-7.5" y="-11" z="-26"/>
             </properties>
         </shape>
         <shape id="sphere_0" type="sphere" reflectivity="0.5" shininess="20" radius="3">
