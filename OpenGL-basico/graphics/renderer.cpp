@@ -29,7 +29,7 @@ std::string get_current_timestamp()
     return oss.str();
 }
 
-void renderer::render_image(const image& image)
+void renderer::render_image(image& image)
 {
     auto current_time = get_current_timestamp();
     const auto width = image.width;
@@ -59,10 +59,10 @@ void renderer::render_image(const image& image)
         std::cerr << "Failed to set image pixels: " << e.what() << '\n';
     }
 
-    const auto file_name = current_time.append(".png").c_str();
+    auto file_name = image.get_type().append(current_time.append(".png").c_str());
 
     // Save the image as a PNG file
-    if (FreeImage_Save(FIF_PNG, bitmap, file_name, 0))
+    if (FreeImage_Save(FIF_PNG, bitmap, file_name.c_str(), 0))
     {
         std::cout << "Image successfully saved to 'output.png'" << '\n';
     }

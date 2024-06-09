@@ -14,8 +14,10 @@ int main(int argc, char* argv[])
         int height = 600;
 
         new_scene scene = new_scene(width, height, "../scenes/scene_1.xml");
-        image img = scene.Render();
-        renderer::render_image(img); // renders image to screen
+        for(image img : scene.Render())
+        {
+            renderer::render_image(img); // renders image to screen
+        }
 
         FreeImage_DeInitialise();
         return 0;

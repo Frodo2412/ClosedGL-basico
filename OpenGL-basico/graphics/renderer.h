@@ -5,5 +5,5 @@
 class renderer
 {
 public:
-    static void render_image(const image& image);
+    static void render_image(image& image);
 };
