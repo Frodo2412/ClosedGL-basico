@@ -474,6 +474,27 @@
       <Content Include="old-images\20240608_152616.png" />
       <Content Include="old-images\20240608_152824.png" />
       <Content Include="old-images\20240608_152930.png" />
+      <Content Include="old-images\20240608_173754.png" />
+      <Content Include="old-images\20240608_174434.png" />
+      <Content Include="old-images\20240608_174656.png" />
+      <Content Include="old-images\20240608_194358.png" />
+      <Content Include="old-images\20240608_200042.png" />
+      <Content Include="old-images\20240608_234856.png" />
+      <Content Include="old-images\normal20240608_235825.png" />
+      <Content Include="old-images\normal20240609_000528.png" />
+      <Content Include="old-images\normal20240609_000917.png" />
+      <Content Include="old-images\normal20240609_001150.png" />
+      <Content Include="old-images\normal20240609_001447.png" />
+      <Content Include="old-images\reflectividad20240608_235825.png" />
+      <Content Include="old-images\reflectividad20240609_000528.png" />
+      <Content Include="old-images\reflectividad20240609_000917.png" />
+      <Content Include="old-images\reflectividad20240609_001150.png" />
+      <Content Include="old-images\reflectividad20240609_001447.png" />
+      <Content Include="old-images\refractividad20240608_235825.png" />
+      <Content Include="old-images\refractividad20240609_000528.png" />
+      <Content Include="old-images\refractividad20240609_000917.png" />
+      <Content Include="old-images\refractividad20240609_001150.png" />
+      <Content Include="old-images\refractividad20240609_001447.png" />
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">
