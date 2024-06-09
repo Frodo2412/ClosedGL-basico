@@ -9,7 +9,7 @@
 new_scene::new_scene(const int width, const int height, const char* filename) : width_(width), height_(height)
 {
     near_ = 0.1;
-    far_ = 100;
+    far_ = 1000;
 
     tinyxml2::XMLDocument doc;
     auto res = doc.LoadFile(filename);
@@ -72,7 +72,7 @@ std::vector<image> new_scene::Render()
     double y_factor = 2.0 / (double)height_;
     int n = 2; // Número de celdas por lado, para un total de n*n rayos por píxel
     double cell_size = 1.0 / (double)n;
-
+    std::cout << "Rendering..." << std::endl;
     /* Calculamos todos los píxeles */
     for(int x = 0 ; x < width_ ; x++)
     {
@@ -230,7 +230,7 @@ color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vecto
         {
             vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
             
-            ray sombra = ray(intersection_point - rayo_s, rayo_s);
+            ray sombra = ray(intersection_point - rayo_s * 0.0001, rayo_s); //intersection_point - rayo_s
             bool hay_sombra = false;
             for(object* obj : objects_)
             {
