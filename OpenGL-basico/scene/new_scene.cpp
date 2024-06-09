@@ -96,10 +96,11 @@ std::vector<image> new_scene::Render()
 
                     // Casteamos el rayo para que pase por el píxel normalizado (x, y)
                     camera_->generate_ray(norm_x, norm_y, rayo);
-
-                    // Calculamos el color del rayo
+                    
                     double aux_reflectividad = 0.0;
                     double aux_refractividad = 0.0;
+                    
+                    // Calculamos el color del rayo
                     color sample_color = whitted_ray_tracing(rayo, aux_reflectividad, aux_refractividad);
 
                     // Sumamos el color de la muestra al color final del píxel
@@ -116,8 +117,8 @@ std::vector<image> new_scene::Render()
 
             // Guardamos el píxel con el color final calculado
             pixel px = pixel(x, y, final_color);
-            pixel px_reflectividad = pixel(x, y, color(final_reflectividad, final_reflectividad, final_reflectividad));
-            pixel px_refractividad = pixel(x, y, color(final_refractividad, final_refractividad, final_refractividad));
+            pixel px_reflectividad = pixel(x, y, color(255 * final_reflectividad, 255 * final_reflectividad, 255 * final_reflectividad));
+            pixel px_refractividad = pixel(x, y, color(255 * final_refractividad, 255 * final_refractividad, 255 * final_refractividad));
             pixels.push_back(px);
             reflectividad.push_back(px_reflectividad);
             refractividad.push_back(px_refractividad);
