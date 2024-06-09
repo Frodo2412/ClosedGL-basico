@@ -14,6 +14,12 @@ class new_scene
     std::vector<object*> objects_;
     std::vector<light*> lights_;
 
+    bool cast_ray(ray& cast_ray,
+                  object*& this_object,
+                  object*& closest_object,
+                  vector3& new_intersection_point,
+                  vector3& new_intersection_normal);
+
 public:
     new_scene(int width, int height, const char* filename);
     std::vector<image> Render();

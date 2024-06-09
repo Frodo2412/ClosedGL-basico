@@ -5,6 +5,41 @@
 #include "../xml/tinyxml2.h"
 #include "../xml/scene_parser.h"
 
+bool new_scene::cast_ray(ray& cast_ray,
+                         object*& this_object,
+                         object*& closest_object,
+                         vector3& new_intersection_point,
+                         vector3& new_intersection_normal)
+{
+    vector3 intersection_point, intersection_normal;
+
+    double min_dist = 1e6;
+    bool intersection_found = false;
+    for (const auto current_object : objects_)
+    {
+        if (current_object != this_object)
+        {
+            const bool valid_int = current_object->test_intersection(cast_ray, intersection_point, intersection_normal);
+
+            if (valid_int)
+            {
+                intersection_found = true;
+
+                const double dist = (intersection_point - cast_ray.get_origin()).magnitude;
+
+                if (dist < min_dist)
+                {
+                    min_dist = dist;
+                    closest_object = current_object;
+                    new_intersection_point = intersection_point;
+                    new_intersection_normal = intersection_normal;
+                }
+            }
+        }
+    }
+
+    return intersection_found;
+}
 
 new_scene::new_scene(const int width, const int height, const char* filename) : width_(width), height_(height)
 {
@@ -297,6 +332,8 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
         ray refracted_ray(intersection_point + refracted * 0.01, intersection_point + refracted);
 
         // Chequeo por otras intersecciones con el mismo objeto
+
+        object* closest_object;
         vector3 new_intersection_point, new_intersection_normal;
         bool test = nearest_obj->test_intersection(refracted_ray, new_intersection_point, new_intersection_normal);
         bool intersection_found = false;
@@ -315,12 +352,20 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
             vector3 refracted2 = p2 * r2 + n2 * (r2 * c2 - sqrt(1 - pow(r2, 2) * 1 - pow(c2, 2)));
             ray refracted_ray2(new_intersection_point + refracted2 * 0.01, new_intersection_point + refracted2);
 
-            // intersection_found = camera_->generate_ray(refracted_ray2); Aca tengo que emitir el rayo
+            intersection_found = cast_ray(refracted_ray,
+                                          nearest_obj,
+                                          closest_object,
+                                          new_intersection_point,
+                                          new_intersection_normal);
             final_ray = refracted_ray2;
         }
         else
         {
-            // intersection_found = camera_->generate_ray(refracted_ray);
+            intersection_found = cast_ray(refracted_ray,
+                                          nearest_obj,
+                                          closest_object,
+                                          new_intersection_point,
+                                          new_intersection_normal);
             final_ray = refracted_ray;
         }
 
