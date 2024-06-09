@@ -6,6 +6,16 @@ double vector3::get_x() const { return x; }
 double vector3::get_y() const { return y; }
 double vector3::get_z() const { return z; }
 
+double vector3::get_length()
+{
+    return x * x + y * y + z * z;
+}
+
+double vector3::get_magnitude()
+{
+    return std::sqrt(x * x + y * y + z * z);
+}
+
 void vector3::set_x(const double new_x) { x = new_x; }
 void vector3::set_y(const double new_y) { y = new_y; }
 void vector3::set_z(const double new_z) { z = new_z; }
@@ -67,6 +77,14 @@ bool vector3::operator==(const vector3& zero) const
 double vector3::dot_product(const vector3& other) const
 {
     return x * other.x + y * other.y + z * other.z;
+}
+
+vector3 vector3::cross_product(const vector3& other) const
+{
+    double result_x = this->get_y() * other.get_z() - this->get_z() * other.get_y();
+    double result_y = this->get_z() * other.get_x() - this->get_x() * other.get_z();
+    double result_z = this->get_x() * other.get_y() - this->get_y() * other.get_x();
+    return vector3(result_x, result_y, result_z);
 }
 
 double vector3::angle_with(const vector3& other) const

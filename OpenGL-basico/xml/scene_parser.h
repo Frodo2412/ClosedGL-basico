@@ -5,6 +5,7 @@
 #include "../ray-tracing/plane.h"
 #include "../ray-tracing/sphere.h"
 #include "../ray-tracing/cylinder.h"
+#include "../ray-tracing/mesh.h"
 
 class scene_parser
 {
@@ -13,6 +14,7 @@ class scene_parser
     static plane* parse_plane(tinyxml2::XMLElement* element);
     static sphere* parse_sphere(tinyxml2::XMLElement* element);
     static cylinder* parse_cylinder(tinyxml2::XMLElement* element);
+    static mesh* parse_mesh(tinyxml2::XMLElement* element);
 
 public:
     static color parse_color(tinyxml2::XMLElement* element);

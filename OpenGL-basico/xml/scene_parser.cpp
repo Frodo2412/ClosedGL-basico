@@ -85,6 +85,25 @@ cylinder* scene_parser::parse_cylinder(tinyxml2::XMLElement* element)
     return new cylinder(position, radius, height, axis, color, reflectivity, shininess);
 }
 
+mesh* scene_parser::parse_mesh(tinyxml2::XMLElement* element)
+{
+    const auto id = std::string(element->Attribute("id"));
+    const auto width = element->FloatAttribute("width");
+    const auto height = element->FloatAttribute("height");
+    const auto depth = element->FloatAttribute("depth");
+    const auto reflectivity = element->FloatAttribute("reflectivity");
+    const auto shininess = element->FloatAttribute("shininess");
+
+    const auto color = parse_color(element);
+    const auto properties = element->FirstChildElement("properties");
+
+    const auto position = parse_vector3("position", properties);
+
+    std::cout << id << "\n- " << position << "\n- " << width << "\n- " << height << "\n- " << depth << "\n- " << color << '\n';
+
+    return new mesh(mesh::create_rectangular_prism(position, width, height, depth, color, reflectivity, shininess));
+}
+
 camera* scene_parser::parse_camera(tinyxml2::XMLElement* element, const int width, const int height)
 {
     const auto position = parse_vector3("position", element);
@@ -103,6 +122,7 @@ object* scene_parser::parse_object(tinyxml2::XMLElement* element)
     if (object_type == "plane") { obj = parse_plane(element); }
     else if (object_type == "sphere") { obj = parse_sphere(element); }
     else if (object_type == "cylinder") { obj = parse_cylinder(element); }
+    else if (object_type == "mesh") { obj = parse_mesh(element); }
     else { throw std::runtime_error("Unknown object type"); }
 
     return obj;
