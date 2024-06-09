@@ -19,7 +19,7 @@ public:
     {
         aspect_ratio_ = (double)width_ / (double)height_;
         horizontal_size_ = (double)width_/2;
-        length_ = 100;
+        length_ = 500;
         direction_ = (look_at_ - position_).normalize();
         U_ = (direction_ * up_).normalize();
         V_ = (U_ * direction_).normalize();
