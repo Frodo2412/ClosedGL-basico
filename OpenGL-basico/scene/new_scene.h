@@ -18,7 +18,7 @@ class new_scene
                   object*& this_object,
                   object*& closest_object,
                   vector3& new_intersection_point,
-                  vector3& new_intersection_normal);
+                  vector3& new_intersection_normal) const;
 
 public:
     new_scene(int width, int height, const char* filename);

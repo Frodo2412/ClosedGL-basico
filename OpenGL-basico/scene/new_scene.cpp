@@ -9,26 +9,35 @@ bool new_scene::cast_ray(ray& cast_ray,
                          object*& this_object,
                          object*& closest_object,
                          vector3& new_intersection_point,
-                         vector3& new_intersection_normal)
+                         vector3& new_intersection_normal) const
 {
     vector3 intersection_point, intersection_normal;
-
     double min_dist = 1e6;
     bool intersection_found = false;
     for (const auto current_object : objects_)
     {
         if (current_object != this_object)
         {
-            const bool valid_int = current_object->test_intersection(cast_ray, intersection_point, intersection_normal);
+            std::cout << current_object << '\n';
+            const bool valid_int = current_object->test_intersection(cast_ray,
+                                                                     intersection_point,
+                                                                     intersection_normal);
 
             if (valid_int)
             {
+                std::cout << closest_object << '\n';
                 intersection_found = true;
 
+                std::cout << "Intersection found" << '\n';
+                std::cout << "Intersection point: " << intersection_point << '\n';
+                std::cout << "Intersection normal: " << intersection_normal << '\n';
+
                 const double dist = (intersection_point - cast_ray.get_origin()).magnitude;
+                std::cout << "Distance: " << dist << '\n';
 
                 if (dist < min_dist)
                 {
+                    std::cout << "New closest object found" << '\n';
                     min_dist = dist;
                     closest_object = current_object;
                     new_intersection_point = intersection_point;
@@ -369,11 +378,20 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
             final_ray = refracted_ray;
         }
 
+        std::cout << "Intersection found: " << intersection_found << '\n';
+
         // Aca calculo el color de nearest_obj
         color color;
         if (intersection_found)
         {
-            color = calculate_specular(final_ray, new_intersection_point, new_intersection_normal, closest_object);
+            if (closest_object->has_material())
+            {
+                color = whitted_ray_tracing(final_ray);
+            }
+            else
+            {
+                color = calculate_diffuse(new_intersection_point, new_intersection_normal, closest_object);
+            }
         }
 
         translucency_color = color;
