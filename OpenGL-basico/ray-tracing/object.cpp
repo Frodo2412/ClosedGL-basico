@@ -14,7 +14,7 @@ double object::get_refractive_index() const
 
 bool object::has_material() const
 {
-    return translucency_ > 0 || refractive_index_ > 0;
+    return reflectivity_ > 0;
 }
 
 bool object::test_intersection(ray& rayo, vector3& point, vector3& normal)
