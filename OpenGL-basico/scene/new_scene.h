@@ -7,6 +7,8 @@
 
 class new_scene
 {
+    static color ambient_color_;
+
     color background_color_;
     double near_, far_;
     int width_, height_;
