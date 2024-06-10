@@ -18,26 +18,18 @@ bool new_scene::cast_ray(ray& cast_ray,
     {
         if (current_object != this_object)
         {
-            std::cout << current_object << '\n';
             const bool valid_int = current_object->test_intersection(cast_ray,
                                                                      intersection_point,
                                                                      intersection_normal);
 
             if (valid_int)
             {
-                std::cout << closest_object << '\n';
                 intersection_found = true;
 
-                std::cout << "Intersection found" << '\n';
-                std::cout << "Intersection point: " << intersection_point << '\n';
-                std::cout << "Intersection normal: " << intersection_normal << '\n';
-
                 const double dist = (intersection_point - cast_ray.get_origin()).magnitude;
-                std::cout << "Distance: " << dist << '\n';
 
                 if (dist < min_dist)
                 {
-                    std::cout << "New closest object found" << '\n';
                     min_dist = dist;
                     closest_object = current_object;
                     new_intersection_point = intersection_point;
@@ -325,76 +317,91 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
                                         object* nearest_obj)
 {
     color translucency_color = {0, 0, 0};
-    if (nearest_obj->get_translucency() > 0.0)
+    try
     {
-        vector3 p = rayo.get_ray_vector().normalize(), n = intersection_normal;
-        double r = 1.0 / nearest_obj->get_refractive_index(), c = -n.dot_product(p);
-
-        if (c < 0.0)
+        if (nearest_obj->get_translucency() > 0.0)
         {
-            n = n * -1;
-            c = n.dot_product(p);
-        }
-
-        const vector3 refracted = p * r + n * (r * c - sqrt(1 - pow(r, 2) * 1 - pow(c, 2)));
-
-        ray refracted_ray(intersection_point + refracted * 0.01, intersection_point + refracted);
-
-        // Chequeo por otras intersecciones con el mismo objeto
-
-        object* closest_object;
-        vector3 new_intersection_point, new_intersection_normal;
-        bool test = nearest_obj->test_intersection(refracted_ray, new_intersection_point, new_intersection_normal);
-        bool intersection_found = false;
-        ray final_ray;
-        if (test)
-        {
-            vector3 p2 = refracted_ray.get_ray_vector().normalize(), n2 = new_intersection_normal;
-            double r2 = nearest_obj->get_refractive_index(), c2 = -n2.dot_product(p2);
+            vector3 p = rayo.get_ray_vector().normalize(), n = intersection_normal;
+            double r = 1.0 / nearest_obj->get_refractive_index(), c = -n.dot_product(p);
 
             if (c < 0.0)
             {
-                n2 = n2 * -1;
-                c2 = n2.dot_product(p2);
+                n = n * -1;
+                c = n.dot_product(p);
             }
 
-            vector3 refracted2 = p2 * r2 + n2 * (r2 * c2 - sqrt(1 - pow(r2, 2) * 1 - pow(c2, 2)));
-            ray refracted_ray2(new_intersection_point + refracted2 * 0.01, new_intersection_point + refracted2);
 
-            intersection_found = cast_ray(refracted_ray,
-                                          nearest_obj,
-                                          closest_object,
-                                          new_intersection_point,
-                                          new_intersection_normal);
-            final_ray = refracted_ray2;
-        }
-        else
-        {
-            intersection_found = cast_ray(refracted_ray,
-                                          nearest_obj,
-                                          closest_object,
-                                          new_intersection_point,
-                                          new_intersection_normal);
-            final_ray = refracted_ray;
-        }
+            const auto r_2 = 1 - pow(r, 2);
+            const auto c_2 = 1 - pow(c, 2);
+            const auto root = r_2 * c_2;
 
-        std::cout << "Intersection found: " << intersection_found << '\n';
-
-        // Aca calculo el color de nearest_obj
-        color color;
-        if (intersection_found)
-        {
-            if (closest_object->has_material())
+            if (root < 0.0)
             {
-                color = whitted_ray_tracing(final_ray);
+                std::cout << root << '\n';
+                throw std::exception("Trying to take root of negative number");
+            }
+
+            const vector3 refracted = p * r + n * (r * c - sqrt(root));
+            ray refracted_ray(intersection_point + refracted * 0.01, intersection_point + refracted);
+
+            // Chequeo por otras intersecciones con el mismo objeto
+
+            object* closest_object;
+            vector3 new_intersection_point, new_intersection_normal;
+            bool test = nearest_obj->test_intersection(refracted_ray, new_intersection_point, new_intersection_normal);
+            bool intersection_found = false;
+            ray final_ray;
+            if (test)
+            {
+                vector3 p2 = refracted_ray.get_ray_vector().normalize(), n2 = new_intersection_normal;
+                double r2 = nearest_obj->get_refractive_index(), c2 = -n2.dot_product(p2);
+
+                if (c < 0.0)
+                {
+                    n2 = n2 * -1;
+                    c2 = n2.dot_product(p2);
+                }
+
+                vector3 refracted2 = p2 * r2 + n2 * (r2 * c2 - sqrt(1 - pow(r2, 2) * 1 - pow(c2, 2)));
+                ray refracted_ray2(new_intersection_point + refracted2 * 0.01, new_intersection_point + refracted2);
+
+                intersection_found = cast_ray(refracted_ray,
+                                              nearest_obj,
+                                              closest_object,
+                                              new_intersection_point,
+                                              new_intersection_normal);
+                final_ray = refracted_ray2;
             }
             else
             {
-                color = calculate_diffuse(new_intersection_point, new_intersection_normal, closest_object);
+                intersection_found = cast_ray(refracted_ray,
+                                              nearest_obj,
+                                              closest_object,
+                                              new_intersection_point,
+                                              new_intersection_normal);
+                final_ray = refracted_ray;
             }
-        }
 
-        translucency_color = color;
+            // Aca calculo el color de nearest_obj
+            color color;
+            if (intersection_found)
+            {
+                if (closest_object->has_material())
+                {
+                    color = whitted_ray_tracing(final_ray);
+                }
+                else
+                {
+                    color = calculate_diffuse(new_intersection_point, new_intersection_normal, closest_object);
+                }
+            }
+
+            translucency_color = color;
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
 
 
