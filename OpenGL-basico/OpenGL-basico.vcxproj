@@ -243,6 +243,7 @@
         <ClCompile Include="raster\pixel.cpp" />
         <ClCompile Include="raster\point.cpp" />
         <ClCompile Include="ray-tracing\light.cpp" />
+        <ClCompile Include="ray-tracing\mesh.cpp" />
         <ClCompile Include="ray-tracing\object.cpp" />
         <ClCompile Include="ray-tracing\plane.cpp" />
         <ClCompile Include="ray-tracing\ray.cpp" />
@@ -339,6 +340,7 @@
         <ClInclude Include="raster\point.h" />
         <ClInclude Include="ray-tracing\cylinder.h" />
         <ClInclude Include="ray-tracing\light.h" />
+        <ClInclude Include="ray-tracing\mesh.h" />
         <ClInclude Include="ray-tracing\object.h" />
         <ClInclude Include="ray-tracing\plane.h" />
         <ClInclude Include="ray-tracing\ray.h" />

@@ -19,6 +19,8 @@ struct vector3
     double get_y() const;
     double get_z() const;
 
+    double get_length();
+    double get_magnitude();
 
     // Setter methods for the coordinates
     void set_x(double new_x);
@@ -38,6 +40,7 @@ struct vector3
     bool operator==(const vector3& zero) const;
 
     double dot_product(const vector3& other) const;
+    vector3 cross_product(const vector3& other) const;
     double angle_with(const vector3& other) const; // returns in radians
 
     vector3 normalize() const;

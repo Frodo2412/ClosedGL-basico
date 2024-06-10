@@ -44,32 +44,10 @@
                 <position x="50" y="0" z="-75"/>
             </properties>
         </shape>
-        <shape id="mesa_up" type="plane" reflectivity="0.3" shininess="10" height="5" width="2">
-            <color red="120" green="200" blue="255"/>
+        <shape id="mesa_mesh_1" type="mesh" reflectivity="0.3" shininess="10" width="15" height="5" depth="5">
+            <color red="255" green="255" blue="255"/>
             <properties>
-                <normal x="0" y="1" z="0"/>
-                <position x="0" y="-8" z="-26"/>
-            </properties>
-        </shape>
-        <shape id="mesa_front" type="plane" reflectivity="0.3" shininess="10" height="2" width="5">
-            <color red="255" green="0" blue="255"/>
-            <properties>
-                <normal x="0" y="0" z="1"/>
-                <position x="0" y="-10" z="-24"/>
-            </properties>
-        </shape>
-        <shape id="mesa_left" type="plane" reflectivity="0.3" shininess="10" height="2" width="2">
-            <color red="255" green="255" blue="0"/>
-            <properties>
-                <normal x="1" y="0" z="0"/>
-                <position x="-5" y="-10" z="-26"/>
-            </properties>
-        </shape>
-        <shape id="mesa_right" type="plane" reflectivity="0.3" shininess="10" height="2" width="2">
-            <color red="0" green="255" blue="255"/>
-            <properties>
-                <normal x="-1" y="0" z="0"/>
-                <position x="5" y="-10" z="-26"/>
+                <position x="-7.5" y="-11" z="-26"/>
             </properties>
         </shape>
         <shape id="sphere_0" type="sphere" reflectivity="0.5" shininess="20" radius="3">
