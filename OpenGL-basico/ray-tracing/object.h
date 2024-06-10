@@ -10,9 +10,11 @@ class object
     double reflectivity_, shininess_, translucency_, refractive_index_;
 
 public:
-    object(vector3 pos, color color, double reflectivity, double shininess): position_(pos), color_(color),
-                                                                             reflectivity_(reflectivity),
-                                                                             shininess_(shininess)
+    object(vector3 pos, color color, double reflectivity, double shininess, double translucency,
+           double refractive_index): position_(pos), color_(color),
+                                     reflectivity_(reflectivity),
+                                     shininess_(shininess), translucency_(translucency),
+                                     refractive_index_(refractive_index)
     {
     };
     virtual bool test_intersection(ray& rayo, vector3& point, vector3& normal);

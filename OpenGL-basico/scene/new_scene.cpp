@@ -373,7 +373,7 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
         color color;
         if (intersection_found)
         {
-            color = nearest_obj->get_color();
+            color = calculate_diffuse(new_intersection_point, new_intersection_normal, nearest_obj);
         }
 
         translucency_color = color;
