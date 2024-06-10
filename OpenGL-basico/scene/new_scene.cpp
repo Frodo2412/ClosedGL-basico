@@ -274,7 +274,7 @@ color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vecto
         for (light* luz : lights_)
         {
             vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
-            
+
             ray sombra = ray(intersection_point - rayo_s * 0.0001, rayo_s); //intersection_point - rayo_s
             bool hay_sombra = false;
             for (object* obj : objects_)
@@ -388,7 +388,9 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
             {
                 if (closest_object->has_material())
                 {
-                    color = whitted_ray_tracing(final_ray);
+                    auto aux_reflectividad = 0.0;
+                    auto aux_refractividad = 0.0;
+                    color = whitted_ray_tracing(final_ray, aux_reflectividad, aux_refractividad);
                 }
                 else
                 {

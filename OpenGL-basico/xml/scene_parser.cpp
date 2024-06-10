@@ -99,15 +99,19 @@ mesh* scene_parser::parse_mesh(tinyxml2::XMLElement* element)
     const auto depth = element->FloatAttribute("depth");
     const auto reflectivity = element->FloatAttribute("reflectivity");
     const auto shininess = element->FloatAttribute("shininess");
+    const auto translucency = element->FloatAttribute("translucency");
+    const auto refractive_index = element->FloatAttribute("refractive_index");
 
     const auto color = parse_color(element);
     const auto properties = element->FirstChildElement("properties");
 
     const auto position = parse_vector3("position", properties);
 
-    std::cout << id << "\n- " << position << "\n- " << width << "\n- " << height << "\n- " << depth << "\n- " << color << '\n';
+    std::cout << id << "\n- " << position << "\n- " << width << "\n- " << height << "\n- " << depth << "\n- " << color
+        << '\n';
 
-    return new mesh(mesh::create_rectangular_prism(position, width, height, depth, color, reflectivity, shininess));
+    return new mesh(mesh::create_rectangular_prism(position, width, height, depth, color, reflectivity, shininess,
+                                                   translucency, refractive_index));
 }
 
 camera* scene_parser::parse_camera(tinyxml2::XMLElement* element, const int width, const int height)
