@@ -5,6 +5,9 @@
 #include "../xml/tinyxml2.h"
 #include "../xml/scene_parser.h"
 
+int new_scene::m_max_reflection_rays = 3;
+int new_scene::m_reflection_ray_count = 0;
+
 bool new_scene::cast_ray(ray& cast_ray,
                          object*& this_object,
                          object*& closest_object,
@@ -239,8 +242,9 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
     {
         color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
         color specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
+        color reflection_color = calculate_reflection(nearest_obj, intersection_point, intersection_normal, rayo);
         color translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj);
-        px_color = diffuse_color + specular_color + translucent_color;
+        px_color = diffuse_color + specular_color + reflection_color + translucent_color;
         aux_reflectividad = nearest_obj->get_reflectivity();
         aux_refractividad = 1 / nearest_obj->get_refractive_index();
     }
@@ -313,8 +317,62 @@ color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vecto
     return specular_color;
 }
 
-color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                        object* nearest_obj)
+color new_scene::calculate_reflection(object* currentObject,
+                                      const vector3& intPoint, const vector3& localNormal,
+                                      const ray& incidentRay)
+{
+    if (currentObject->get_reflectivity() == 0.0) { return {0, 0, 0}; }
+
+    // Compute the reflection vector.
+    vector3 d = incidentRay.get_direction();
+    vector3 reflectionVector = d - localNormal * 2.0 * d.dot_product(localNormal);
+
+    // Construct the reflection ray.
+    vector3 startPoint = intPoint + (localNormal * 0.001);
+    ray reflectionRay(startPoint, startPoint + reflectionVector);
+
+    /* Cast this ray into the scene and find the closest object that it intersects with. */
+    object* closestObject;
+    vector3 new_intersection_point,
+            new_intersection_normal;
+    bool intersectionFound = cast_ray(reflectionRay,
+                                      currentObject,
+                                      closestObject,
+                                      new_intersection_point,
+                                      new_intersection_normal);
+
+    /* Compute illumination for closest object assuming that there was a
+        valid intersection. */
+    color matColor;
+    if (intersectionFound && m_reflection_ray_count < m_max_reflection_rays)
+    {
+        m_reflection_ray_count++;
+        // Check if a material has been assigned.
+        if (closestObject->has_material())
+        {
+            // Use the material to compute the color.
+            auto aux_reflectividad = 0.0;
+            auto aux_refractividad = 0.0;
+            matColor = whitted_ray_tracing(reflectionRay, aux_reflectividad, aux_refractividad);
+        }
+        else
+        {
+            matColor = calculate_diffuse(new_intersection_point, new_intersection_normal, closestObject);
+        }
+    }
+    else
+    {
+        // Leave matColor as it is.
+    }
+
+    const color reflection_color = matColor;
+    return reflection_color;
+}
+
+color new_scene
+
+::calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                         object* nearest_obj)
 {
     color translucency_color = {0, 0, 0};
     try

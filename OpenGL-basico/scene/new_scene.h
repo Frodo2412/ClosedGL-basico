@@ -34,6 +34,11 @@ public:
     color calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
     color calculate_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                              object* nearest_obj) const;
+    color calculate_reflection(object* currentObject, const vector3& intPoint, const vector3& localNormal,
+                               const ray& incidentRay);
     color calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj);
+
+    static int m_max_reflection_rays;
+    static int m_reflection_ray_count;
 };
