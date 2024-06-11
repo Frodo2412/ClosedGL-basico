@@ -31,6 +31,7 @@ public:
     double get_near();
     color get_background_color();
     color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad);
+    color calculate_color(object* nearest_obj, ray& rayo, const vector3& intersection_point, const vector3& intersection_normal);
     color calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
     color calculate_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                              object* nearest_obj) const;
