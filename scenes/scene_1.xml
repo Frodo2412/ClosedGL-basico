@@ -9,7 +9,7 @@
             <look_at x="0" y="0" z="-1"/>
             <up x="0" y="1" z="0"/>
         </camera>
-        <shape id="back_plane" type="plane" reflectivity="0.1" shininess="0.2" height="75" width="75" translucency="0"
+        <shape id="back_plane" type="plane" reflectivity="0" shininess="0.2" height="75" width="75" translucency="0"
                refractive_index="0">
             <color red="200" green="200" blue="200"/>
             <properties>
@@ -17,7 +17,7 @@
                 <position x="0" y="0" z="-150"/>
             </properties>
         </shape>
-        <shape id="ceiling_plane" type="plane" reflectivity="0.4" shininess="0.3" height="75" width="75"
+        <shape id="ceiling_plane" type="plane" reflectivity="1" shininess="0.3" height="75" width="75"
                translucency="0"
                refractive_index="0">
             <color red="150" green="150" blue="150"/>
