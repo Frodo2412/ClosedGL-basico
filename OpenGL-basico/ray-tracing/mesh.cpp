@@ -1,6 +1,7 @@
 #include "mesh.h"
 
-bool mesh::intersect_triangle(const vector3& v0, const vector3& v1, const vector3& v2, ray& rayo, vector3& point, vector3& normal)
+bool mesh::intersect_triangle(const vector3& v0, const vector3& v1, const vector3& v2, ray& rayo, vector3& point,
+                              vector3& normal)
 {
     // Calcula el vector de la arista 1 y la arista 2 del triángulo
     vector3 edge1 = v1 - v0;
@@ -57,14 +58,16 @@ bool mesh::test_intersection(ray& rayo, vector3& point, vector3& normal)
         const vector3& v0 = vertices_[indices_[i]];
         const vector3& v1 = vertices_[indices_[i + 1]];
         const vector3& v2 = vertices_[indices_[i + 2]];
-         
-        vector3 temp_point, temp_normal;  // Variables temporales para  el punto y la normal de intersección del triángulo
-        
+
+        vector3 temp_point, temp_normal;
+        // Variables temporales para  el punto y la normal de intersección del triángulo
+
         if (intersect_triangle(v0, v1, v2, rayo, temp_point, temp_normal))
         {
             hit = true;
             double t = (temp_point - rayo.get_origin()).get_length();
-            if (t < closest_t) //  Actualiza el punto de intersección, la normal y la distancia a la más cercana encontrada 
+            if (t < closest_t)
+            //  Actualiza el punto de intersección, la normal y la distancia a la más cercana encontrada 
             {
                 closest_t = t;
                 point = temp_point;
@@ -76,7 +79,9 @@ bool mesh::test_intersection(ray& rayo, vector3& point, vector3& normal)
     return hit;
 }
 
-mesh mesh::create_rectangular_prism(const vector3& esq_trasera, double width, double height, double depth, const color& color, double reflectivity, double shininess)
+mesh mesh::create_rectangular_prism(const vector3& esq_trasera, double width, double height, double depth,
+                                    const color& color, double reflectivity, double shininess, float transparency,
+                                    float refractive_index)
 {
     //   v3 ---- v2
     //  /       / |            
@@ -94,16 +99,16 @@ mesh mesh::create_rectangular_prism(const vector3& esq_trasera, double width, do
     vector3 v7(esq_trasera.get_x(), esq_trasera.get_y() + height, esq_trasera.get_z() + depth);
 
     // Creamos la lista de vértices y la lista de índices para los triángulos que forman el prisma rectangular
-    std::vector<vector3> vertices = { v0, v1, v2, v3, v4, v5, v6, v7 };
+    std::vector<vector3> vertices = {v0, v1, v2, v3, v4, v5, v6, v7};
     std::vector<unsigned int> indices = {
         0, 1, 2, 2, 3, 0, // Cara lateral
         1, 5, 6, 6, 2, 1, // Cara lateral
         4, 5, 6, 6, 7, 4, // Cara lateral
         0, 3, 7, 7, 4, 0, // Cara lateral
         0, 1, 5, 5, 4, 0, // Base
-        2, 3, 7, 7, 6, 2  // Tapa
+        2, 3, 7, 7, 6, 2 // Tapa
     };
 
     // Creamos y devolvemos la malla del prisma rectangular
-    return mesh(vertices, indices, color, reflectivity, shininess);
+    return mesh(vertices, indices, color, reflectivity, shininess, transparency, refractive_index);
 }

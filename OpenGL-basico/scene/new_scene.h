@@ -7,12 +7,20 @@
 
 class new_scene
 {
+    static color ambient_color_;
+
     color background_color_;
     double near_, far_;
     int width_, height_;
     camera* camera_;
     std::vector<object*> objects_;
     std::vector<light*> lights_;
+
+    bool cast_ray(ray& cast_ray,
+                  object*& this_object,
+                  object*& closest_object,
+                  vector3& new_intersection_point,
+                  vector3& new_intersection_normal) const;
 
 public:
     new_scene(int width, int height, const char* filename);
@@ -24,5 +32,8 @@ public:
     color get_background_color();
     color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad);
     color calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
-    color calculate_specular(ray& rayo, vector3 interction_point, vector3 intersection_normal, object* nearest_obj);
+    color calculate_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                             object* nearest_obj) const;
+    color calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                 object* nearest_obj);
 };
