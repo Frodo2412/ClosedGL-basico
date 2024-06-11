@@ -65,7 +65,7 @@
                 <position x="-5" y="-2" z="-25"/>
             </properties>
         </shape>
-        <shape id="sphere_1" type="sphere" reflectivity="0.3" shininess="50" radius="1" translucency="1000"
+        <shape id="sphere_1" type="sphere" reflectivity="0.1" shininess="50" radius="1" translucency="1000"
                refractive_index="1.5">
             <color red="255" green="255" blue="0"/>
             <properties>

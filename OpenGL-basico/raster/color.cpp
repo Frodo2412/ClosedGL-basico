@@ -29,6 +29,17 @@ color color::operator*(double f) const
     return color(red_ * f, green_ * f, blue_ * f, alpha_ * f);
 }
 
+color operator*(const color& c1, const color& c2)
+{
+    return color(c1.get_red() * c2.get_red(), c1.get_green() * c2.get_green(), c1.get_blue() * c2.get_blue());
+}
+
+color operator*(double f, const color& c)
+{
+    return color(c.get_red() * f, c.get_green() * f, c.get_blue() * f, c.get_alpha() * f);
+}
+
+
 color color::operator/(double f) const
 {
     return color(red_ / f, green_ / f, blue_ / f, alpha_ / f);
