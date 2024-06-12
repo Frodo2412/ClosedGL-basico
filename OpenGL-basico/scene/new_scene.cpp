@@ -358,7 +358,7 @@ color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vecto
                 double prod = reflection_vector.dot_product(camera_vector);
                 if (prod > 0.0f)
                 {
-                    double specular_intensity = nearest_obj->get_reflectivity() * pow(
+                    double specular_intensity = pow(
                         prod, nearest_obj->get_shininess());
                     specular_color = specular_color + (luz->get_color() * specular_intensity);
                 }

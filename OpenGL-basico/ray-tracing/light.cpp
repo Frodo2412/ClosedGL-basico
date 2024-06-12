@@ -28,7 +28,10 @@ bool light::compute_illumination(vector3 &intersection_point, vector3 &normal, s
                     {
                         continue;
                     }
-                    intensity = 0.0;
+                    if(obj->get_translucency() != 1.0)//Si el objeto que genera sombra es completamente transparente entonces no genera sombra
+                    {
+                        intensity = 0.0;
+                    }
                     break;
                 }
             }
