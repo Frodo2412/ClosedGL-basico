@@ -48,3 +48,7 @@ public:
     color operator*(double f) const;
     friend std::ostream& operator<<(std::ostream& os, const color& c);
 };
+
+
+color operator*(const color& c1, const color& c2);
+color operator*(double f, const color& c);

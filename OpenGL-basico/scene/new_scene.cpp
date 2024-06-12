@@ -194,6 +194,24 @@ color new_scene::get_background_color()
     return background_color_;
 }
 
+color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                 object* nearest_obj)
+{
+    const color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj),
+                reflection_color = calculate_reflection(rayo, intersection_point, intersection_normal, nearest_obj),
+                specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj),
+                translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj);
+
+    color mat_color(0, 0, 0);
+    mat_color = reflection_color * nearest_obj->get_reflectivity() + diffuse_color * (1 - nearest_obj->
+        get_reflectivity());
+    mat_color = translucent_color * nearest_obj->get_translucency() + mat_color * (1 - nearest_obj->
+        get_translucency());
+    mat_color = mat_color + specular_color;
+
+    return mat_color;
+}
+
 color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad)
 {
     vector3 intersection_point = {0, 0, 0}; //=> Variable en la que cargaremos el punto de interseccion con los objetos
@@ -237,10 +255,7 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
     /* Calcularemos cuanta luz recibe el punto de interseccion */
     if (nearest_obj != nullptr)
     {
-        color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
-        color specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
-        color translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj);
-        px_color = diffuse_color + specular_color + translucent_color;
+        px_color = calculate_color(rayo, intersection_point, intersection_normal, nearest_obj);
         aux_reflectividad = nearest_obj->get_reflectivity();
         aux_refractividad = 1 / nearest_obj->get_refractive_index();
     }
@@ -249,12 +264,11 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
 
 color new_scene::calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj)
 {
-    double light_intensity = 0; //=> Variable en la que cargaremos la intensidad de la luz en el punto de interseccion
     color diffuse_color = get_background_color();
     color acum_color = {0, 0, 0};
     for (light* luz : lights_)
     {
-        /* Veremos si teniendo en cuenta la luz puntual "Luz" el punto de interseccion esta en sombra o no */
+        double light_intensity = 0.0;
         luz->compute_illumination(intersection_point, intersection_normal, objects_, nearest_obj, light_intensity);
         acum_color = nearest_obj->get_color();
         acum_color.set_red(acum_color.get_red() * light_intensity);
@@ -265,35 +279,76 @@ color new_scene::calculate_diffuse(vector3 intersection_point, vector3 intersect
     return diffuse_color;
 }
 
+color new_scene::calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                      object* nearest_obj)
+{
+    color translucency_color = {0, 0, 0};
+    try
+    {
+        if (nearest_obj->get_reflectivity() > 0.0)
+        {
+            vector3 view_dir = rayo.get_ray_vector().normalize();
+            vector3 normal = intersection_normal;
+            vector3 reflected_dir = (view_dir - (normal * 2 * view_dir.dot_product(normal))).normalize();
+
+            ray reflected_ray(intersection_point + reflected_dir * 0.01, reflected_dir);
+
+            object* closest_object;
+            vector3 new_intersection_point, new_intersection_normal;
+            bool intersection_found = cast_ray(reflected_ray, nearest_obj, closest_object, new_intersection_point,
+                                               new_intersection_normal);
+
+            if (intersection_found)
+            {
+                // Get color from the object the ray intersects with
+                translucency_color = calculate_color(reflected_ray, new_intersection_point, new_intersection_normal,
+                                                     closest_object);
+            }
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    return translucency_color;
+}
+
 color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                     object* nearest_obj) const
 {
     color specular_color = {0, 0, 0};
-    if (nearest_obj->get_shininess() > 0.0f)
+    if (nearest_obj->get_shininess() > 0.0)
     {
+        double shininess = nearest_obj->get_shininess(); // Obtener el shininess del objeto
+
         for (light* luz : lights_)
         {
             vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
 
-            ray sombra = ray(intersection_point - rayo_s * 0.0001, rayo_s); //intersection_point - rayo_s
+            ray sombra(intersection_point + rayo_s * 0.0001, rayo_s); // Crear un rayo hacia la luz
+
+            // Verificar si hay sombra
             bool hay_sombra = false;
             for (object* obj : objects_)
             {
-                vector3 inter = {0, 0, 0};
-                vector3 trash1 = {0, 0, 0};
-                if (obj->test_intersection(sombra, inter, trash1))
+                if (obj != nearest_obj)
                 {
-                    double intersection_distance = (inter - intersection_point).get_norm();
-                    double light_distance = (luz->get_position() - intersection_point).get_norm();
-                    if (intersection_distance > light_distance)
-                    //si intersecto con otro objeto pero mas lejos que la ubicacion de la luz, entonces le llega luz
+                    vector3 inter;
+                    vector3 trash;
+                    if (obj->test_intersection(sombra, inter, trash))
                     {
-                        continue;
+                        double intersection_distance = (inter - intersection_point).get_magnitude();
+                        double light_distance = (luz->get_position() - intersection_point).get_magnitude();
+                        if (intersection_distance < light_distance)
+                        {
+                            hay_sombra = true;
+                            break;
+                        }
                     }
-                    hay_sombra = true;
-                    break;
                 }
             }
+
             if (!hay_sombra)
             {
                 vector3 light_ray = sombra.get_ray_vector().normalize();
@@ -303,7 +358,7 @@ color new_scene::calculate_specular(ray& rayo, vector3 intersection_point, vecto
                 double prod = reflection_vector.dot_product(camera_vector);
                 if (prod > 0.0f)
                 {
-                    double specular_intensity = nearest_obj->get_reflectivity() * pow(
+                    double specular_intensity = pow(
                         prod, nearest_obj->get_shininess());
                     specular_color = specular_color + (luz->get_color() * specular_intensity);
                 }
