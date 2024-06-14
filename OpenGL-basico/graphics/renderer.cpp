@@ -74,3 +74,54 @@ void renderer::render_image(image& image)
     // Unload the image and deinitialize the library
     FreeImage_Unload(bitmap);
 }
+
+void renderer::render_intermedium_image(image& image, SDL_Renderer* renderer) {
+    const auto width = image.width;
+    const auto height = image.height;
+
+    // Create an empty 24-bit RGB surface
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 24, 0, 0, 0, 0);
+    if (!surface) {
+        std::cerr << "Failed to create SDL surface: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    // Lock the surface
+    if (SDL_LockSurface(surface) != 0) {
+        std::cerr << "Failed to lock SDL surface: " << SDL_GetError() << std::endl;
+        SDL_FreeSurface(surface);
+        return;
+    }
+
+    // Copy pixel data to the surface
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            pixel currentPixel = image.get_pixel(x, y);
+            Uint8* pixelAddr = (Uint8*)surface->pixels + y * surface->pitch + x * 3;
+            *(pixelAddr + 0) = currentPixel.color_.get_red();
+            *(pixelAddr + 1) = currentPixel.color_.get_green();
+            *(pixelAddr + 2) = currentPixel.color_.get_blue();
+        }
+    }
+
+    // Unlock the surface
+    SDL_UnlockSurface(surface);
+
+    // Create a texture from the surface
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!texture) {
+        std::cerr << "Failed to create SDL texture: " << SDL_GetError() << std::endl;
+        SDL_FreeSurface(surface);
+        return;
+    }
+
+    // Copy the texture to the renderer
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+
+    // Present the renderer
+    SDL_RenderPresent(renderer);
+
+    // Destroy the texture and surface
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(surface);
+}

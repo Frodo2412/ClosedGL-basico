@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "SDL.h"
 #include "camera.h"
 #include "../ray-tracing/object.h"
 #include "../graphics/image.h"
@@ -24,7 +25,7 @@ class new_scene
 
 public:
     new_scene(int width, int height, const char* filename);
-    std::vector<image> Render();
+    std::vector<image> Render(SDL_Renderer* renderer);
     int get_width();
     int get_height();
     double get_far();

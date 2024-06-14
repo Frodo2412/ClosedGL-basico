@@ -17,3 +17,17 @@ std::string image::get_type()
             return "refractividad";
     }
 }
+
+pixel image::get_pixel(int x, int y)
+{
+    pixel px;
+    for (pixel pixel : pixels)
+    {
+        if (pixel.point.x == x && pixel.point.y == y)
+        {
+            px = pixel;
+            break;
+        }
+    }
+    return px;
+}
