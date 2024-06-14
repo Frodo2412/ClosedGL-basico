@@ -4,6 +4,7 @@
 #include "../ray-tracing/plane.h"
 #include "../xml/tinyxml2.h"
 #include "../xml/scene_parser.h"
+#include <SDL.h>
 
 bool new_scene::cast_ray(ray& cast_ray,
                          object*& this_object,
@@ -42,7 +43,7 @@ bool new_scene::cast_ray(ray& cast_ray,
     return intersection_found;
 }
 
-new_scene::new_scene(const int width, const int height, const char* filename) : width_(width), height_(height)
+new_scene::new_scene(const int width, const int height, const char* filename, SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* textura) : width_(width), height_(height), window_(window), renderer_(renderer), textura_(textura)
 {
     near_ = 0.1;
     far_ = 1000;
@@ -89,83 +90,94 @@ new_scene::new_scene(const int width, const int height, const char* filename) : 
         '\n';
 }
 
-std::vector<image> new_scene::Render()
-{
-    /* Vector donde cargaremos las 3 imagenes generadas */
+std::vector<image> new_scene::Render() {
     std::vector<image> resultado;
-    /* Vector donde se ira guardando el color (luz) acumulado por cada pixel */
     std::vector<pixel> pixels;
-
-    /* Vector donde se ira guardando la relfectividad acumulada por cada pixel */
     std::vector<pixel> reflectividad;
-
-    /* Vector donde se ira guardando la refractividad acumulada por cada pixel */
     std::vector<pixel> refractividad;
-    /* Creamos el rayo que sale de la camara, el cual usaremos para el trazado de rayos */
+
     ray rayo = ray(camera_->get_position(), {0, 0, 0});
 
     double x_factor = 2.0 / (double)width_;
     double y_factor = 2.0 / (double)height_;
     int n = 2; // Número de celdas por lado, para un total de n*n rayos por píxel
     double cell_size = 1.0 / (double)n;
+
     std::cout << "Rendering..." << std::endl;
-    /* Calculamos todos los píxeles */
-    for (int x = 0; x < width_; x++)
-    {
-        for (int y = 0; y < height_; y++)
-        {
-            color final_color = {0, 0, 0}; // Color inicial del píxel
+
+    std::vector<Uint32> pixelBuffer(width_ * height_);
+
+    for (int x = 0; x < width_; x++) {
+        for (int y = 0; y < height_; y++) {
+            color final_color = {0, 0, 0};
             double final_reflectividad = 0.0;
-            // => En estas variables cargaremos el valor de los coeficientes de reflexion y refraccion en el pixel x, y
             double final_refractividad = 0.0;
-            /* Para cada celda dentro del píxel */
-            for (int i = 0; i < n; ++i)
-            {
-                for (int j = 0; j < n; ++j)
-                {
-                    // Desplazamiento dentro del píxel
+
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
                     double sample_x = (double)x + (i + 0.5) * cell_size;
                     double sample_y = (double)y + (j + 0.5) * cell_size;
-
-                    // Normalizamos el pixel por el que pasará el rayo
                     double norm_x = sample_x * x_factor - 1.0;
                     double norm_y = sample_y * y_factor - 1.0;
 
-                    // Casteamos el rayo para que pase por el píxel normalizado (x, y)
                     camera_->generate_ray(norm_x, norm_y, rayo);
 
                     double aux_reflectividad = 0.0;
                     double aux_refractividad = 0.0;
 
-                    // Calculamos el color del rayo
                     color sample_color = whitted_ray_tracing(rayo, aux_reflectividad, aux_refractividad);
 
-                    // Sumamos el color de la muestra al color final del píxel
                     final_color += sample_color;
                     final_reflectividad += aux_reflectividad;
                     final_refractividad += aux_refractividad;
                 }
             }
 
-            // Promediamos el color final dividiendo por el número de muestras
             final_color = final_color / (n * n);
             final_reflectividad = final_reflectividad / (n * n);
             final_refractividad = final_refractividad / (n * n);
 
-            // Guardamos el píxel con el color final calculado
             pixel px = pixel(x, y, final_color);
-            pixel px_reflectividad = pixel(x, y, color(255 * final_reflectividad, 255 * final_reflectividad,
-                                                       255 * final_reflectividad));
-            pixel px_refractividad = pixel(x, y, color(255 * final_refractividad, 255 * final_refractividad,
-                                                       255 * final_refractividad));
+            pixel px_reflectividad = pixel(x, y, color(255 * final_reflectividad, 255 * final_reflectividad, 255 * final_reflectividad));
+            pixel px_refractividad = pixel(x, y, color(255 * final_refractividad, 255 * final_refractividad, 255 * final_refractividad));
+
             pixels.push_back(px);
             reflectividad.push_back(px_reflectividad);
             refractividad.push_back(px_refractividad);
+
+            Uint32 pixelColor = SDL_MapRGBA(SDL_AllocFormat(SDL_PIXELFORMAT_RGBA8888), (Uint8)final_color.get_red(), (Uint8)final_color.get_green(), (Uint8)final_color.get_blue(), 255);
+            pixelBuffer[y * width_ + x] = pixelColor;
+
+            // Actualiza y muestra la textura cada 10 iteraciones para mejorar la eficiencia
+            if ((x * height_ + y) % 10 == 0) {
+                SDL_UpdateTexture(textura_, nullptr, pixelBuffer.data(), width_ * sizeof(Uint32));
+                SDL_RenderClear(renderer_);
+                SDL_RenderCopy(renderer_, textura_, nullptr, nullptr);
+                SDL_RenderPresent(renderer_);
+
+                // Manejar eventos de SDL para evitar que la ventana parezca no responder
+                SDL_Event event;
+                while (SDL_PollEvent(&event)) {
+                    if (event.type == SDL_QUIT) {
+                        // Aquí puedes manejar el cierre de la ventana si el usuario hace clic en cerrar
+                        // Por ejemplo, establecer una bandera para salir del bucle de renderizado
+                        // o llamar a una función de finalización.
+                    }
+                }
+            }
         }
     }
+
+    // Actualiza y muestra la textura al finalizar el renderizado completo
+    SDL_UpdateTexture(textura_, nullptr, pixelBuffer.data(), width_ * sizeof(Uint32));
+    SDL_RenderClear(renderer_);
+    SDL_RenderCopy(renderer_, textura_, nullptr, nullptr);
+    SDL_RenderPresent(renderer_);
+
     resultado.push_back(image(width_, height_, pixels, image_type::normal));
     resultado.push_back(image(width_, height_, reflectividad, image_type::reflectividad));
     resultado.push_back(image(width_, height_, refractividad, image_type::refractividad));
+
     return resultado;
 }
 

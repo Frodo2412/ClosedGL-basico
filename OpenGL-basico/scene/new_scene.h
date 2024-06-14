@@ -4,6 +4,7 @@
 #include "../ray-tracing/object.h"
 #include "../graphics/image.h"
 #include "../ray-tracing/light.h"
+#include <SDL.h>
 
 class new_scene
 {
@@ -15,6 +16,9 @@ class new_scene
     camera* camera_;
     std::vector<object*> objects_;
     std::vector<light*> lights_;
+    SDL_Window* window_;
+    SDL_Renderer* renderer_;
+    SDL_Texture* textura_;
 
     bool cast_ray(ray& cast_ray,
                   object*& this_object,
@@ -23,7 +27,7 @@ class new_scene
                   vector3& new_intersection_normal) const;
 
 public:
-    new_scene(int width, int height, const char* filename);
+    new_scene(int width, int height, const char* filename, SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* textura);
     std::vector<image> Render();
     int get_width();
     int get_height();
