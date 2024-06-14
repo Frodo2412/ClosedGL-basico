@@ -20,14 +20,8 @@ std::string image::get_type()
 
 pixel image::get_pixel(int x, int y)
 {
-    pixel px;
-    for (pixel pixel : pixels)
+    if (x >= 0 && x < width && y >= 0 && y < height)
     {
-        if (pixel.point.x == x && pixel.point.y == y)
-        {
-            px = pixel;
-            break;
-        }
+        return pixels[(x+1) * (height-1) + y];
     }
-    return px;
 }

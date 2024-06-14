@@ -75,53 +75,45 @@ void renderer::render_image(image& image)
     FreeImage_Unload(bitmap);
 }
 
-void renderer::render_intermedium_image(image& image, SDL_Renderer* renderer) {
-    const auto width = image.width;
-    const auto height = image.height;
+SDL_Texture* renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
+{
+    // Debug: Logs para verificar las dimensiones de la imagen
+    std::cout << "Creating texture from image." << std::endl;
+    std::cout << "Image dimensions: " << img.width << "x" << img.height << std::endl;
 
-    // Create an empty 24-bit RGB surface
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 24, 0, 0, 0, 0);
-    if (!surface) {
-        std::cerr << "Failed to create SDL surface: " << SDL_GetError() << std::endl;
-        return;
+    // Verificar la validez del renderer
+    if (!renderer)
+    {
+        std::cerr << "Renderer is invalid." << std::endl;
+        return nullptr;
     }
 
-    // Lock the surface
-    if (SDL_LockSurface(surface) != 0) {
-        std::cerr << "Failed to lock SDL surface: " << SDL_GetError() << std::endl;
-        SDL_FreeSurface(surface);
-        return;
+    // Verificar los datos de píxeles de la imagen
+    if (img.pixels.empty() || img.width <= 0 || img.height <= 0)
+    {
+        std::cerr << "Invalid image data." << std::endl;
+        return nullptr;
     }
 
-    // Copy pixel data to the surface
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            pixel currentPixel = image.get_pixel(x, y);
-            Uint8* pixelAddr = (Uint8*)surface->pixels + y * surface->pitch + x * 3;
-            *(pixelAddr + 0) = currentPixel.color_.get_red();
-            *(pixelAddr + 1) = currentPixel.color_.get_green();
-            *(pixelAddr + 2) = currentPixel.color_.get_blue();
-        }
+    // Crear la superficie SDL desde los datos de la imagen
+    SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
+        static_cast<void*>(const_cast<pixel*>(img.pixels.data())), img.width, img.height, 32, img.width * sizeof(pixel),
+        0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+    if (!surface)
+    {
+        std::cerr << "SDL_CreateRGBSurfaceFrom Error: " << SDL_GetError() << std::endl;
+        return nullptr; // O manejar el error según sea necesario
     }
 
-    // Unlock the surface
-    SDL_UnlockSurface(surface);
-
-    // Create a texture from the surface
+    // Crear la textura SDL desde la superficie
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!texture) {
-        std::cerr << "Failed to create SDL texture: " << SDL_GetError() << std::endl;
-        SDL_FreeSurface(surface);
-        return;
+    SDL_FreeSurface(surface); // Liberar la superficie después de crear la textura
+
+    if (!texture)
+    {
+        std::cerr << "Error creating texture: " << SDL_GetError() << std::endl;
+        return nullptr;
     }
 
-    // Copy the texture to the renderer
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
-
-    // Present the renderer
-    SDL_RenderPresent(renderer);
-
-    // Destroy the texture and surface
-    SDL_DestroyTexture(texture);
-    SDL_FreeSurface(surface);
+    return texture;
 }
