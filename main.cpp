@@ -50,12 +50,13 @@ int main(int argc, char* argv[])
         }
         std::cout << "SDL Renderer created successfully.\n";
 
-        new_scene scene = new_scene(width, height, "../scenes/scene_2.xml");
+        new_scene scene(width, height, "../scenes/scene_2.xml");
         std::cout << "Scene loaded successfully.\n";
 
         for (image img : scene.Render(window, renderer))
         {
-            renderer::render_image(img); // renders image to screen
+            renderer::render_image(img, renderer); // renders image to screen
+            SDL_Delay(2000);
         }
         std::cout << "Scene rendered successfully.\n";
         
@@ -70,7 +71,6 @@ int main(int argc, char* argv[])
                     quit = true;
                 }
             }
-            SDL_Delay(2000);
         }
         
         SDL_DestroyRenderer(renderer);

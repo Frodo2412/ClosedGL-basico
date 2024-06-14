@@ -29,7 +29,7 @@ std::string get_current_timestamp()
     return oss.str();
 }
 
-void renderer::render_image(image& image)
+void renderer::render_image(image& image, SDL_Renderer* renderer)
 {
     auto current_time = get_current_timestamp();
     const auto width = image.width;
@@ -73,9 +73,14 @@ void renderer::render_image(image& image)
 
     // Unload the image and deinitialize the library
     FreeImage_Unload(bitmap);
+
+    std::cout << "Rendering image." << std::endl;
+
+    render_intermedium_image(image, renderer);
+    
 }
 
-SDL_Texture* renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
+void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
 {
     // Debug: Logs para verificar las dimensiones de la imagen
     std::cout << "Creating texture from image." << std::endl;
@@ -85,35 +90,57 @@ SDL_Texture* renderer::render_intermedium_image(image& img, SDL_Renderer* render
     if (!renderer)
     {
         std::cerr << "Renderer is invalid." << std::endl;
-        return nullptr;
+        return;
     }
 
     // Verificar los datos de píxeles de la imagen
     if (img.pixels.empty() || img.width <= 0 || img.height <= 0)
     {
         std::cerr << "Invalid image data." << std::endl;
-        return nullptr;
+        return;
     }
 
     // Crear la superficie SDL desde los datos de la imagen
     SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
-        static_cast<void*>(const_cast<pixel*>(img.pixels.data())), img.width, img.height, 32, img.width * sizeof(pixel),
-        0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+     static_cast<void*>(const_cast<pixel*>(img.pixels.data())),
+     img.width,
+     img.height,
+     32, // bits per pixel
+     img.width * sizeof(pixel), // pitch: bytes per row
+     0x00FF0000, // Red mask
+     0x0000FF00, // Green mask
+     0x000000FF, // Blue mask
+     0xFF000000  // Alpha mask
+ );
     if (!surface)
     {
         std::cerr << "SDL_CreateRGBSurfaceFrom Error: " << SDL_GetError() << std::endl;
-        return nullptr; // O manejar el error según sea necesario
+        return; // O manejar el error según sea necesario
     }
 
     // Crear la textura SDL desde la superficie
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface); // Liberar la superficie después de crear la textura
+    
 
     if (!texture)
     {
-        std::cerr << "Error creating texture: " << SDL_GetError() << std::endl;
-        return nullptr;
+        std::cerr << "Failed to create texture from image." << std::endl;
+        return;
     }
 
-    return texture;
+    // Clear the renderer
+    SDL_RenderClear(renderer);
+
+    // Copy the texture to the renderer
+    if (SDL_RenderCopy(renderer, texture, NULL, NULL) != 0)
+    {
+        std::cerr << "SDL_RenderCopy Error: " << SDL_GetError() << std::endl;
+    }
+
+    // Update the window
+    SDL_RenderPresent(renderer);
+
+    // Destroy the texture
+    SDL_DestroyTexture(texture);
 }

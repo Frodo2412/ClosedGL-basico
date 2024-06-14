@@ -6,23 +6,6 @@
 #include "../xml/tinyxml2.h"
 #include "../xml/scene_parser.h"
 
-void sdl_render_image(SDL_Window* window, SDL_Renderer* renderer, image& img)
-{
-    // Crear una textura a partir del objeto image
-    SDL_Texture* texture = renderer::render_intermedium_image(img, renderer);
-    if (!texture)
-    {
-        std::cerr << "No se pudo crear la textura a partir de la imagen." << std::endl;
-        return;
-    }
-    
-    SDL_RenderClear(renderer); // Limpiar el renderer
-    SDL_RenderCopy(renderer, texture, NULL, NULL); // Copiar la textura al renderer
-    SDL_RenderPresent(renderer); // Presentar el renderer en la ventana
-    SDL_DestroyTexture(texture); // Liberar la textura
-}
-
-
 bool new_scene::cast_ray(ray& cast_ray,
                          object*& this_object,
                          object*& closest_object,
@@ -170,7 +153,7 @@ std::vector<image> new_scene::Render(SDL_Window* window, SDL_Renderer* renderer)
         if (x % 100 == 0)
         {
            image intermediateImage(width_, height_, pixels, image_type::normal);
-           sdl_render_image(window, renderer, intermediateImage);
+           //sdl_render_image(window, renderer, intermediateImage);
         }
     }
 
