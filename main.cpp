@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 
         for (image img : scene.Render(window, renderer))
         {
-            renderer::render_image(img, renderer); // renders image to screen
+            renderer::render_image(img, renderer, window); // renders image to screen
         }
         std::cout << "Scene rendered successfully.\n";
         

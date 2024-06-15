@@ -29,7 +29,7 @@ std::string get_current_timestamp()
     return oss.str();
 }
 
-void renderer::render_image(image& image, SDL_Renderer* renderer)
+void renderer::render_image(image& image, SDL_Renderer* renderer, SDL_Window* window)
 {
     auto current_time = get_current_timestamp();
     const auto width = image.width;
@@ -73,12 +73,18 @@ void renderer::render_image(image& image, SDL_Renderer* renderer)
 
     // Unload the image and deinitialize the library
     FreeImage_Unload(bitmap);
+    // Destroy SDL window
+    
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+
+    SDL_Quit();
     
 }
 
 void renderer::render_intermedium_image(image& img, int max_x, SDL_Renderer* renderer)
 {
-    std::cout << "Creating texture from image." << std::endl;
+    std::cout << "Cargando proceso." << std::endl;
     std::cout << "Image dimensions: " << img.width << "x" << img.height << std::endl;
 
     if (!renderer)
