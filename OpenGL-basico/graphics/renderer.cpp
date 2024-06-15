@@ -29,7 +29,7 @@ std::string get_current_timestamp()
     return oss.str();
 }
 
-void renderer::render_image(image& image, SDL_Renderer* renderer, SDL_Window* window)
+void renderer::render_image(image& image, SDL_Renderer* renderer)
 {
     auto current_time = get_current_timestamp();
     const auto width = image.width;
@@ -73,13 +73,12 @@ void renderer::render_image(image& image, SDL_Renderer* renderer, SDL_Window* wi
 
     // Unload the image and deinitialize the library
     FreeImage_Unload(bitmap);
-    // Destroy SDL window
-    
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
 
-    SDL_Quit();
-    
+    // mostrar la imagen final.
+    if(image.type_ == normal)
+    {
+        render_intermedium_image(image, width-1, renderer); 
+    }
 }
 
 void renderer::render_intermedium_image(image& img, int max_x, SDL_Renderer* renderer)
