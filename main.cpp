@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
             renderer::render_image(img, renderer); // renders image to screen
         }
         std::cout << "Scene rendered successfully.\n";
-        
+
         SDL_Event e;
         bool quit = false;
         while (!quit)
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
                 }
             }
         }
-        
+
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         SDL_Quit();

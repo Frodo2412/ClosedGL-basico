@@ -89,10 +89,10 @@
         </shape>
         <shape id="cylinder_2" type="cylinder" reflectivity="0" shininess="5" radius="1" height="8"
                translucency="1"
-               refractive_index="2">
+               refractive_index="1.53">
             <color red="0" green="0" blue="255"/>
             <properties>
-                <position x="-3" y="-2" z="-25"/>
+                <position x="-3" y="-1" z="-25"/>
                 <axis x="1" y="0" z="0"/>
             </properties>
         </shape>
