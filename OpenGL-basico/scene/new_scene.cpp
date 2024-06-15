@@ -197,11 +197,23 @@ color new_scene::get_background_color()
 color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj)
 {
-    const color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj),
-                reflection_color = calculate_reflection(rayo, intersection_point, intersection_normal, nearest_obj),
-                specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj),
-                translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj);
-
+    const color diffuse_color = calculate_diffuse(intersection_point, intersection_normal, nearest_obj);
+    color reflection_color = {0, 0, 0};
+    color specular_color = {0, 0, 0};
+    color translucent_color = {0, 0, 0};
+    if (nearest_obj->get_shininess() > 0.0)
+    {
+        specular_color = calculate_specular(rayo, intersection_point, intersection_normal, nearest_obj);
+    }
+    if(nearest_obj->get_reflectivity() > 0.0)
+    {
+        reflection_color = calculate_reflection(rayo, intersection_point, intersection_normal, nearest_obj);
+    }
+    if(nearest_obj->get_translucency() > 0.0)
+    {
+        translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj);
+    }
+    
     color mat_color(0, 0, 0);
     mat_color = reflection_color * nearest_obj->get_reflectivity() + diffuse_color * (1 - nearest_obj->
         get_reflectivity());
