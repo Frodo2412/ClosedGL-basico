@@ -99,10 +99,9 @@ void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
 
     // Crear un buffer para los datos de los píxeles en formato RGBA
     std::vector<uint32_t> pixel_data(img.width * img.height);
-
-    for (int y = 0; y < img.height; y++)
+    for (int x = 0; x < img.width; x++)
     {
-        for (int x = 0; x < img.width; x++)
+        for (int y = 0; y < img.height; y++)
         {
             pixel& p = img.get_pixel(x, y);
             color& c = p.color_;
