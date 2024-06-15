@@ -82,46 +82,59 @@ void renderer::render_image(image& image, SDL_Renderer* renderer)
 
 void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
 {
-    // Debug: Logs para verificar las dimensiones de la imagen
     std::cout << "Creating texture from image." << std::endl;
     std::cout << "Image dimensions: " << img.width << "x" << img.height << std::endl;
 
-    // Verificar la validez del renderer
     if (!renderer)
     {
         std::cerr << "Renderer is invalid." << std::endl;
         return;
     }
 
-    // Verificar los datos de píxeles de la imagen
     if (img.pixels.empty() || img.width <= 0 || img.height <= 0)
     {
         std::cerr << "Invalid image data." << std::endl;
         return;
     }
 
-    // Crear la superficie SDL desde los datos de la imagen
+    // Crear un buffer para los datos de los píxeles en formato RGBA
+    std::vector<uint32_t> pixel_data(img.width * img.height);
+
+    for (int y = 0; y < img.height; ++y)
+    {
+        for (int x = 0; x < img.width; ++x)
+        {
+            pixel& p = img.get_pixel(x, y);
+            color& c = p.color_;
+            uint32_t rgba = (static_cast<uint8_t>(c.get_alpha()) << 24) |
+                            (static_cast<uint8_t>(c.get_red()) << 16) |
+                            (static_cast<uint8_t>(c.get_green()) << 8) |
+                            static_cast<uint8_t>(c.get_blue());
+            pixel_data[y * img.width + x] = rgba;
+        }
+    }
+
+    // Crear la superficie SDL desde el buffer de píxeles
     SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
-     static_cast<void*>(const_cast<pixel*>(img.pixels.data())),
-     img.width,
-     img.height,
-     32, // bits per pixel
-     img.width * sizeof(pixel), // pitch: bytes per row
-     0x00FF0000, // Red mask
-     0x0000FF00, // Green mask
-     0x000000FF, // Blue mask
-     0xFF000000  // Alpha mask
- );
+        pixel_data.data(),
+        img.width,
+        img.height,
+        32, // bits per pixel
+        img.width * sizeof(uint32_t), // pitch: bytes per row
+        0xFF000000, // Alpha mask
+        0x00FF0000, // Red mask
+        0x0000FF00, // Green mask
+        0x000000FF  // Blue mask
+    );
+
     if (!surface)
     {
         std::cerr << "SDL_CreateRGBSurfaceFrom Error: " << SDL_GetError() << std::endl;
-        return; // O manejar el error según sea necesario
+        return;
     }
 
-    // Crear la textura SDL desde la superficie
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface); // Liberar la superficie después de crear la textura
-    
+    SDL_FreeSurface(surface);
 
     if (!texture)
     {
@@ -129,18 +142,14 @@ void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
         return;
     }
 
-    // Clear the renderer
     SDL_RenderClear(renderer);
 
-    // Copy the texture to the renderer
     if (SDL_RenderCopy(renderer, texture, NULL, NULL) != 0)
     {
         std::cerr << "SDL_RenderCopy Error: " << SDL_GetError() << std::endl;
     }
 
-    // Update the window
     SDL_RenderPresent(renderer);
 
-    // Destroy the texture
     SDL_DestroyTexture(texture);
 }

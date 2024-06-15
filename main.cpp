@@ -48,6 +48,9 @@ int main(int argc, char* argv[])
             SDL_Quit();
             return 3;
         }
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer); // Present the black screen
         std::cout << "SDL Renderer created successfully.\n";
 
         new_scene scene(width, height, "../scenes/scene_2.xml");
