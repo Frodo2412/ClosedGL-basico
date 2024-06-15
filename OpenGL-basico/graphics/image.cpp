@@ -22,6 +22,6 @@ pixel image::get_pixel(int x, int y)
 {
     if (x >= 0 && x < width && y >= 0 && y < height)
     {
-        return pixels[(x+1) * (height-1) + y];
+         return pixels[x * (height) + y];
     }
 }

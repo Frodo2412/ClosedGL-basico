@@ -100,16 +100,16 @@ void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
     // Crear un buffer para los datos de los píxeles en formato RGBA
     std::vector<uint32_t> pixel_data(img.width * img.height);
 
-    for (int y = 0; y < img.height; ++y)
+    for (int y = 0; y < img.height; y++)
     {
-        for (int x = 0; x < img.width; ++x)
+        for (int x = 0; x < img.width; x++)
         {
             pixel& p = img.get_pixel(x, y);
             color& c = p.color_;
-            uint32_t rgba = (static_cast<uint8_t>(c.get_alpha()) << 24) |
-                            (static_cast<uint8_t>(c.get_red()) << 16) |
-                            (static_cast<uint8_t>(c.get_green()) << 8) |
-                            static_cast<uint8_t>(c.get_blue());
+            uint32_t rgba = (static_cast<uint8_t>(c.get_red()) << 24) |
+                            (static_cast<uint8_t>(c.get_green()) << 16) |
+                            (static_cast<uint8_t>(c.get_blue()) << 8) |
+                            static_cast<uint8_t>(c.get_alpha());
             pixel_data[y * img.width + x] = rgba;
         }
     }
@@ -121,10 +121,10 @@ void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
         img.height,
         32, // bits per pixel
         img.width * sizeof(uint32_t), // pitch: bytes per row
-        0xFF000000, // Alpha mask
-        0x00FF0000, // Red mask
-        0x0000FF00, // Green mask
-        0x000000FF  // Blue mask
+        0xFF000000, // Red mask
+        0x00FF0000, // Green mask
+        0x0000FF00, // Blue mask
+        0x000000FF  // Alpha mask
     );
 
     if (!surface)
