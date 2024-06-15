@@ -103,7 +103,7 @@ void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
     {
         for (int y = 0; y < img.height; y++)
         {
-            pixel& p = img.get_pixel(x, y);
+            pixel& p = img.get_pixel(x, img.height-y);
             color& c = p.color_;
             uint32_t rgba = (static_cast<uint8_t>(c.get_red()) << 24) |
                             (static_cast<uint8_t>(c.get_green()) << 16) |
