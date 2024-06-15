@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
         new_scene scene(width, height, "../scenes/scene_2.xml");
         std::cout << "Scene loaded successfully.\n";
 
-        for (image img : scene.Render(window, renderer))
+        for (image img : scene.Render(renderer))
         {
             renderer::render_image(img, renderer); // renders image to screen
         }

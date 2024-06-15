@@ -25,7 +25,7 @@ class new_scene
 
 public:
     new_scene(int width, int height, const char* filename);
-    std::vector<image> Render(SDL_Window* window, SDL_Renderer* renderer);
+    std::vector<image> Render(SDL_Renderer* renderer);
     int get_width();
     int get_height();
     double get_far();
