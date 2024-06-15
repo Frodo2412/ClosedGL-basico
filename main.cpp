@@ -59,7 +59,6 @@ int main(int argc, char* argv[])
         for (image img : scene.Render(window, renderer))
         {
             renderer::render_image(img, renderer); // renders image to screen
-            SDL_Delay(2000);
         }
         std::cout << "Scene rendered successfully.\n";
         

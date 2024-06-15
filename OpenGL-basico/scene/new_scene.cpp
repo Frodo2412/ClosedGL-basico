@@ -153,7 +153,7 @@ std::vector<image> new_scene::Render(SDL_Window* window, SDL_Renderer* renderer)
         if (x % 100 == 0)
         {
            image intermediateImage(width_, height_, pixels, image_type::normal);
-           //sdl_render_image(window, renderer, intermediateImage);
+           renderer::render_intermedium_image(intermediateImage, x, renderer);
         }
     }
 

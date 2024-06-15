@@ -73,14 +73,10 @@ void renderer::render_image(image& image, SDL_Renderer* renderer)
 
     // Unload the image and deinitialize the library
     FreeImage_Unload(bitmap);
-
-    std::cout << "Rendering image." << std::endl;
-
-    render_intermedium_image(image, renderer);
     
 }
 
-void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
+void renderer::render_intermedium_image(image& img, int max_x, SDL_Renderer* renderer)
 {
     std::cout << "Creating texture from image." << std::endl;
     std::cout << "Image dimensions: " << img.width << "x" << img.height << std::endl;
@@ -99,7 +95,7 @@ void renderer::render_intermedium_image(image& img, SDL_Renderer* renderer)
 
     // Crear un buffer para los datos de los píxeles en formato RGBA
     std::vector<uint32_t> pixel_data(img.width * img.height);
-    for (int x = 0; x < img.width; x++)
+    for (int x = 0; x <= max_x; x++)
     {
         for (int y = 0; y < img.height; y++)
         {
