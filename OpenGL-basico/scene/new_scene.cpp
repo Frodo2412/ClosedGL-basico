@@ -17,7 +17,7 @@ bool new_scene::cast_ray(ray& cast_ray,
     bool intersection_found = false;
     for (const auto current_object : objects_)
     {
-        if (current_object != this_object)
+        if (current_object != this_object  && current_object->get_translucency() < 1.0)
         {
             const bool valid_int = current_object->test_intersection(cast_ray,
                                                                      intersection_point,
@@ -394,7 +394,6 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
                 c = n.dot_product(p);
             }
 
-
             const auto r_2 = 1 - pow(r, 2);
             const auto c_2 = 1 - pow(c, 2);
             const auto root = r_2 * c_2;
@@ -469,7 +468,6 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
     {
         std::cerr << e.what() << '\n';
     }
-
 
     return translucency_color;
 }
