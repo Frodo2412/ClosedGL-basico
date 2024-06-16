@@ -298,6 +298,13 @@
         <Content Include="old-images\normal20240609_153733.png"/>
         <Content Include="old-images\normal20240609_153938.png"/>
         <Content Include="old-images\normal20240609_154111.png"/>
+        <Content Include="old-images\normal20240610_221855.png" />
+        <Content Include="old-images\normal20240610_235202.png" />
+        <Content Include="old-images\normal20240611_004719.png" />
+        <Content Include="old-images\normal20240611_222923.png" />
+        <Content Include="old-images\normal20240611_224631.png" />
+        <Content Include="old-images\normal20240611_224933.png" />
+        <Content Include="old-images\normal20240611_225201.png" />
         <Content Include="old-images\reflectividad20240608_235825.png"/>
         <Content Include="old-images\reflectividad20240609_000528.png"/>
         <Content Include="old-images\reflectividad20240609_000917.png"/>
@@ -341,6 +348,9 @@
         <Content Include="old-images\reflectividad20240609_153733.png"/>
         <Content Include="old-images\reflectividad20240609_153938.png"/>
         <Content Include="old-images\reflectividad20240609_154111.png"/>
+        <Content Include="old-images\reflectividad20240610_221855.png" />
+        <Content Include="old-images\reflectividad20240610_235202.png" />
+        <Content Include="old-images\reflectividad20240611_004719.png" />
         <Content Include="old-images\refractividad20240608_235825.png"/>
         <Content Include="old-images\refractividad20240609_000528.png"/>
         <Content Include="old-images\refractividad20240609_000917.png"/>

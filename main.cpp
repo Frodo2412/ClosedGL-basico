@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
         int width = 800;
         int height = 600;
 
-        auto scene = new_scene(width, height, "../scenes/scene_2.xml");
+        auto scene = new_scene(width, height, "../scenes/scene.xml");
         for (image img : scene.Render())
         {
             renderer::render_image(img); // renders image to screen
