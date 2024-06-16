@@ -102,12 +102,12 @@ std::vector<image> new_scene::Render()
     /* Vector donde se ira guardando la refractividad acumulada por cada pixel */
     std::vector<pixel> refractividad;
     /* Creamos el rayo que sale de la camara, el cual usaremos para el trazado de rayos */
-    ray rayo = ray(camera_->get_position(), {0, 0, 0});
+    auto rayo = ray(camera_->get_position(), {0, 0, 0});
 
-    double x_factor = 2.0 / (double)width_;
-    double y_factor = 2.0 / (double)height_;
+    double x_factor = 2.0 / static_cast<double>(width_);
+    double y_factor = 2.0 / static_cast<double>(height_);
     int n = 2; // Número de celdas por lado, para un total de n*n rayos por píxel
-    double cell_size = 1.0 / (double)n;
+    double cell_size = 1.0 / static_cast<double>(n);
     std::cout << "Rendering..." << std::endl;
     /* Calculamos todos los píxeles */
     for (int x = 0; x < width_; x++)
@@ -124,8 +124,8 @@ std::vector<image> new_scene::Render()
                 for (int j = 0; j < n; ++j)
                 {
                     // Desplazamiento dentro del píxel
-                    double sample_x = (double)x + (i + 0.5) * cell_size;
-                    double sample_y = (double)y + (j + 0.5) * cell_size;
+                    double sample_x = static_cast<double>(x) + (i + 0.5) * cell_size;
+                    double sample_y = static_cast<double>(y) + (j + 0.5) * cell_size;
 
                     // Normalizamos el pixel por el que pasará el rayo
                     double norm_x = sample_x * x_factor - 1.0;
@@ -153,17 +153,17 @@ std::vector<image> new_scene::Render()
             final_refractividad = final_refractividad / (n * n);
 
             // Guardamos el píxel con el color final calculado
-            pixel px = pixel(x, y, final_color);
-            pixel px_reflectividad = pixel(x, y, color(255 * final_reflectividad, 255 * final_reflectividad,
-                                                       255 * final_reflectividad));
-            pixel px_refractividad = pixel(x, y, color(255 * final_refractividad, 255 * final_refractividad,
-                                                       255 * final_refractividad));
+            auto px = pixel(x, y, final_color);
+            auto px_reflectividad = pixel(x, y, color(255 * final_reflectividad, 255 * final_reflectividad,
+                                                      255 * final_reflectividad));
+            auto px_refractividad = pixel(x, y, color(255 * final_refractividad, 255 * final_refractividad,
+                                                      255 * final_refractividad));
             pixels.push_back(px);
             reflectividad.push_back(px_reflectividad);
             refractividad.push_back(px_refractividad);
         }
     }
-    resultado.push_back(image(width_, height_, pixels, image_type::normal));
+    resultado.push_back(image(width_, height_, pixels, normal));
     resultado.push_back(image(width_, height_, reflectividad, image_type::reflectividad));
     resultado.push_back(image(width_, height_, refractividad, image_type::refractividad));
     return resultado;
@@ -197,18 +197,19 @@ color new_scene::get_background_color()
 color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj)
 {
-    const color diffuse_specular_color = calculate_diffuse_specular(rayo, intersection_point, intersection_normal, nearest_obj);
+    const color diffuse_specular_color = calculate_diffuse_specular(rayo, intersection_point, intersection_normal,
+                                                                    nearest_obj);
     color reflection_color = {0, 0, 0};
     color translucent_color = {0, 0, 0};
-    if(nearest_obj->get_reflectivity() > 0.0)
+    if (nearest_obj->get_reflectivity() > 0.0)
     {
         reflection_color = calculate_reflection(rayo, intersection_point, intersection_normal, nearest_obj);
     }
-    if(nearest_obj->get_translucency() > 0.0)
+    if (nearest_obj->get_translucency() > 0.0)
     {
         translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj);
     }
-    
+
     color mat_color(0, 0, 0);
     mat_color = reflection_color * nearest_obj->get_reflectivity() + diffuse_specular_color * (1 - nearest_obj->
         get_reflectivity());
@@ -268,7 +269,8 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
     return px_color;
 }
 
-color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj)
+color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                            object* nearest_obj)
 {
     color final_color = get_background_color();
     color diffuse_color = {0, 0, 0};
@@ -450,7 +452,8 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
                 }
                 else
                 {
-                    color = calculate_diffuse_specular(final_ray, new_intersection_point, new_intersection_normal, closest_object);
+                    color = calculate_diffuse_specular(final_ray, new_intersection_point, new_intersection_normal,
+                                                       closest_object);
                 }
             }
 

@@ -13,7 +13,7 @@ bool light::compute_illumination(vector3& intersection_point, vector3& normal, s
         intensity = get_intensity() * prod;
         /* rayo que va desde el punto de interseccion hacia la luz, si interseca con un objeto significa
           que la fuente de luz esta siendo tapada y por lo tanto tenemos sombra */
-        ray sombra = ray(intersection_point, rayo_s);
+        auto sombra = ray(intersection_point, rayo_s);
 
         for (object* obj : objects)
         {
