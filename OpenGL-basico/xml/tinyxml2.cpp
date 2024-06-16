@@ -2186,11 +2186,6 @@ namespace tinyxml2
                     _document->SetError(XML_ERROR_PARSING_ATTRIBUTE, attrLineNum, "XMLElement name=%s", Name());
                     return nullptr;
                 }
-                // There is a minor bug here: if the attribute in the source xml
-                // document is duplicated, it will not be detected and the
-                // attribute will be doubly added. However, tracking the 'prevAttribute'
-                // avoids re-scanning the attribute list. Preferring performance for
-                // now, may reconsider in the future.
                 if (prevAttribute)
                 {
                     TIXMLASSERT(prevAttribute->_next == 0);
