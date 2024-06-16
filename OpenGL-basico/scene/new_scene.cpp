@@ -26,7 +26,7 @@ bool new_scene::cast_ray(ray& cast_ray,
             {
                 intersection_found = true;
 
-                const double dist = (intersection_point - cast_ray.get_origin()).magnitude;
+                const double dist = (intersection_point - cast_ray.get_origin()).get_norm();
 
                 if (dist < min_dist)
                 {
@@ -344,11 +344,11 @@ color new_scene::calculate_reflection(const ray& rayo, vector3 intersection_poin
     {
         if (nearest_obj->get_reflectivity() > 0.0)
         {
-            vector3 view_dir = rayo.get_ray_vector().normalize();
+            vector3 view_dir = rayo.get_ray_vector();
             vector3 normal = intersection_normal;
-            vector3 reflected_dir = (view_dir - (normal * 2 * view_dir.dot_product(normal))).normalize();
+            vector3 reflected_dir = (view_dir - (normal * 2 * view_dir.dot_product(normal)));
 
-            ray reflected_ray(intersection_point + reflected_dir * 0.01, reflected_dir);
+            ray reflected_ray(intersection_point + reflected_dir * 0.00001, reflected_dir);
 
             object* closest_object;
             vector3 new_intersection_point, new_intersection_normal;
