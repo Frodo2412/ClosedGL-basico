@@ -17,6 +17,12 @@ class new_scene
     std::vector<object*> objects_;
     std::vector<light*> lights_;
 
+    image normal_ = image::create_empty_image(width_, height_, normal);
+    image reflectivity_ = image::create_empty_image(width_, height_, reflectividad);
+    image refractivity_ = image::create_empty_image(width_, height_, refractividad);
+    int iteraciones_ = 0;
+    bool finished_ = false;
+
     bool cast_ray(ray& cast_ray,
                   object*& this_object,
                   object*& closest_object,
@@ -25,7 +31,12 @@ class new_scene
 
 public:
     new_scene(int width, int height, const char* filename);
-    std::vector<image> Render(SDL_Renderer* renderer);
+    void Render(SDL_Renderer* renderer, int progress);
+    bool is_finished();
+    image get_normal_image();
+    image get_reflectivity_image();
+    image get_refractivity_image();
+    int get_iter();
     int get_width();
     int get_height();
     double get_far();

@@ -56,23 +56,25 @@ int main(int argc, char* argv[])
         new_scene scene(width, height, "../scenes/scene_2.xml");
         std::cout << "Scene loaded successfully.\n";
 
-        for (image img : scene.Render(renderer))
-        {
-            renderer::render_image(img, renderer); // renders image to screen
-        }
-        std::cout << "Scene rendered successfully.\n";
-
         SDL_Event e;
         bool quit = false;
         while (!quit)
         {
-            while (SDL_PollEvent(&e))
+            while(!scene.is_finished())
             {
-                if (e.type == SDL_QUIT)
+                scene.Render(renderer, 50);
+                renderer::render_intermedium_image(scene.get_normal_image(), scene.get_iter(), renderer);
+                while (SDL_PollEvent(&e))
                 {
-                    quit = true;
+                    if (e.type == SDL_QUIT)
+                    {
+                        quit = true;
+                    }
                 }
             }
+            renderer::render_image(scene.get_normal_image());
+            renderer::render_image(scene.get_reflectivity_image());
+            renderer::render_image(scene.get_refractivity_image());
         }
 
         SDL_DestroyRenderer(renderer);

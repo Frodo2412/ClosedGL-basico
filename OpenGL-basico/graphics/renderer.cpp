@@ -8,6 +8,9 @@
 #include "FreeImage.h"
 #include "image.h"
 
+
+bool renderer::loaded_ = false;
+
 std::string get_current_timestamp()
 {
     const auto now = std::chrono::system_clock::now();
@@ -29,56 +32,55 @@ std::string get_current_timestamp()
     return oss.str();
 }
 
-void renderer::render_image(image& image, SDL_Renderer* renderer)
+void renderer::render_image(image& image)
 {
-    auto current_time = get_current_timestamp();
-    const auto width = image.width;
-    const auto height = image.height;
-
-    // Create an empty 24-bit RGB image
-    FIBITMAP* bitmap = FreeImage_Allocate(width, height, 24);
-
-    if (!bitmap)
+    if(!loaded_)
     {
-        std::cerr << "Failed to allocate memory for the image\n";
-        FreeImage_DeInitialise();
-        throw std::runtime_error("Failed to allocate memory for the image");
-    }
-    RGBQUAD rgb;
-    try
-    {
-        const auto pixels = image.pixels;
-        for (pixel pixel : pixels)
+        auto current_time = get_current_timestamp();
+        const auto width = image.width;
+        const auto height = image.height;
+
+        // Create an empty 24-bit RGB image
+        FIBITMAP* bitmap = FreeImage_Allocate(width, height, 24);
+
+        if (!bitmap)
         {
-            rgb = pixel.color_.to_rgb();
-            FreeImage_SetPixelColor(bitmap, pixel.point.x, pixel.point.y, &rgb);
+            std::cerr << "Failed to allocate memory for the image\n";
+            FreeImage_DeInitialise();
+            throw std::runtime_error("Failed to allocate memory for the image");
         }
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Failed to set image pixels: " << e.what() << '\n';
-    }
+        RGBQUAD rgb;
+        try
+        {
+            const auto pixels = image.pixels;
+            for (pixel pixel : pixels)
+            {
+                rgb = pixel.color_.to_rgb();
+                FreeImage_SetPixelColor(bitmap, pixel.point.x, pixel.point.y, &rgb);
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Failed to set image pixels: " << e.what() << '\n';
+        }
 
-    auto file_name = image.get_type().append(current_time.append(".png").c_str());
+        auto file_name = image.get_type().append(current_time.append(".png").c_str());
 
-    // Save the image as a PNG file
-    if (FreeImage_Save(FIF_PNG, bitmap, file_name.c_str(), 0))
-    {
-        std::cout << "Image successfully saved to 'output.png'" << '\n';
-    }
-    else
-    {
-        std::cerr << "Failed to save image" << '\n';
-    }
+        // Save the image as a PNG file
+        if (FreeImage_Save(FIF_PNG, bitmap, file_name.c_str(), 0))
+        {
+            std::cout << "Image successfully saved to 'output.png'" << '\n';
+        }
+        else
+        {
+            std::cerr << "Failed to save image" << '\n';
+        }
 
-    // Unload the image and deinitialize the library
-    FreeImage_Unload(bitmap);
-
-    // mostrar la imagen final.
-    if(image.type_ == normal)
-    {
-        render_intermedium_image(image, width-1, renderer); 
+        // Unload the image and deinitialize the library
+        FreeImage_Unload(bitmap);
+        loaded_ = true;
     }
+    
 }
 
 void renderer::render_intermedium_image(image& img, int max_x, SDL_Renderer* renderer)
@@ -100,11 +102,11 @@ void renderer::render_intermedium_image(image& img, int max_x, SDL_Renderer* ren
 
     // Crear un buffer para los datos de los píxeles en formato RGBA
     std::vector<uint32_t> pixel_data(img.width * img.height);
-    for (int x = 0; x <= max_x; x++)
+    for (int x = 0; x < max_x; x++)
     {
         for (int y = 0; y < img.height; y++)
         {
-            pixel& p = img.get_pixel(x, img.height-y);
+            pixel& p = img.get_pixel(x, img.height - y);
             color& c = p.color_;
             uint32_t rgba = (static_cast<uint8_t>(c.get_red()) << 24) |
                             (static_cast<uint8_t>(c.get_green()) << 16) |

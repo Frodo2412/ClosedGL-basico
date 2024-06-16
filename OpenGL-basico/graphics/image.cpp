@@ -22,6 +22,12 @@ pixel image::get_pixel(int x, int y)
 {
     if (x >= 0 && x < width && y >= 0 && y < height)
     {
-         return pixels[x * (height) + y];
+        return pixels[x * (height) + y];
     }
+}
+
+image image::create_empty_image(int width, int height, image_type type)
+{
+    std::vector<pixel> empty_pixels; // Vector vacío
+    return image(width, height, empty_pixels, type);
 }
