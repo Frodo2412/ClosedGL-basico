@@ -5,6 +5,8 @@
 #include "../xml/tinyxml2.h"
 #include "../xml/scene_parser.h"
 
+int new_scene::max_depth_ = 1000;
+
 bool new_scene::cast_ray(ray& cast_ray,
                          object*& this_object,
                          object*& closest_object,
@@ -111,7 +113,7 @@ std::vector<image> new_scene::Render()
     double y_factor = 2.0 / static_cast<double>(height_);
     int n = 2; // Número de celdas por lado, para un total de n*n rayos por píxel
     double cell_size = 1.0 / static_cast<double>(n);
-    std::cout << "Rendering..." << std::endl;
+    std::cout << "Rendering...\n";
     /* Calculamos todos los píxeles */
     for (int x = 0; x < width_; x++)
     {
@@ -141,7 +143,7 @@ std::vector<image> new_scene::Render()
                     double aux_refractividad = 0.0;
 
                     // Calculamos el color del rayo
-                    color sample_color = whitted_ray_tracing(rayo, aux_reflectividad, aux_refractividad);
+                    color sample_color = whitted_ray_tracing(rayo, aux_reflectividad, aux_refractividad, max_depth_);
 
                     // Sumamos el color de la muestra al color final del píxel
                     final_color += sample_color;
@@ -198,15 +200,17 @@ color new_scene::get_background_color()
 }
 
 color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                 object* nearest_obj)
+                                 object* nearest_obj, int level)
 {
+    if (level == 0) { return {0, 0, 0}; }
+
     const color diffuse_specular_color = calculate_diffuse_specular(rayo, intersection_point, intersection_normal,
                                                                     nearest_obj);
     color reflection_color = {0, 0, 0};
     color translucent_color = {0, 0, 0};
     if (nearest_obj->get_reflectivity() > 0.0)
     {
-        reflection_color = calculate_reflection(rayo, intersection_point, intersection_normal, nearest_obj);
+        reflection_color = calculate_reflection(rayo, intersection_point, intersection_normal, nearest_obj, level - 1);
     }
     if (nearest_obj->get_translucency() > 0.0)
     {
@@ -222,8 +226,10 @@ color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 
     return mat_color;
 }
 
-color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad)
+color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad, int level)
 {
+    if (level == 0) { return {0, 0, 0}; }
+
     vector3 intersection_point = {0, 0, 0}; //=> Variable en la que cargaremos el punto de interseccion con los objetos
     vector3 intersection_normal = {0, 0, 0};
     //=> Variable en la que cargaremos la normal del objeto en el punto de interseccion
@@ -265,7 +271,7 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
     /* Calcularemos cuanta luz recibe el punto de interseccion */
     if (nearest_obj != nullptr)
     {
-        px_color = calculate_color(rayo, intersection_point, intersection_normal, nearest_obj);
+        px_color = calculate_color(rayo, intersection_point, intersection_normal, nearest_obj, level - 1);
         aux_reflectividad = nearest_obj->get_reflectivity();
         aux_refractividad = 1 / nearest_obj->get_refractive_index();
     }
@@ -340,9 +346,12 @@ color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_poin
 }
 
 color new_scene::calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                      object* nearest_obj)
+                                      object* nearest_obj, int level)
 {
     color translucency_color = {0, 0, 0};
+
+    if (level == 0) { return translucency_color; }
+
     try
     {
         if (nearest_obj->get_reflectivity() > 0.0)
@@ -362,7 +371,7 @@ color new_scene::calculate_reflection(const ray& rayo, vector3 intersection_poin
             {
                 // Get color from the object the ray intersects with
                 translucency_color = calculate_color(reflected_ray, new_intersection_point, new_intersection_normal,
-                                                     closest_object);
+                                                     closest_object, level - 1);
             }
         }
     }
@@ -451,7 +460,7 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
                 {
                     auto aux_reflectividad = 0.0;
                     auto aux_refractividad = 0.0;
-                    color = whitted_ray_tracing(final_ray, aux_reflectividad, aux_refractividad);
+                    color = whitted_ray_tracing(final_ray, aux_reflectividad, aux_refractividad, 1);
                 }
                 else
                 {

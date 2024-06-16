@@ -22,6 +22,8 @@ class new_scene
                   vector3& new_intersection_point,
                   vector3& new_intersection_normal) const;
 
+    static int max_depth_;
+
 public:
     new_scene(const char* filename);
     std::vector<image> Render();
@@ -30,10 +32,10 @@ public:
     double get_far();
     double get_near();
     color get_background_color();
-    color calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
-    color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad);
+    color calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj, int level);
+    color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad, int level);
     color calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                               object* nearest_obj);
+                               object* nearest_obj, int level);
     color calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj);
     color calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
