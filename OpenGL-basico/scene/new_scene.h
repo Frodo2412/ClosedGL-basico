@@ -44,11 +44,10 @@ public:
     color get_background_color();
     color calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
     color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad);
-    color calculate_diffuse(vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
     color calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                object* nearest_obj);
-    color calculate_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                             object* nearest_obj) const;
     color calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj);
+    color calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                     object* nearest_obj);
 };
