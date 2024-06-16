@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "Freeimage/FreeImage.h"
 #include "OpenGL-basico/graphics/renderer.h"
 #include "OpenGL-basico/scene/new_scene.h"
@@ -9,17 +8,89 @@ int main(int argc, char* argv[])
 {
     try
     {
-        FreeImage_Initialise();
+        // Initialize SDL
+        if (SDL_Init(SDL_INIT_VIDEO) != 0)
+        {
+            std::cerr << "No se pudo iniciar SDL: " << SDL_GetError() << '\n';
+            return 1;
+        }
+        std::cout << "SDL Initialized successfully.\n";
+
         int width = 800;
         int height = 600;
 
-        auto scene = new_scene(width, height, "../scenes/scene.xml");
-        for (image img : scene.Render())
+        // Initialize FreeImage
+        FreeImage_Initialise();
+        std::cout << "FreeImage Initialized successfully.\n";
+
+        // Create SDL Window
+        SDL_Window* window = SDL_CreateWindow("Renderizado",
+                                              SDL_WINDOWPOS_CENTERED,
+                                              SDL_WINDOWPOS_CENTERED,
+                                              width, height,
+                                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+        if (!window)
         {
-            renderer::render_image(img); // renders image to screen
+            std::cerr << "No se pudo crear la ventana: " << SDL_GetError() << '\n';
+            FreeImage_DeInitialise();
+            SDL_Quit();
+            return 2;
+        }
+        std::cout << "SDL Window created successfully.\n";
+
+        // Create SDL Renderer
+        SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+        if (!renderer)
+        {
+            std::cerr << "No se pudo crear el renderer: " << SDL_GetError() << '\n';
+            SDL_DestroyWindow(window);
+            FreeImage_DeInitialise();
+            SDL_Quit();
+            return 3;
+        }
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer); // Present the black screen
+        std::cout << "SDL Renderer created successfully.\n";
+
+        new_scene scene(width, height, "../scenes/scene.xml");
+        std::cout << "Scene loaded successfully.\n";
+
+        SDL_Event e;
+        bool quit = false;
+        while (!quit)
+        {
+            while (SDL_PollEvent(&e))
+            {
+                if (e.type == SDL_QUIT)
+                {
+                    quit = true;
+                }
+            }
+            
+            if (!scene.is_finished())
+            {
+                // Renderiza la escena y la imagen intermedia
+                scene.Render(renderer, 1);
+                renderer::render_intermedium_image(scene.get_normal_image(), scene.get_iter(), renderer);
+            }
+            else
+            {
+                
+                renderer::render_image(scene.get_normal_image());
+                renderer::render_image(scene.get_reflectivity_image());
+                renderer::render_image(scene.get_refractivity_image());
+                quit = true;
+            }
+            SDL_RenderPresent(renderer);
+            //SDL_Delay(5000);
         }
 
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
         FreeImage_DeInitialise();
+        std::cout << "Resources cleaned up and program terminated successfully.\n";
         return 0;
     }
     catch (std::exception& e)

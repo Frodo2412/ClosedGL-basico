@@ -1,12 +1,12 @@
 #include "color.h"
 
-RGBQUAD color::to_rgb() const
-{
-    RGBQUAD rgba;
-    rgba.rgbRed = red_;
-    rgba.rgbGreen = green_;
-    rgba.rgbBlue = blue_;
-    return rgba;
+RGBQUAD color::to_rgb() const {
+    RGBQUAD rgb;
+    rgb.rgbRed = static_cast<BYTE>(red_);
+    rgb.rgbGreen = static_cast<BYTE>(green_);
+    rgb.rgbBlue = static_cast<BYTE>(blue_);
+    rgb.rgbReserved = static_cast<BYTE>(alpha_);
+    return rgb;
 }
 
 void color::set_alpha(double alpha)
