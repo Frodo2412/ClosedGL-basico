@@ -48,6 +48,5 @@ public:
                                object* nearest_obj);
     color calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj);
-    color calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                     object* nearest_obj);
+    color calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj);
 };

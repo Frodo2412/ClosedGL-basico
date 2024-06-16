@@ -484,8 +484,7 @@ color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_po
                 }
                 else
                 {
-                    color = calculate_diffuse_specular(final_ray, new_intersection_point, new_intersection_normal,
-                                                       closest_object);
+                    color = calculate_diffuse_specular(final_ray, new_intersection_point, new_intersection_normal, closest_object);
                 }
             }
 
