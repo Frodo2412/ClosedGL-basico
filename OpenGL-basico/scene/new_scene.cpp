@@ -229,8 +229,7 @@ color new_scene::get_background_color()
 color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj)
 {
-    const color diffuse_specular_color = calculate_diffuse_specular(rayo, intersection_point, intersection_normal,
-                                                                    nearest_obj);
+    const color diffuse_specular_color = calculate_diffuse_specular(rayo, intersection_point, intersection_normal, nearest_obj);
     color reflection_color = {0, 0, 0};
     color translucent_color = {0, 0, 0};
     if (nearest_obj->get_reflectivity() > 0.0)
@@ -301,8 +300,7 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
     return px_color;
 }
 
-color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                            object* nearest_obj)
+color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj)
 {
     color final_color = get_background_color();
     color diffuse_color = {0, 0, 0};
