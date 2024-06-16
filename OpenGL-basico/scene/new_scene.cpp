@@ -109,7 +109,7 @@ void new_scene::Render(SDL_Renderer* renderer, int progress)
         
         /* Calculamos todos los píxeles */
         
-        int x = iteraciones_ + 1; // el pixel siguiente a donde me quedé la última vez. 
+        int x = iteraciones_; // el pixel siguiente a donde me quedé la última vez. 
         int fin;
         if (x + progress > width_)
         {
@@ -155,7 +155,7 @@ void new_scene::Render(SDL_Renderer* renderer, int progress)
                         final_refractividad += aux_refractividad;
                     }
                 }
-                iteraciones_ = x;
+                iteraciones_ = x + 1;
 
                 // Promediamos el color final dividiendo por el número de muestras
                 final_color = final_color / (n * n);

@@ -60,21 +60,30 @@ int main(int argc, char* argv[])
         bool quit = false;
         while (!quit)
         {
-            while(!scene.is_finished())
+            while (SDL_PollEvent(&e))
             {
-                scene.Render(renderer, 50);
-                renderer::render_intermedium_image(scene.get_normal_image(), scene.get_iter(), renderer);
-                while (SDL_PollEvent(&e))
+                if (e.type == SDL_QUIT)
                 {
-                    if (e.type == SDL_QUIT)
-                    {
-                        quit = true;
-                    }
+                    quit = true;
                 }
             }
-            renderer::render_image(scene.get_normal_image());
-            renderer::render_image(scene.get_reflectivity_image());
-            renderer::render_image(scene.get_refractivity_image());
+            
+            if (!scene.is_finished())
+            {
+                // Renderiza la escena y la imagen intermedia
+                scene.Render(renderer, 50);
+                renderer::render_intermedium_image(scene.get_normal_image(), scene.get_iter(), renderer);
+            }
+            else
+            {
+                
+                renderer::render_image(scene.get_normal_image());
+                renderer::render_image(scene.get_reflectivity_image());
+                renderer::render_image(scene.get_refractivity_image());
+                quit = true;
+            }
+            SDL_RenderPresent(renderer);
+            SDL_Delay(10);
         }
 
         SDL_DestroyRenderer(renderer);

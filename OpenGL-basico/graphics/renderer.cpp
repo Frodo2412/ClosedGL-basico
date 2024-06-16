@@ -9,7 +9,7 @@
 #include "image.h"
 
 
-bool renderer::loaded_ = false;
+int renderer::loaded_ = 0;
 
 std::string get_current_timestamp()
 {
@@ -34,8 +34,9 @@ std::string get_current_timestamp()
 
 void renderer::render_image(image& image)
 {
-    if(!loaded_)
+    if(loaded_ < 3)
     {
+        loaded_++;
         auto current_time = get_current_timestamp();
         const auto width = image.width;
         const auto height = image.height;
@@ -78,9 +79,7 @@ void renderer::render_image(image& image)
 
         // Unload the image and deinitialize the library
         FreeImage_Unload(bitmap);
-        loaded_ = true;
     }
-    
 }
 
 void renderer::render_intermedium_image(image& img, int max_x, SDL_Renderer* renderer)
