@@ -5,13 +5,14 @@
 class ray
 {
     vector3 origin_, direction_;
+
 public:
     ray()
     {
         origin_ = {0, 0, 0};
         direction_ = {0, 0, 0};
     }
-    
+
     ray(vector3 origin, vector3 direction) : origin_(origin), direction_(direction)
     {
     }
