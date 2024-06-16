@@ -149,3 +149,8 @@ light* scene_parser::parse_light(tinyxml2::XMLElement* element)
 
     return new light(position, color, intensity);
 }
+
+int scene_parser::parse_int(const tinyxml2::XMLElement* xml_element, const char* str)
+{
+    return xml_element->IntAttribute(str);
+}

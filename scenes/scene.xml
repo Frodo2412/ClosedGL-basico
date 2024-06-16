@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <document>
-    <scene name="Our First Scene">
+    <scene name="Our First Scene" width="800" height="600">
         <background>
             <color red="0" blue="0" green="0"/>
         </background>

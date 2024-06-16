@@ -21,4 +21,5 @@ public:
     static camera* parse_camera(tinyxml2::XMLElement* element, int width, int height);
     static object* parse_object(tinyxml2::XMLElement* element);
     static light* parse_light(tinyxml2::XMLElement* element);
+    static int parse_int(const tinyxml2::XMLElement* xml_element, const char* str);
 };
