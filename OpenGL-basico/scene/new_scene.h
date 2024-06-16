@@ -23,7 +23,7 @@ class new_scene
                   vector3& new_intersection_normal) const;
 
 public:
-    new_scene(int width, int height, const char* filename);
+    new_scene(const char* filename);
     std::vector<image> Render();
     int get_width();
     int get_height();

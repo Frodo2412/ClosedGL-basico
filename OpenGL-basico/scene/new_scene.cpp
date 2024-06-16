@@ -42,7 +42,7 @@ bool new_scene::cast_ray(ray& cast_ray,
     return intersection_found;
 }
 
-new_scene::new_scene(const int width, const int height, const char* filename) : width_(width), height_(height)
+new_scene::new_scene(const char* filename)
 {
     near_ = 0.1;
     far_ = 1000;
@@ -62,6 +62,9 @@ new_scene::new_scene(const int width, const int height, const char* filename) : 
     {
         throw std::runtime_error("'scene' element not found");
     }
+
+    width_ = scene_parser::parse_int(dom_scene, "width");
+    height_ = scene_parser::parse_int(dom_scene, "height");
 
     if (dom_scene->NoChildren())
     {
