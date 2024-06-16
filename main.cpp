@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
             if (!scene.is_finished())
             {
                 // Renderiza la escena y la imagen intermedia
-                scene.Render(renderer, 5);
+                scene.Render(renderer, 1);
                 renderer::render_intermedium_image(scene.get_normal_image(), scene.get_iter(), renderer);
             }
             else
