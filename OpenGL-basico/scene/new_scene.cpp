@@ -286,7 +286,6 @@ color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_poin
     color specular_color = {0, 0, 0};
 
     double shininess = nearest_obj->get_shininess();
-
     for (light* luz : lights_)
     {
         // Calculo de luz difusa
@@ -301,32 +300,10 @@ color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_poin
         // Calculo de luz especular si el objeto tiene brillo
         if (shininess > 0.0)
         {
-            vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
-            ray sombra(intersection_point + rayo_s * 0.0001, rayo_s); // Crear un rayo hacia la luz
-
-            // Verificar si hay sombra
-            bool hay_sombra = false;
-            for (object* obj : objects_)
+            if (light_intensity > 0.05)
             {
-                if (obj != nearest_obj)
-                {
-                    vector3 inter;
-                    vector3 trash;
-                    if (obj->test_intersection(sombra, inter, trash))
-                    {
-                        double intersection_distance = (inter - intersection_point).get_magnitude();
-                        double light_distance = (luz->get_position() - intersection_point).get_magnitude();
-                        if (intersection_distance < light_distance)
-                        {
-                            hay_sombra = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (!hay_sombra)
-            {
+                vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
+                ray sombra(intersection_point + (rayo_s * 0.0001), rayo_s); // Crear un rayo hacia la luz
                 vector3 light_ray = sombra.get_ray_vector().normalize();
                 vector3 reflection_vector = (light_ray - (intersection_normal * 2 * light_ray.dot_product(
                     intersection_normal))).normalize();
