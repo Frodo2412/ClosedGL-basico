@@ -13,12 +13,10 @@ bool light::compute_illumination(vector3& intersection_point, vector3& normal, s
         intensity = get_intensity() * prod;
         /* rayo que va desde el punto de interseccion hacia la luz, si interseca con un objeto significa
           que la fuente de luz esta siendo tapada y por lo tanto tenemos sombra */
-        auto sombra = ray(intersection_point, rayo_s);
+        auto sombra = ray(intersection_point + rayo_s * 0.0001, rayo_s);
 
         for (object* obj : objects)
         {
-            if (obj != current)
-            {
                 vector3 inter = {0, 0, 0};
                 vector3 trash1 = {0, 0, 0};
                 if (obj->test_intersection(sombra, inter, trash1))
@@ -31,9 +29,8 @@ bool light::compute_illumination(vector3& intersection_point, vector3& normal, s
                         continue;
                     }
                     intensity = std::max(0.0, intensity - 1 + obj->get_translucency());
-                    break;
+                    return false;
                 }
-            }
         }
     }
     return true;
