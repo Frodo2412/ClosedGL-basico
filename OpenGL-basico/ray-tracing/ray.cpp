@@ -25,6 +25,15 @@ void ray::set_direction(vector3 dir)
     direction_ = dir;
 }
 
+ray ray::reflect(const vector3& intersection_point, const vector3& intersection_normal) const
+{
+    const vector3 view_dir = get_ray_vector();
+    const vector3 normal = intersection_normal;
+    vector3 reflected_dir = view_dir - 2 * normal * view_dir.dot_product(normal);
+
+    return {intersection_point + reflected_dir * 0.00001, reflected_dir};
+}
+
 ray ray::refract(const vector3& intersection_point, const vector3& intersection_normal,
                  double get_refractive_index) const
 {

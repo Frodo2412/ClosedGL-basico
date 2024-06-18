@@ -132,6 +132,11 @@ double vector3::get_norm() const
     return sqrt(aux);
 }
 
+vector3 operator*(double s, const vector3& v)
+{
+    return v * s;
+}
+
 std::ostream& operator<<(std::ostream& os, const vector3& v)
 {
     os << "(" << v.x << ", " << v.y << ", " << v.z << ")";

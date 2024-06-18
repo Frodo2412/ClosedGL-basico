@@ -37,6 +37,8 @@ struct vector3
     vector3 operator/(int s) const;
     vector3 operator-() const;
 
+    friend vector3 operator*(double s, const vector3& v);
+
     bool operator==(const vector3& zero) const;
 
     double dot_product(const vector3& other) const;

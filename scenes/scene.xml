@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <document>
-    <scene name="Our First Scene" width="800" height="600">
+    <scene name="Our First Scene" width="1280" height="720">
         <background>
             <color red="0" blue="0" green="0"/>
         </background>
         <ambient>
-            <color red="50" blue="50" green="50"/>
+            <color red="0" blue="0" green="0"/>
         </ambient>
         <camera>
             <position x="0" y="0" z="0"/>
@@ -61,7 +61,7 @@
                 <position x="-7.5" y="-11" z="-26"/>
             </properties>
         </shape>
-        <shape id="sphere_0" type="sphere" reflectivity="1" shininess="0" radius="3" translucency="0"
+        <shape id="sphere_0" type="sphere" reflectivity="1" shininess="0" radius="3" translucency="0.5"
                refractive_index="1.5">
             <color red="255" green="0" blue="0"/>
             <properties>
@@ -99,12 +99,12 @@
                 <axis x="1" y="0" z="0"/>
             </properties>
         </shape>
-        <light id="light_0" intensity="0.5">
-            <position x="0" y="40" z="-50"/>
-            <color red="255" green="255" blue="255"/>
+        <light id="light_0" intensity="1">
+            <position x="0" y="34" z="-100"/>
+            <color red="0" green="255" blue="0"/>
         </light>
-        <light id="light_1" intensity="0.5">
-            <position x="0" y="40" z="-10"/>
+        <light id="light_1" intensity="1">
+            <position x="-30" y="-10" z="-0"/>
             <color red="255" green="0" blue="255"/>
         </light>
     </scene>

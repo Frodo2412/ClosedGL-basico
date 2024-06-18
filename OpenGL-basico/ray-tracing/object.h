@@ -26,4 +26,5 @@ public:
     double get_translucency() const;
     double get_refractive_index() const;
     bool has_material() const;
+    color get_specular_color() const;
 };
