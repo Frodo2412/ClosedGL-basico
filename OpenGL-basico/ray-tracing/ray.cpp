@@ -24,3 +24,27 @@ void ray::set_direction(vector3 dir)
 {
     direction_ = dir;
 }
+
+ray ray::refract(const vector3& intersection_point, const vector3& intersection_normal,
+                 double get_refractive_index) const
+{
+    const vector3 incident_ray = this->get_direction().normalize();
+    const vector3 normal = intersection_normal.normalize();
+
+    const double n1 = 1.0; // Assuming the incident medium is air with refractive index 1
+    const double n2 = get_refractive_index;
+
+    double cos_i = -incident_ray.dot_product(normal);
+    double sin_t2 = (n1 / n2) * (n1 / n2) * (1.0 - cos_i * cos_i);
+
+    if (sin_t2 > 1.0)
+    {
+        // Total internal reflection occurs, return the ray with the same direction
+        return {intersection_point, this->get_direction()};
+    }
+
+    double cos_t = std::sqrt(1.0 - sin_t2);
+    vector3 refracted_direction = (incident_ray * (n1 / n2) + normal * (cos_t - cos_i * (n1 / n2))).normalize();
+
+    return {intersection_point + refracted_direction * 0.001, refracted_direction};
+}

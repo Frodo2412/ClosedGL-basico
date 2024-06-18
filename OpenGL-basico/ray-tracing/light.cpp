@@ -28,7 +28,7 @@ bool light::compute_illumination(vector3& intersection_point, vector3& normal, s
                     {
                         continue;
                     }
-                    intensity = std::max(0.0, intensity - 1 + obj->get_translucency());
+                    intensity = std::max(0.0, intensity -  (1 - obj->get_translucency()));
                     return false;
                 }
         }

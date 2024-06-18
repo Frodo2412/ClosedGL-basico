@@ -23,4 +23,5 @@ public:
 
     void set_origin(vector3 origin);
     void set_direction(vector3 dir);
+    ray refract(const vector3& vector3, const ::vector3& intersection_normal, double get_refractive_index) const;
 };
