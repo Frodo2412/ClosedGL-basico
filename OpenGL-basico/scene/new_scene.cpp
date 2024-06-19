@@ -262,13 +262,9 @@ color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 
                                                    level - 1);
     }
 
-    color mat_color = {0,0,0};
-    mat_color += reflection_color * nearest_obj->get_reflectivity() + (diffuse_specular_color +ambient_) * (1 - nearest_obj->
-        get_reflectivity());
-    mat_color += translucent_color * nearest_obj->get_translucency() + mat_color * (1 - nearest_obj->
-        get_translucency());
-
-    return mat_color / 3;
+    color final_color = (ambient_ + diffuse_specular_color) * (1 - nearest_obj->get_reflectivity()) + reflection_color * nearest_obj->get_reflectivity();
+    final_color = final_color + translucent_color * nearest_obj->get_translucency();
+    return final_color;
 }
 
 color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad, int level)
@@ -413,7 +409,7 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
         if(sen_theta1 / sen_theta2 >= 1.0) //no hay reflexion interna total
         {
             vector3 rayo_t = (sen_theta2/sen_theta1) * rayo_vista + ((sen_theta2/sen_theta1) * cos_theta1 - cos_theta2) * normal;
-            ray rayo_refractado = ray(intersection_point + rayo_t * 0.0001 , intersection_point + rayo_t.normalize());
+            ray rayo_refractado = ray(intersection_point + rayo_t.normalize() * 0.0001 , intersection_point + rayo_t.normalize());
             double trash1, trash2;
             translucency_color = whitted_ray_tracing(rayo_refractado, trash1, trash2, level - 1);
         }
