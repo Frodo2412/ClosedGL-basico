@@ -50,7 +50,7 @@ public:
                              light);
     color calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                object* nearest_obj, int level);
-    color calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+    color calculate_translucency(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                  object* nearest_obj, int level);
     color calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                      object* nearest_obj);

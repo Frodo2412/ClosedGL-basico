@@ -82,8 +82,6 @@ void renderer::render_image(image& image)
 
 void renderer::render_intermedium_image(image& img, int max_x, SDL_Renderer* renderer)
 {
-    std::cout << "Cargando proceso." << std::endl;
-    std::cout << "Image dimensions: " << img.width << "x" << img.height << std::endl;
 
     if (!renderer)
     {
