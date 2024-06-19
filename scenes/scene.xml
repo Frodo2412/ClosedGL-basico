@@ -54,14 +54,14 @@
             </properties>
         </shape>
         <shape id="mesa_mesh_1" type="mesh" reflectivity="0" shininess="0" width="15" height="5" depth="5"
-               translucency="0"
-               refractive_index="0">
+               translucency="0.5"
+               refractive_index="1.5">
             <color red="0" green="255" blue="255"/>
             <properties>
                 <position x="-7.5" y="-10" z="-26"/>
             </properties>
         </shape>
-        <shape id="sphere_0" type="sphere" reflectivity="0" shininess="5" radius="3" translucency="0.9"
+        <shape id="sphere_0" type="sphere" reflectivity="0" shininess="5" radius="3" translucency="1"
                refractive_index="1">
             <color red="255" green="0" blue="0"/>
             <properties>
@@ -91,7 +91,7 @@
             </properties>
         </shape>
         <shape id="cylinder_2" type="cylinder" reflectivity="0" shininess="5" radius="1" height="8"
-               translucency="0.5"
+               translucency="0"
                refractive_index="1.3">
             <color red="0" green="0" blue="255"/>
             <properties>

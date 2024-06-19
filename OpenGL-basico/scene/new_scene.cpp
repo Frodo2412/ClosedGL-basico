@@ -406,7 +406,7 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
         double cos_theta2 = rayo_vista.dot_product(-normal);
         double sen_theta1 = sqrt(1 - pow(cos_theta1, 2));
         double sen_theta2 = sqrt(1 - pow(cos_theta2, 2));
-        if(sen_theta1 / sen_theta2 >= 1.0) //no hay reflexion interna total
+        if(sen_theta2 < 1.0) //no hay reflexion interna total
         {
             vector3 rayo_t = (sen_theta2/sen_theta1) * rayo_vista + ((sen_theta2/sen_theta1) * cos_theta1 - cos_theta2) * normal;
             ray rayo_refractado = ray(intersection_point + rayo_t.normalize() * 0.0001 , intersection_point + rayo_t.normalize());
