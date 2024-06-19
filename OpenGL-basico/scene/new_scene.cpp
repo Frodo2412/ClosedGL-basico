@@ -418,29 +418,29 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
         vector3 rayo_vista = rayo.get_ray_vector().normalize();
         vector3 normal = intersection_normal.normalize();
 
-        double n1, n2; // Índices de refracción
+        double n1, n2; // indices de refraccion
         double cos_theta1 = (-rayo_vista).dot_product(normal);
 
         if (cos_theta1 > 0.0) 
         {
-            // El rayo está pasando del exterior al interior del objeto
-            n1 = 1.0; // Índice de refracción del aire
-            n2 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
+            // El rayo esta entrando al objeto
+            n1 = 1.0; // indice de refraccion del aire
+            n2 = nearest_obj->get_refractive_index(); // indice de refraccion del objeto
         } 
         else 
         {
-            // El rayo está pasando del interior al exterior del objeto
+            // El rayo esta saliendo del objeto
             n1 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
-            n2 = 1.0; // Índice de refracción del aire
-            normal = -normal; // Invertimos la normal para calcular correctamente
+            n2 = 1.0; // indice de refraccion del aire
+            normal = -normal; // invertimos la normal para calcular correctamente
             cos_theta1 = -cos_theta1;
         }
 
-        double ratio = n1 / n2;
+        double ratio = n1 / n2;//LEY DE SNELL
         double sen_theta1 = sqrt(1 - pow(cos_theta1, 2));
         double sen_theta2 = ratio * sen_theta1;
 
-        if (sen_theta2 <= 1.0) // No hay reflexión interna total
+        if (sen_theta2 <= 1.0) // no hay reflexion interna total
         {
             double cos_theta2 = sqrt(1 - pow(sen_theta2, 2));
             vector3 rayo_t = ratio * rayo_vista + (ratio * cos_theta1 - cos_theta2) * normal;
