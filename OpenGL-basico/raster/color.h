@@ -48,6 +48,8 @@ public:
     color operator*(double f) const;
     friend std::ostream& operator<<(std::ostream& os, const color& c);
     color operator-(const color& color) const;
+
+    color combine(const color &c, double ratio) const;
 };
 
 

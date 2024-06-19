@@ -39,6 +39,16 @@ color color::operator-(const color& color) const
     };
 }
 
+color color::combine(const color& c, double ratio) const
+{
+    double new_red = red_ * ratio + c.red_ * (1 - ratio);
+    double new_green = green_ * ratio + c.green_ * (1 - ratio);
+    double new_blue = blue_ * ratio + c.blue_ * (1 - ratio);
+    double new_alpha = alpha_ * ratio + c.alpha_ * (1 - ratio);
+
+    return color(new_red, new_green, new_blue, new_alpha);
+}
+
 color operator*(const color& c1, const color& c2)
 {
     return color(c1.get_red() * c2.get_red(), c1.get_green() * c2.get_green(), c1.get_blue() * c2.get_blue());

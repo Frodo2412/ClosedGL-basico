@@ -262,7 +262,8 @@ color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 
                                                    level - 1);
     }
 
-    color final_color = (ambient_ + diffuse_specular_color) * (1 - nearest_obj->get_reflectivity()) + reflection_color * nearest_obj->get_reflectivity();
+    color final_color = (ambient_ + diffuse_specular_color) * (1 - nearest_obj->get_reflectivity())
+        + reflection_color * nearest_obj->get_reflectivity();
     final_color = final_color + translucent_color * nearest_obj->get_translucency();
     return final_color;
 }
@@ -292,75 +293,68 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
     return px_color;
 }
 
-bool new_scene::calculate_diffuse(ray& camera_ray, const vector3& intersection_point,
-                                  const vector3& intersection_normal,
-                                  const object* nearest_obj, light* light, double& intensity,
-                                  color& diffuse_color)
+color new_scene::calculate_diffuse(ray& camera_ray, const vector3& intersection_point,
+                                   const vector3& intersection_normal,
+                                   const object* nearest_obj, light* light) const
 {
     color calc_color = {0, 0, 0};
-    bool shadow = false;
-    intensity = 0.0;
 
     const vector3 light_direction = (light->get_position() - intersection_point).normalize();
     ray shadow_ray(intersection_point + light_direction * 0.001, light_direction); // Avoid self-intersection
 
     const double prod = intersection_normal.dot_product(light_direction);
 
-    if (prod > 0.0) // Solo considerar si la luz incide en la superficie
+    if (prod <= 0.0) // Solo considerar si la luz incide en la superficie
     {
-        double light_attenuation = 1.0; // Factor de atenuación de la luz
-        color light_color_attenuation = {1.0, 1.0, 1.0}; // Atenuación por color de la luz
+        return calc_color;
+    }
 
-        object* closest_object = nullptr;
-        vector3 new_intersection_point, new_intersection_normal;
-        
-        while (cast_ray(shadow_ray, nearest_obj, closest_object, new_intersection_point, new_intersection_normal))
+    double light_attenuation = 1.0; // Atenuación de la luz
+    color light_color_attenuation = {0, 0, 0}; // Atenuación por color de la luz
+
+    object* closest_object = nullptr;
+    vector3 new_intersection_point, new_intersection_normal;
+
+    while (cast_ray(shadow_ray, nearest_obj, closest_object, new_intersection_point, new_intersection_normal))
+    {
+        const double intersection_distance = (new_intersection_point - intersection_point).get_norm();
+        const double light_distance = (light->get_position() - intersection_point).get_norm();
+        if (closest_object->get_translucency() < 1.0)
         {
-            const double intersection_distance = (new_intersection_point - intersection_point).get_norm();
-            const double light_distance = (light->get_position() - intersection_point).get_norm();
-            if (closest_object->get_translucency() < 1.0)
+            if (intersection_distance < light_distance)
             {
-                if (intersection_distance < light_distance)
+                if (closest_object->get_translucency() > 0.0)
                 {
-                    if (closest_object->get_translucency() > 0.0)
-                    {
-                        // El objeto es translúcido, atenuar la luz
-                        light_attenuation *= closest_object->get_translucency();
-                        // Atenuar el color de la luz por el color del objeto intermedio
-                        light_color_attenuation = light_color_attenuation * closest_object->get_color();
-                        // Continuar el rayo de sombra
-                        shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
-                    }
-                    else
-                    {
-                        // El objeto es opaco, bloquear la luz completamente
-                        light_attenuation = 0.0;
-                        shadow = true;
-                        break;
-                    }
+                    light_attenuation *= closest_object->get_translucency();
+                    light_color_attenuation = light_color_attenuation.combine(closest_object->get_color(),
+                                                                              closest_object->get_translucency());
+                    // Continuar el rayo de sombra
+                    shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
                 }
                 else
                 {
-                    break;
+                    // El objeto es opaco, bloquear la luz completamente
+                    return calc_color;
                 }
-            } else
-                {   
-                    shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
-                } 
             }
-
-        intensity = prod * light->get_intensity() * light_attenuation;
-
-        if (!shadow)
+            else
+            {
+                break;
+            }
+        }
+        else
         {
-            // Calcular color difuso y especular si no está en la sombra completa
-            calc_color = nearest_obj->get_color() * light_color_attenuation * intensity;
+            shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
         }
     }
 
+    const double intensity = prod * light->get_intensity();
+
+    // Calcular color difuso y especular si no está en la sombra completa
+    calc_color = nearest_obj->get_color().combine(light_color_attenuation, light_attenuation) * intensity;
+
     // Añadir el color calculado al color difuso
-    diffuse_color += calc_color;
-    return shadow;
+    return calc_color;
 }
 
 color new_scene::calculate_specular(ray& rayo, const vector3& intersection_point,
@@ -392,9 +386,8 @@ color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_poin
 
     for (light* light : lights_)
     {
-        double light_intensity = 0.0;
-        bool shadow = calculate_diffuse(rayo, intersection_point, intersection_normal, nearest_obj,
-                                        light, light_intensity, diffuse_color);
+        diffuse_color = diffuse_color + calculate_diffuse(rayo, intersection_point, intersection_normal,
+                                                          nearest_obj, light);
         if (nearest_obj->get_shininess() > 0.0)
         {
             specular_color = specular_color + calculate_specular(rayo, intersection_point, intersection_normal,
@@ -428,10 +421,12 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
         double cos_theta2 = rayo_vista.dot_product(-normal);
         double sen_theta1 = sqrt(1 - pow(cos_theta1, 2));
         double sen_theta2 = sqrt(1 - pow(cos_theta2, 2));
-        if(sen_theta2 < 1.0) //no hay reflexion interna total
+        if (sen_theta2 < 1.0) //no hay reflexion interna total
         {
-            vector3 rayo_t = (sen_theta2/sen_theta1) * rayo_vista + ((sen_theta2/sen_theta1) * cos_theta1 - cos_theta2) * normal;
-            ray rayo_refractado = ray(intersection_point + rayo_t.normalize() * 0.0001 , intersection_point + rayo_t.normalize());
+            vector3 rayo_t = (sen_theta2 / sen_theta1) * rayo_vista + ((sen_theta2 / sen_theta1) * cos_theta1 -
+                cos_theta2) * normal;
+            ray rayo_refractado = ray(intersection_point + rayo_t.normalize() * 0.0001,
+                                      intersection_point + rayo_t.normalize());
             double trash1, trash2;
             translucency_color = whitted_ray_tracing(rayo_refractado, trash1, trash2, level - 1);
         }
