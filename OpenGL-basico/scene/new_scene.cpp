@@ -295,11 +295,10 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
 bool new_scene::calculate_diffuse(ray& camera_ray, const vector3& intersection_point,
                                   const vector3& intersection_normal,
                                   const object* nearest_obj, light* light, double& intensity,
-                                  color& diffuse_color) const
+                                  color& diffuse_color)
 {
     color calc_color = {0, 0, 0};
     bool shadow = false;
-
     intensity = 0.0;
 
     const vector3 light_direction = (light->get_position() - intersection_point).normalize();
@@ -307,36 +306,59 @@ bool new_scene::calculate_diffuse(ray& camera_ray, const vector3& intersection_p
 
     const double prod = intersection_normal.dot_product(light_direction);
 
-    if (prod >= 0.0)
+    if (prod > 0.0) // Solo considerar si la luz incide en la superficie
     {
-        intensity = prod * light->get_intensity();
+        double light_attenuation = 1.0; // Factor de atenuación de la luz
+        color light_color_attenuation = {1.0, 1.0, 1.0}; // Atenuación por color de la luz
 
-        object* closest_object;
+        object* closest_object = nullptr;
         vector3 new_intersection_point, new_intersection_normal;
-        if (cast_ray(shadow_ray, nearest_obj, closest_object, new_intersection_point, new_intersection_normal))
+        
+        while (cast_ray(shadow_ray, nearest_obj, closest_object, new_intersection_point, new_intersection_normal))
         {
             const double intersection_distance = (new_intersection_point - intersection_point).get_norm();
             const double light_distance = (light->get_position() - intersection_point).get_norm();
-            
-            if (intersection_distance > light_distance)
+            if (closest_object->get_translucency() < 1.0)
             {
-                // El objeto esta detras de la luz
-                calc_color = nearest_obj->get_color() * intensity;
+                if (intersection_distance < light_distance)
+                {
+                    if (closest_object->get_translucency() > 0.0)
+                    {
+                        // El objeto es translúcido, atenuar la luz
+                        light_attenuation *= closest_object->get_translucency();
+                        // Atenuar el color de la luz por el color del objeto intermedio
+                        light_color_attenuation = light_color_attenuation * closest_object->get_color();
+                        // Continuar el rayo de sombra
+                        shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
+                    }
+                    else
+                    {
+                        // El objeto es opaco, bloquear la luz completamente
+                        light_attenuation = 0.0;
+                        shadow = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            } else
+                {   
+                    shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
+                } 
             }
-            else
-            {
-                shadow = true;
-                double distance_factor =  1.0 - (intersection_distance / light_distance);
-                const color material_color = closest_object->get_color()*0.5 * intensity * closest_object->get_translucency() * distance_factor;
-                calc_color = material_color;
-            }
-        }
-        else
+
+        intensity = prod * light->get_intensity() * light_attenuation;
+
+        if (!shadow)
         {
-            calc_color = nearest_obj->get_color() * intensity;
+            // Calcular color difuso y especular si no está en la sombra completa
+            calc_color = nearest_obj->get_color() * light_color_attenuation * intensity;
         }
     }
-    // No hay objetos que colisionen con la sombra
+
+    // Añadir el color calculado al color difuso
     diffuse_color += calc_color;
     return shadow;
 }

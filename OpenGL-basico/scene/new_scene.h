@@ -45,7 +45,7 @@ public:
                           int level);
     color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad, int level);
     bool calculate_diffuse(ray& camera_ray, const vector3& intersection_point, const vector3& intersection_normal, const object* nearest_obj,
-                           light* light, double& intensity, color& diffuse_color) const;
+                           light* light, double& intensity, color& diffuse_color);
     color calculate_specular(ray& rayo, const vector3& intersection_point, const vector3& intersection_normal, const object* nearest_obj, light*
                              light);
     color calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
