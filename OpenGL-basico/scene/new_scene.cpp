@@ -5,7 +5,7 @@
 #include "../xml/tinyxml2.h"
 #include "../xml/scene_parser.h"
 
-int new_scene::max_depth_ = 10;
+int new_scene::max_depth_ = 100;
 
 bool new_scene::cast_ray(ray& cast_ray,
                          const object* this_object,
@@ -418,9 +418,13 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
         vector3 rayo_vista = rayo.get_ray_vector().normalize();
         vector3 normal = intersection_normal.normalize();
         double cos_theta1 = (-rayo_vista).dot_product(normal);
-        double cos_theta2 = rayo_vista.dot_product(-normal);
+        if (cos_theta1 < 0.0) { cos_theta1 = -cos_theta1; }
         double sen_theta1 = sqrt(1 - pow(cos_theta1, 2));
-        double sen_theta2 = sqrt(1 - pow(cos_theta2, 2));
+
+        // Ley de Snell
+        double sen_theta2 = sen_theta1 / nearest_obj->get_refractive_index();
+        double cos_theta2 = sqrt(1 - pow(sen_theta2, 2));
+
         if (sen_theta2 < 1.0) //no hay reflexion interna total
         {
             vector3 rayo_t = (sen_theta2 / sen_theta1) * rayo_vista + ((sen_theta2 / sen_theta1) * cos_theta1 -
