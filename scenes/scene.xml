@@ -61,9 +61,9 @@
                 <position x="-9" y="-10" z="-26"/>
             </properties>
         </shape>
-        <shape id="sphere_0" type="sphere" reflectivity="0" shininess="30" radius="3" translucency="0.6"
-               refractive_index="2">
-            <color red="225" green="10" blue="10"/>
+        <shape id="sphere_0" type="sphere" reflectivity="0" shininess="30" radius="3" translucency="0.9"
+               refractive_index="1.7">
+            <color red="180" green="100" blue="100"/>
             <properties>
                 <position x="-3" y="-1" z="-23"/>
             </properties>

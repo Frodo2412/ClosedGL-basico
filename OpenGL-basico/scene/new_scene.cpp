@@ -417,20 +417,34 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
     {
         vector3 rayo_vista = rayo.get_ray_vector().normalize();
         vector3 normal = intersection_normal.normalize();
+
+        double n1, n2; // Índices de refracción
         double cos_theta1 = (-rayo_vista).dot_product(normal);
-        if (cos_theta1 < 0.0) { cos_theta1 = -cos_theta1; }
-        double sen_theta1 = sqrt(1 - pow(cos_theta1, 2));
 
-        // Ley de Snell
-        double sen_theta2 = sen_theta1 / nearest_obj->get_refractive_index();
-        double cos_theta2 = sqrt(1 - pow(sen_theta2, 2));
-
-        if (sen_theta2 < 1.0) //no hay reflexion interna total
+        if (cos_theta1 > 0.0) 
         {
-            vector3 rayo_t = (sen_theta2 / sen_theta1) * rayo_vista + ((sen_theta2 / sen_theta1) * cos_theta1 -
-                cos_theta2) * normal;
-            ray rayo_refractado = ray(intersection_point + rayo_t.normalize() * 0.0001,
-                                      intersection_point + rayo_t.normalize());
+            // El rayo está pasando del exterior al interior del objeto
+            n1 = 1.0; // Índice de refracción del aire
+            n2 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
+        } 
+        else 
+        {
+            // El rayo está pasando del interior al exterior del objeto
+            n1 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
+            n2 = 1.0; // Índice de refracción del aire
+            normal = -normal; // Invertimos la normal para calcular correctamente
+            cos_theta1 = -cos_theta1;
+        }
+
+        double ratio = n1 / n2;
+        double sen_theta1 = sqrt(1 - pow(cos_theta1, 2));
+        double sen_theta2 = ratio * sen_theta1;
+
+        if (sen_theta2 <= 1.0) // No hay reflexión interna total
+        {
+            double cos_theta2 = sqrt(1 - pow(sen_theta2, 2));
+            vector3 rayo_t = ratio * rayo_vista + (ratio * cos_theta1 - cos_theta2) * normal;
+            ray rayo_refractado = ray(intersection_point + rayo_t.normalize() * 0.0001, rayo_t.normalize());
             double trash1, trash2;
             translucency_color = whitted_ray_tracing(rayo_refractado, trash1, trash2, level - 1);
         }
