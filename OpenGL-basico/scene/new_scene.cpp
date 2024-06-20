@@ -262,7 +262,7 @@ color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 
                                                    level - 1);
     }
 
-    color final_color = (ambient_ + diffuse_specular_color) * (1 - nearest_obj->get_reflectivity())
+    color final_color = (diffuse_specular_color) * (1 - nearest_obj->get_reflectivity())
         + reflection_color * nearest_obj->get_reflectivity();
     final_color = final_color + translucent_color * nearest_obj->get_translucency();
     return final_color;
@@ -334,7 +334,7 @@ color new_scene::calculate_diffuse(ray& camera_ray, const vector3& intersection_
                 else
                 {
                     // El objeto es opaco, bloquear la luz completamente
-                    return calc_color;
+                    return ambient_;
                 }
             }
             else
@@ -367,8 +367,11 @@ color new_scene::calculate_specular(ray& rayo, const vector3& intersection_point
         light_direction).normalize();
 
     double reflection_view_dot = reflection_direction.dot_product(view_direction);
-    if (reflection_view_dot < 0.0) { return {0, 0, 0}; }
-    // No specular component if the angle is greater than 90 degrees
+    
+    if (reflection_view_dot < 0.0)
+    {
+        return {0, 0, 0};
+    }
 
     double shininess = nearest_obj->get_shininess();
     double specular_intensity = pow(reflection_view_dot, shininess) * light->get_intensity();
