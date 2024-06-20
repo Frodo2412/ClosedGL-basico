@@ -16,7 +16,7 @@ bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
     vector3 d = rayo.get_direction().normalize(); // Direccion normalizada del rayo
     vector3 m = rayo.get_origin() - get_position(); // Vector desde el origen del cilindro al origen del rayo
-    vector3 n = axis_; // Eje del cilindro (ya normalizado)
+    vector3 n = axis_.normalize(); // Eje del cilindro (ya normalizado)
 
     // Proyecciones sobre el eje del cilindro
     double md = m.dot_product(n);
@@ -43,11 +43,6 @@ bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
     double t1 = (-b - sqrt_discriminant) / (2.0 * a);
     double t2 = (-b + sqrt_discriminant) / (2.0 * a);
 
-    if (t2 < 0.0)
-    {
-        return false; // Cilindro está detrás del origen del rayo
-    }
-    
     if (t2 < 0.0)
     {
         return false; // Cilindro está detrás del origen del rayo
