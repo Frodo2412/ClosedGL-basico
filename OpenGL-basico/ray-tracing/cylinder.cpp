@@ -35,43 +35,36 @@ bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
     double t1 = (-b - sqrt_discriminant) / (2 * a);
     double t2 = (-b + sqrt_discriminant) / (2 * a);
 
-    if (t1 > t2) { std::swap(t1, t2); }
+    if (t1 >= t2) { std::swap(t1, t2); }
 
     vector3 p1 = rayo.get_origin() + d * t1;
-    vector3 p2 = rayo.get_origin() + d * t2;
 
 
     if (p1.y >= position_.y && p1.y <= height_ + position_.y)
     {
         point = p1;
-        vector3 n = p1 - position_;
-        n.set_y(0);
-        normal = n.normalize();
+        vector3 local_point = p1 - position_;
+        vector3 hit_normal = vector3(local_point.x, 0, local_point.z).normalize();
+        normal = hit_normal;
         return true;
+    }
+
+    // Top test intersection
+
+    if (p1.y > height_ + position_.y)
+    {
+        if (top_.test_intersection(rayo, point, normal))
+        {
+            return std::pow((point.x - position_.x), 2) + std::pow((point.z - position_.z), 2) <= std::pow(radius_, 2);
+        }
     }
 
     if (p1.y < position_.y)
     {
-        if (p2.y < position_.y) { return false; }
-
-        const auto dy = (position_.y - o.y) / d.y;
-
-        point = (o + dy * d) + vector3(0, 0, position_.get_z());
-
-        normal = vector3(0, -1, 0);
-        return true;
-    }
-
-    if (p1.y > position_.y + height_)
-    {
-        if (p2.y > position_.y + height_) { return false; }
-
-        const auto dy = (position_.y + o.y) / d.y;
-
-        point = (o + dy * d) + vector3(0, 0, position_.get_z());
-
-        normal = vector3(0, 1, 0);
-        return true;
+        if (bottom_.test_intersection(rayo, point, normal))
+        {
+            return std::pow((point.x - position_.x), 2) + std::pow((point.z - position_.z), 2) <= std::pow(radius_, 2);
+        }
     }
 
     return false;
