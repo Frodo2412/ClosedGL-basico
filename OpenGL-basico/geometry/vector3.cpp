@@ -89,6 +89,7 @@ vector3 vector3::cross_product(const vector3& other) const
 
 double vector3::angle_with(const vector3& other) const
 {
+    // (0,1,0) (1,-1,1)
     const auto numerator = this->dot_product(other);
     const auto denominator = this->magnitude * other.magnitude;
 
@@ -130,6 +131,11 @@ double vector3::get_norm() const
 {
     double aux = x * x + y * y + z * z;
     return sqrt(aux);
+}
+
+vector3 operator*(double s, const vector3& v)
+{
+    return v * s;
 }
 
 std::ostream& operator<<(std::ostream& os, const vector3& v)

@@ -8,27 +8,24 @@
 int new_scene::max_depth_ = 1000;
 
 bool new_scene::cast_ray(ray& cast_ray,
-                         object*& this_object,
+                         const object* this_object,
                          object*& closest_object,
                          vector3& new_intersection_point,
                          vector3& new_intersection_normal) const
 {
-    vector3 intersection_point, intersection_normal;
     double min_dist = 1e6;
     bool intersection_found = false;
-    for (const auto current_object : objects_)
+
+    for (const auto& current_object : objects_)
     {
-        if (current_object != this_object && current_object->get_translucency() < 1.0)
+        if (current_object != this_object)
         {
-            const bool valid_int = current_object->test_intersection(cast_ray,
-                                                                     intersection_point,
-                                                                     intersection_normal);
+            vector3 intersection_point, intersection_normal;
+            bool valid_int = current_object->test_intersection(cast_ray, intersection_point, intersection_normal);
 
             if (valid_int)
             {
-                intersection_found = true;
-
-                const double dist = (intersection_point - cast_ray.get_origin()).get_norm();
+                double dist = (intersection_point - cast_ray.get_origin()).get_norm();
 
                 if (dist < min_dist)
                 {
@@ -36,6 +33,7 @@ bool new_scene::cast_ray(ray& cast_ray,
                     closest_object = current_object;
                     new_intersection_point = intersection_point;
                     new_intersection_normal = intersection_normal;
+                    intersection_found = true;
                 }
             }
         }
@@ -44,58 +42,69 @@ bool new_scene::cast_ray(ray& cast_ray,
     return intersection_found;
 }
 
-new_scene::new_scene(const char* filename) : normal_(0,0, std::vector<pixel>(),normal), reflectivity_(0,0, std::vector<pixel>(), reflectividad), refractivity_(0,0, std::vector<pixel>(), refractividad)
+new_scene::new_scene(const char* filename) : normal_(0, 0, std::vector<pixel>(), normal),
+                                             reflectivity_(0, 0, std::vector<pixel>(), reflectividad),
+                                             refractivity_(0, 0, std::vector<pixel>(), refractividad)
 {
-    near_ = 0.1;
-    far_ = 1000;
-
-    tinyxml2::XMLDocument doc;
-    auto res = doc.LoadFile(filename);
-    if (res != tinyxml2::XML_SUCCESS)
+    try
     {
-        throw std::runtime_error("Failed to load file " + std::string(filename) + ": " + std::to_string(res));
+        near_ = 0.1;
+        far_ = 1000;
+
+        tinyxml2::XMLDocument doc;
+        auto res = doc.LoadFile(filename);
+        if (res != tinyxml2::XML_SUCCESS)
+        {
+            throw std::runtime_error("Failed to load file " + std::string(filename) + ": " + std::to_string(res));
+        }
+
+        tinyxml2::XMLPrinter printer;
+        doc.Print(&printer);
+
+        auto dom_scene = doc.FirstChildElement("document")->FirstChildElement("scene");
+        if (!dom_scene)
+        {
+            throw std::runtime_error("'scene' element not found");
+        }
+
+        width_ = scene_parser::parse_int(dom_scene, "width");
+        height_ = scene_parser::parse_int(dom_scene, "height");
+
+        normal_ = image::create_empty_image(width_, height_, normal);
+        reflectivity_ = image::create_empty_image(width_, height_, reflectividad);
+        refractivity_ = image::create_empty_image(width_, height_, refractividad);
+
+        if (dom_scene->NoChildren())
+        {
+            throw std::runtime_error("No objects found in scene");
+        }
+
+        tinyxml2::XMLNode* node = dom_scene->FirstChild();
+        do
+        {
+            const auto element = node->ToElement();
+
+            const auto element_type = std::string(element->Name());
+
+            if (element_type == "shape") { objects_.push_back(scene_parser::parse_object(element)); }
+            else if (element_type == "light") { lights_.push_back(scene_parser::parse_light(element)); }
+            else if (element_type == "camera") { camera_ = scene_parser::parse_camera(element, width_, height_); }
+            else if (element_type == "background") { background_color_ = scene_parser::parse_color(element); }
+            else if (element_type == "ambient") { ambient_ = scene_parser::parse_color(element); }
+            else { throw std::runtime_error("Unknown element type: " + element_type); }
+
+            node = node->NextSibling();
+        }
+        while (node != nullptr);
+
+        std::cout << "Scene loaded" << '\n' << "- Shapes: " << objects_.size() << '\n' << "- Lights: " << lights_.size()
+            <<
+            '\n';
     }
-
-    tinyxml2::XMLPrinter printer;
-    doc.Print(&printer);
-
-    auto dom_scene = doc.FirstChildElement("document")->FirstChildElement("scene");
-    if (!dom_scene)
+    catch (std::exception& e)
     {
-        throw std::runtime_error("'scene' element not found");
+        std::cerr << "Error loading scene: " << e.what() << '\n';
     }
-
-    width_ = scene_parser::parse_int(dom_scene, "width");
-    height_ = scene_parser::parse_int(dom_scene, "height");
-    
-    normal_ = image::create_empty_image(width_, height_, normal);
-    reflectivity_ = image::create_empty_image(width_, height_, reflectividad);
-    refractivity_ = image::create_empty_image(width_, height_, refractividad);
-
-    if (dom_scene->NoChildren())
-    {
-        throw std::runtime_error("No objects found in scene");
-    }
-
-    tinyxml2::XMLNode* node = dom_scene->FirstChild();
-    do
-    {
-        const auto element = node->ToElement();
-
-        const auto element_type = std::string(element->Name());
-
-        if (element_type == "shape") { objects_.push_back(scene_parser::parse_object(element)); }
-        else if (element_type == "light") { lights_.push_back(scene_parser::parse_light(element)); }
-        else if (element_type == "camera") { camera_ = scene_parser::parse_camera(element, width_, height_); }
-        else if (element_type == "background") { background_color_ = scene_parser::parse_color(element); }
-        else { throw std::runtime_error("Unknown element type: " + element_type); }
-
-        node = node->NextSibling();
-    }
-    while (node != nullptr);
-
-    std::cout << "Scene loaded" << '\n' << "- Shapes: " << objects_.size() << '\n' << "- Lights: " << lights_.size() <<
-        '\n';
 }
 
 void new_scene::Render(SDL_Renderer* renderer, int progress)
@@ -113,7 +122,6 @@ void new_scene::Render(SDL_Renderer* renderer, int progress)
         double y_factor = 2.0 / (double)height_;
         int n = 2; // Número de celdas por lado, para un total de n*n rayos por píxel
         double cell_size = 1.0 / (double)n;
-        std::cout << "Rendering..." << std::endl;
 
         /* Calculamos todos los píxeles */
 
@@ -155,7 +163,8 @@ void new_scene::Render(SDL_Renderer* renderer, int progress)
                         double aux_refractividad = 0.0;
 
                         // Calculamos el color del rayo
-                        color sample_color = whitted_ray_tracing(rayo, aux_reflectividad, aux_refractividad, max_depth_);
+                        color sample_color =
+                            whitted_ray_tracing(rayo, aux_reflectividad, aux_refractividad, max_depth_);
 
                         // Sumamos el color de la muestra al color final del píxel
                         final_color += sample_color;
@@ -249,58 +258,29 @@ color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 
     }
     if (nearest_obj->get_translucency() > 0.0)
     {
-        translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj);
+        translucent_color = calculate_translucency(rayo, intersection_point, intersection_normal, nearest_obj,
+                                                   level - 1);
     }
 
-    color mat_color(0, 0, 0);
-    mat_color = reflection_color * nearest_obj->get_reflectivity() + diffuse_specular_color * (1 - nearest_obj->
-        get_reflectivity());
-    mat_color = translucent_color * nearest_obj->get_translucency() + mat_color * (1 - nearest_obj->
-        get_translucency());
-
-    return mat_color;
+    color final_color = (diffuse_specular_color) * (1 - nearest_obj->get_reflectivity())
+        + reflection_color * nearest_obj->get_reflectivity();
+    final_color = final_color + translucent_color * nearest_obj->get_translucency();
+    return final_color;
 }
 
 color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad, int level)
 {
     if (level == 0) { return {0, 0, 0}; }
 
+    object* nearest_obj = nullptr;
     vector3 intersection_point = {0, 0, 0}; //=> Variable en la que cargaremos el punto de interseccion con los objetos
     vector3 intersection_normal = {0, 0, 0};
     //=> Variable en la que cargaremos la normal del objeto en el punto de interseccion
 
-    /* La distancia mas cercana inicialmente es far */
-    double z_buffer = get_far();
-
-    object* nearest_obj = nullptr;
-
     color px_color = get_background_color(); //=> Variable en la que cargaremos el color del pixel
 
-    /* Calcularemos el objeto mas cercano con el que interseca el rayo */
-    for (object* obj : objects_)
-    {
-        /* Para cada objeto en la escena calcularemos si el rayo interseca con este */
-        vector3 i_point = {0, 0, 0};
-        vector3 i_normal = {0, 0, 0};
-        if (obj->test_intersection(rayo, i_point, i_normal))
-        {
-            double distance = (i_point - camera_->get_position()).get_norm();
-            //=> Distancia entre la camara y el punto de interseccion
-            if (distance < get_far() && distance > get_near())
-            // => checkeamos si el punto de interseccion esta en el rango de renderizado
-            {
-                if (distance < z_buffer)
-                // => si la distancia es menor a la del z-buffer actual, actualizamos el z-buffer
-                {
-                    /* Guardamos los valores de la interseccion para usarlos a futuro */
-                    intersection_point = i_point;
-                    intersection_normal = i_normal;
-                    nearest_obj = obj;
-                    z_buffer = distance;
-                }
-            }
-        }
-    }
+    cast_ray(rayo, nullptr, nearest_obj, intersection_point, intersection_normal);
+
     aux_reflectividad = 0.0;
     aux_refractividad = 0.0;
     /* Calcularemos cuanta luz recibe el punto de interseccion */
@@ -313,182 +293,165 @@ color new_scene::whitted_ray_tracing(ray& rayo, double& aux_reflectividad, doubl
     return px_color;
 }
 
-color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                            object* nearest_obj)
+color new_scene::calculate_diffuse(ray& camera_ray, const vector3& intersection_point,
+                                   const vector3& intersection_normal,
+                                   const object* nearest_obj, light* light) const
 {
-    color final_color = get_background_color();
-    color diffuse_color = {0, 0, 0};
-    color specular_color = {0, 0, 0};
+    color calc_color = {0, 0, 0};
 
-    double shininess = nearest_obj->get_shininess();
-    for (light* luz : lights_)
+    const vector3 light_direction = (light->get_position() - intersection_point).normalize();
+    ray shadow_ray(intersection_point + light_direction * 0.001, light_direction); // Avoid self-intersection
+
+    const double prod = intersection_normal.dot_product(light_direction);
+
+    if (prod < 0.0) // Solo considerar si la luz incide en la superficie
     {
-        // Calculo de luz difusa
-        double light_intensity = 0.0;
-        luz->compute_illumination(intersection_point, intersection_normal, objects_, nearest_obj, light_intensity);
-        color obj_color = nearest_obj->get_color();
-        obj_color.set_red(obj_color.get_red() * light_intensity);
-        obj_color.set_green(obj_color.get_green() * light_intensity);
-        obj_color.set_blue(obj_color.get_blue() * light_intensity);
-        diffuse_color = diffuse_color + obj_color;
+        return calc_color;
+    }
 
-        // Calculo de luz especular si el objeto tiene brillo
-        if (shininess > 0.0)
+    double light_attenuation = 1.0; // Atenuación de la luz
+    color light_color_attenuation = {0, 0, 0}; // Atenuación por color de la luz
+
+    object* closest_object = nullptr;
+    vector3 new_intersection_point, new_intersection_normal;
+
+    while (cast_ray(shadow_ray, nearest_obj, closest_object, new_intersection_point, new_intersection_normal))
+    {
+        const double intersection_distance = (new_intersection_point - intersection_point).get_norm();
+        const double light_distance = (light->get_position() - intersection_point).get_norm();
+        if (closest_object->get_translucency() < 1.0)
         {
-            if (light_intensity > 0.05)
+            if (intersection_distance < light_distance)
             {
-                vector3 rayo_s = (luz->get_position() - intersection_point).normalize();
-                ray sombra(intersection_point + (rayo_s * 0.0001), rayo_s); // Crear un rayo hacia la luz
-                vector3 light_ray = sombra.get_ray_vector().normalize();
-                vector3 reflection_vector = (light_ray - (intersection_normal * 2 * light_ray.dot_product(
-                    intersection_normal))).normalize();
-                vector3 camera_vector = rayo.get_ray_vector().normalize();
-                double prod = reflection_vector.dot_product(camera_vector);
-                if (prod > 0.0f)
+                if (closest_object->get_translucency() > 0.0)
                 {
-                    double specular_intensity = pow(prod, shininess);
-                    specular_color = specular_color + (luz->get_color() * specular_intensity);
+                    light_attenuation *= closest_object->get_translucency();
+                    light_color_attenuation = light_color_attenuation.combine(closest_object->get_color(),
+                                                                              closest_object->get_translucency());
+                    // Continuar el rayo de sombra
+                    shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
+                }
+                else
+                {
+                    // El objeto es opaco, bloquear la luz completamente
+                    return ambient_;
                 }
             }
+            else
+            {
+                break;
+            }
+        }
+        else
+        {
+            shadow_ray = ray(new_intersection_point + light_direction * 0.001, light_direction);
         }
     }
 
-    final_color = final_color + diffuse_color + specular_color;
-    return final_color;
+    const double intensity = prod * light->get_intensity();
+
+    // Calcular color difuso y especular si no está en la sombra completa
+    calc_color = nearest_obj->get_color().combine(light_color_attenuation, light_attenuation) * intensity;
+
+    // Añadir el color calculado al color difuso
+    return calc_color;
+}
+
+color new_scene::calculate_specular(ray& rayo, const vector3& intersection_point,
+                                    const vector3& intersection_normal,
+                                    const object* nearest_obj, light* light)
+{
+    vector3 light_direction = (light->get_position() - intersection_point).normalize();
+    vector3 view_direction = (rayo.get_origin() - intersection_point).normalize();
+    vector3 reflection_direction = (2.0 * intersection_normal.dot_product(light_direction) * intersection_normal -
+        light_direction).normalize();
+
+    double reflection_view_dot = reflection_direction.dot_product(view_direction);
+    
+    if (reflection_view_dot < 0.0)
+    {
+        return {0, 0, 0};
+    }
+
+    double shininess = nearest_obj->get_shininess();
+    double specular_intensity = pow(reflection_view_dot, shininess) * light->get_intensity();
+
+    color specular_color = light->get_color() * specular_intensity;
+
+    return specular_color;
+}
+
+color new_scene::calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                            object* nearest_obj)
+{
+    color diffuse_color = {0, 0, 0};
+    color specular_color = {0, 0, 0};
+
+    for (light* light : lights_)
+    {
+        diffuse_color = diffuse_color + calculate_diffuse(rayo, intersection_point, intersection_normal,
+                                                          nearest_obj, light);
+        if (nearest_obj->get_shininess() > 0.0)
+        {
+            specular_color = specular_color + calculate_specular(rayo, intersection_point, intersection_normal,
+                                                                 nearest_obj, light);
+        }
+    }
+
+    return diffuse_color + specular_color;
 }
 
 color new_scene::calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                       object* nearest_obj, int level)
 {
-    color translucency_color = {0, 0, 0};
+    if (level == 0 || nearest_obj->get_reflectivity() <= 0.0) { return {0, 0, 0}; }
 
-    if (level == 0) { return translucency_color; }
-
-    try
-    {
-        if (nearest_obj->get_reflectivity() > 0.0)
-        {
-            vector3 view_dir = rayo.get_ray_vector();
-            vector3 normal = intersection_normal;
-            vector3 reflected_dir = (view_dir - (normal * 2 * view_dir.dot_product(normal)));
-
-            ray reflected_ray(intersection_point + reflected_dir * 0.00001, reflected_dir);
-
-            object* closest_object;
-            vector3 new_intersection_point, new_intersection_normal;
-            bool intersection_found = cast_ray(reflected_ray, nearest_obj, closest_object, new_intersection_point,
-                                               new_intersection_normal);
-
-            if (intersection_found)
-            {
-                // Get color from the object the ray intersects with
-                translucency_color = calculate_color(reflected_ray, new_intersection_point, new_intersection_normal,
-                                                     closest_object, level - 1);
-            }
-        }
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-
-    return translucency_color;
+    ray reflected_ray = rayo.reflect(intersection_point, intersection_normal);
+    double trash1, trash2;
+    return whitted_ray_tracing(reflected_ray, trash1, trash2, level - 1);
 }
 
-color new_scene::calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                        object* nearest_obj)
+color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                        object* nearest_obj, int level)
 {
     color translucency_color = {0, 0, 0};
-    try
+
+    if (nearest_obj->get_translucency() > 0.0)
     {
-        if (nearest_obj->get_translucency() > 0.0)
+        vector3 rayo_vista = rayo.get_direction().normalize();
+        vector3 normal = intersection_normal.normalize();
+
+        double n1, n2; // Índices de refracción
+        double cos_theta1 = (-rayo_vista).dot_product(normal);
+
+        if (cos_theta1 > 0.0) 
         {
-            vector3 p = rayo.get_ray_vector().normalize(), n = intersection_normal;
-            double r = 1.0 / nearest_obj->get_refractive_index(), c = -n.dot_product(p);
+            // Rayo entrando al objeto
+            n1 = 1.0; // Índice de refracción del aire
+            n2 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
+        } 
+        else 
+        {
+            // Rayo saliendo del objeto
+            n1 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
+            n2 = 1.0; // Índice de refracción del aire
+            normal = -normal; // Invertimos la normal para calcular correctamente
+            cos_theta1 = -cos_theta1;
+        }
 
-            if (c < 0.0)
-            {
-                n = n * -1;
-                c = n.dot_product(p);
-            }
+        double ratio = n1 / n2;
+        double sin_theta1_squared = 1.0 - cos_theta1 * cos_theta1;
+        double sin_theta2_squared = ratio * ratio * sin_theta1_squared;
 
-
-            const auto r_2 = 1 - pow(r, 2);
-            const auto c_2 = 1 - pow(c, 2);
-            const auto root = r_2 * c_2;
-
-            if (root < 0.0)
-            {
-                std::cout << root << '\n';
-                throw std::exception("Trying to take root of negative number");
-            }
-
-            const vector3 refracted = p * r + n * (r * c - sqrt(root));
-            ray refracted_ray(intersection_point + refracted * 0.01, intersection_point + refracted);
-
-            // Chequeo por otras intersecciones con el mismo objeto
-
-            object* closest_object;
-            vector3 new_intersection_point, new_intersection_normal;
-            bool test = nearest_obj->test_intersection(refracted_ray, new_intersection_point, new_intersection_normal);
-            bool intersection_found = false;
-            ray final_ray;
-            if (test)
-            {
-                vector3 p2 = refracted_ray.get_ray_vector().normalize(), n2 = new_intersection_normal;
-                double r2 = nearest_obj->get_refractive_index(), c2 = -n2.dot_product(p2);
-
-                if (c < 0.0)
-                {
-                    n2 = n2 * -1;
-                    c2 = n2.dot_product(p2);
-                }
-
-                vector3 refracted2 = p2 * r2 + n2 * (r2 * c2 - sqrt(1 - pow(r2, 2) * 1 - pow(c2, 2)));
-                ray refracted_ray2(new_intersection_point + refracted2 * 0.01, new_intersection_point + refracted2);
-
-                intersection_found = cast_ray(refracted_ray,
-                                              nearest_obj,
-                                              closest_object,
-                                              new_intersection_point,
-                                              new_intersection_normal);
-                final_ray = refracted_ray2;
-            }
-            else
-            {
-                intersection_found = cast_ray(refracted_ray,
-                                              nearest_obj,
-                                              closest_object,
-                                              new_intersection_point,
-                                              new_intersection_normal);
-                final_ray = refracted_ray;
-            }
-
-            // Aca calculo el color de nearest_obj
-            color color;
-            if (intersection_found)
-            {
-                if (closest_object->has_material())
-                {
-                    auto aux_reflectividad = 0.0;
-                    auto aux_refractividad = 0.0;
-                    color = whitted_ray_tracing(final_ray, aux_reflectividad, aux_refractividad, 1);
-                }
-                else
-                {
-                    color = calculate_diffuse_specular(final_ray, new_intersection_point, new_intersection_normal,
-                                                       closest_object);
-                }
-            }
-
-            translucency_color = color;
+        if (sin_theta2_squared <= 1.0) 
+        {
+            double cos_theta2 = sqrt(1.0 - sin_theta2_squared);
+            vector3 refracted_direction = ratio * rayo_vista + (ratio * cos_theta1 - cos_theta2) * normal;
+            ray refracted_ray(intersection_point + refracted_direction * 0.0001, refracted_direction);
+            double trash1, trash2;
+            translucency_color = whitted_ray_tracing(refracted_ray, trash1, trash2, level - 1);
         }
     }
-    catch (std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-
 
     return translucency_color;
 }

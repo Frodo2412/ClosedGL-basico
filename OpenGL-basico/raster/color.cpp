@@ -1,6 +1,7 @@
 #include "color.h"
 
-RGBQUAD color::to_rgb() const {
+RGBQUAD color::to_rgb() const
+{
     RGBQUAD rgb;
     rgb.rgbRed = static_cast<BYTE>(red_);
     rgb.rgbGreen = static_cast<BYTE>(green_);
@@ -27,6 +28,25 @@ color color::operator+(const color& c) const
 color color::operator*(double f) const
 {
     return color(red_ * f, green_ * f, blue_ * f, alpha_ * f);
+}
+
+color color::operator-(const color& color) const
+{
+    return {
+        std::max(0.0, red_ - color.red_),
+        std::max(0.0, green_ - color.green_),
+        std::max(0.0, blue_ - color.blue_),
+    };
+}
+
+color color::combine(const color& c, double ratio) const
+{
+    double new_red = red_ * ratio + c.red_ * (1 - ratio);
+    double new_green = green_ * ratio + c.green_ * (1 - ratio);
+    double new_blue = blue_ * ratio + c.blue_ * (1 - ratio);
+    double new_alpha = alpha_ * ratio + c.alpha_ * (1 - ratio);
+
+    return color(new_red, new_green, new_blue, new_alpha);
 }
 
 color operator*(const color& c1, const color& c2)

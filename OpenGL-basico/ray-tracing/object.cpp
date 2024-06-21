@@ -17,6 +17,11 @@ bool object::has_material() const
     return reflectivity_ > 0;
 }
 
+color object::get_specular_color() const
+{
+    return color_ * reflectivity_;
+}
+
 bool object::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
     return false;

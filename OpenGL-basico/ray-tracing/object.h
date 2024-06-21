@@ -5,6 +5,7 @@
 
 class object
 {
+protected:
     vector3 position_;
     color color_;
     double reflectivity_, shininess_, translucency_, refractive_index_;
@@ -26,4 +27,5 @@ public:
     double get_translucency() const;
     double get_refractive_index() const;
     bool has_material() const;
+    color get_specular_color() const;
 };

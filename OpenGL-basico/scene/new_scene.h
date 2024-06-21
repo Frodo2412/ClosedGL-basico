@@ -8,9 +8,7 @@
 
 class new_scene
 {
-    static color ambient_color_;
-
-    color background_color_;
+    color background_color_, ambient_;
     double near_, far_;
     int width_, height_;
     camera* camera_;
@@ -23,7 +21,7 @@ class new_scene
     bool finished_ = false;
 
     bool cast_ray(ray& cast_ray,
-                  object*& this_object,
+                  const object* this_object,
                   object*& closest_object,
                   vector3& new_intersection_point,
                   vector3& new_intersection_normal) const;
@@ -43,12 +41,17 @@ public:
     double get_far();
     double get_near();
     color get_background_color();
-    color calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj, int level);
+    color calculate_color(ray& rayo, vector3 intersection_point, vector3 intersection_normal, object* nearest_obj,
+                          int level);
     color whitted_ray_tracing(ray& rayo, double& aux_reflectividad, double& aux_refractividad, int level);
+    color calculate_diffuse(ray& camera_ray, const vector3& intersection_point, const vector3& intersection_normal, const object* nearest_obj,
+                            light* light) const;
+    color calculate_specular(ray& rayo, const vector3& intersection_point, const vector3& intersection_normal, const object* nearest_obj, light*
+                             light);
     color calculate_reflection(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                object* nearest_obj, int level);
-    color calculate_translucency(const ray& rayo, vector3 intersection_point, vector3 intersection_normal,
-                                 object* nearest_obj);
+    color calculate_translucency(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
+                                 object* nearest_obj, int level);
     color calculate_diffuse_specular(ray& rayo, vector3 intersection_point, vector3 intersection_normal,
                                      object* nearest_obj);
 };

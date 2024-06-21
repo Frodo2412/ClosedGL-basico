@@ -1,4 +1,7 @@
 #include "cylinder.h"
+
+#include <iostream>
+
 // La ecuación de un cilindro finito en el eje z es: x^2 + y^2 = r^2, 0 <= z <= h
 // Donde r es el radio del cilindro y h es la altura del cilindro
 // para hallar la intersección de un rayo r = R0 + t * d, donde R0 es el origen y d la dirección
@@ -14,101 +17,55 @@
 
 bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
 {
-    vector3 d = rayo.get_direction().normalize(); // Direccion normalizada del rayo
-    vector3 m = rayo.get_origin() - get_position(); // Vector desde el origen del cilindro al origen del rayo
-    vector3 n = axis_; // Eje del cilindro (ya normalizado)
+    vector3 d = rayo.get_direction();
+    vector3 o = rayo.get_origin() - position_;
 
-    // Proyecciones sobre el eje del cilindro
-    double md = m.dot_product(n);
-    double nd = d.dot_product(n);
+    double a = std::pow(d.x, 2) + std::pow(d.z, 2);
+    double b = 2 * (o.x * d.x + o.z * d.z);
+    double c = std::pow(o.x, 2) + std::pow(o.z, 2) - std::pow(radius_, 2);
 
-    // Coeficiente cuadrático
-    double a = d.dot_product(d) - nd * nd; // d.dot_product(d) = dx^2 + dy^2 + dz^2
-    //Elimino la componente de la dirección del rayo que está alineada con el eje del cilindro.
-    //Es útil para determinar si el rayo intersecta el cilindro o no,
-    //al considerar solo las componentes del rayo que están perpendiculares al eje del cilindro
+    double discriminant = std::pow(b, 2) - 4 * a * c;
 
-    // Coeficiente lineal
-    double b = 2.0 * (m.dot_product(d) - md * nd);
-    // Coeficiente constante
-    double c = m.dot_product(m) - md * md - radius_ * radius_; // m.dot_product(m) = mx^2 + my^2 + mz^2
-    
-    double discriminant = (b * b) - 4 * a * c;
-    if (discriminant < 0.0)
-    {
-        return false; // No hay intersección
-    }
-
-    double sqrt_discriminant = sqrt(discriminant);
-    double t1 = (-b - sqrt_discriminant) / (2.0 * a);
-    double t2 = (-b + sqrt_discriminant) / (2.0 * a);
-
-    if (t2 < 0.0)
-    {
-        return false; // Cilindro está detrás del origen del rayo
-    }
-    
-    if (t2 < 0.0)
-    {
-        return false; // Cilindro está detrás del origen del rayo
-    }
-
-    double t;
-    if (t1 < 0.0)
-    {
-        t = t2;
-    }
-    else
-    {
-        t = t1;
-    }
-    vector3 hit_point = rayo.get_origin() + d * t;
-    double hit_height = (hit_point - get_position()).dot_product(n);
-
-    // Verificar si el punto de intersección está dentro del cilindro
-    if (hit_height >= 0.0 && hit_height <= height_)
-    {
-        point = hit_point;
-        vector3 hit_normal = (hit_point - get_position()) - n * hit_height;
-        normal = hit_normal.normalize();
-        return true;
-    }
-
-    // Verificar intersección con las tapas
-    double t_cap;
-    if (hit_height < 0.0)
-    {
-        t_cap = -md / nd; // Intersección con la tapa inferior
-        normal = -n;
-    }
-    else       
-    {
-        t_cap = (height_ - md) / nd; // Intersección con la tapa superior
-        normal = n;
-    }
-
-    if (t_cap < 0.0)
-    {
-        return false; // La tapa está detrás del origen del rayo
-    }
-
-    hit_point = rayo.get_origin() + d * t_cap;
-
-    // Verificar si el punto está dentro del radio de la tapa
-    vector3 hit_point_base;
-    if (hit_height < 0.0)
-    {
-        hit_point_base = hit_point - get_position();
-    }
-    else
-    {
-        hit_point_base = hit_point - get_position() - n * height_;
-    }
-    if (hit_point_base.dot_product(hit_point_base) > radius_ * radius_)
+    if (discriminant < 0)
     {
         return false;
     }
 
-    point = hit_point;
-    return true;
+    double sqrt_discriminant = std::sqrt(discriminant);
+    double t1 = (-b - sqrt_discriminant) / (2 * a);
+    double t2 = (-b + sqrt_discriminant) / (2 * a);
+
+    if (t1 >= t2) { std::swap(t1, t2); }
+
+    vector3 p1 = rayo.get_origin() + d * t1;
+
+
+    if (p1.y >= position_.y && p1.y <= height_ + position_.y)
+    {
+        point = p1;
+        vector3 local_point = p1 - position_;
+        vector3 hit_normal = vector3(local_point.x, 0, local_point.z).normalize();
+        normal = hit_normal;
+        return true;
+    }
+
+    // Top test intersection
+
+    if (p1.y > height_ + position_.y)
+    {
+        if (top_.test_intersection(rayo, point, normal))
+        {
+            return std::pow((point.x - position_.x), 2) + std::pow((point.z - position_.z), 2) <= std::pow(radius_, 2);
+        }
+    }
+
+    if (p1.y < position_.y)
+    {
+        if (bottom_.test_intersection(rayo, point, normal))
+        {
+            return std::pow((point.x - position_.x), 2) + std::pow((point.z - position_.z), 2) <= std::pow(radius_, 2);
+        }
+    }
+
+    return false;
 }
