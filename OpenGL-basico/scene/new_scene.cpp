@@ -5,7 +5,7 @@
 #include "../xml/tinyxml2.h"
 #include "../xml/scene_parser.h"
 
-int new_scene::max_depth_ = 100;
+int new_scene::max_depth_ = 1000;
 
 bool new_scene::cast_ray(ray& cast_ray,
                          const object* this_object,

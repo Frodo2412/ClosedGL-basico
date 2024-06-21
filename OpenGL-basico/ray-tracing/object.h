@@ -5,6 +5,7 @@
 
 class object
 {
+protected:
     vector3 position_;
     color color_;
     double reflectivity_, shininess_, translucency_, refractive_index_;
