@@ -83,12 +83,11 @@ cylinder* scene_parser::parse_cylinder(tinyxml2::XMLElement* element)
     const auto properties = element->FirstChildElement("properties");
 
     const auto position = parse_vector3("position", properties);
-    const auto axis = parse_vector3("axis", properties);
 
-    std::cout << id << "\n- " << position << "\n- " << radius << "\n- " << height << "\n- " << axis << "\n- " << color
+    std::cout << id << "\n- " << position << "\n- " << radius << "\n- " << height << "\n- " << color
         << '\n';
 
-    return new cylinder(position, radius, height, axis, color, reflectivity, shininess, translucency, refractive_index);
+    return new cylinder(position, radius, height, color, reflectivity, shininess, translucency, refractive_index);
 }
 
 mesh* scene_parser::parse_mesh(tinyxml2::XMLElement* element)
