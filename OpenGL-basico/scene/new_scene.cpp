@@ -248,8 +248,9 @@ color new_scene::calculate_color(ray& rayo, vector3 intersection_point, vector3 
 {
     if (level == 0) { return {0, 0, 0}; }
 
-    const color diffuse_specular_color = calculate_diffuse_specular(rayo, intersection_point, intersection_normal,
-                                                                    nearest_obj);
+    const color diffuse_specular_color = ambient_ + calculate_diffuse_specular(
+        rayo, intersection_point, intersection_normal,
+        nearest_obj);
     color reflection_color = {0, 0, 0};
     color translucent_color = {0, 0, 0};
     if (nearest_obj->get_reflectivity() > 0.0)
@@ -334,7 +335,7 @@ color new_scene::calculate_diffuse(ray& camera_ray, const vector3& intersection_
                 else
                 {
                     // El objeto es opaco, bloquear la luz completamente
-                    return ambient_;
+                    return {0, 0, 0};
                 }
             }
             else
@@ -367,7 +368,7 @@ color new_scene::calculate_specular(ray& rayo, const vector3& intersection_point
         light_direction).normalize();
 
     double reflection_view_dot = reflection_direction.dot_product(view_direction);
-    
+
     if (reflection_view_dot < 0.0)
     {
         return {0, 0, 0};
@@ -424,13 +425,13 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
         double n1, n2; // Índices de refracción
         double cos_theta1 = (-rayo_vista).dot_product(normal);
 
-        if (cos_theta1 > 0.0) 
+        if (cos_theta1 > 0.0)
         {
             // Rayo entrando al objeto
             n1 = 1.0; // Índice de refracción del aire
             n2 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
-        } 
-        else 
+        }
+        else
         {
             // Rayo saliendo del objeto
             n1 = nearest_obj->get_refractive_index(); // Índice de refracción del objeto
@@ -443,7 +444,7 @@ color new_scene::calculate_translucency(ray& rayo, vector3 intersection_point, v
         double sin_theta1_squared = 1.0 - cos_theta1 * cos_theta1;
         double sin_theta2_squared = ratio * ratio * sin_theta1_squared;
 
-        if (sin_theta2_squared <= 1.0) 
+        if (sin_theta2_squared <= 1.0)
         {
             double cos_theta2 = sqrt(1.0 - sin_theta2_squared);
             vector3 refracted_direction = ratio * rayo_vista + (ratio * cos_theta1 - cos_theta2) * normal;

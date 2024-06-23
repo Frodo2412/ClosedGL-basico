@@ -35,18 +35,23 @@ bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
     double t1 = (-b - sqrt_discriminant) / (2 * a);
     double t2 = (-b + sqrt_discriminant) / (2 * a);
 
-    if (t1 >= t2) { std::swap(t1, t2); }
+    if (t1 >= t2)
+    {
+        std::swap(t1, t2);
+    }
 
     vector3 p1 = rayo.get_origin() + d * t1;
-
-
-    if (p1.y >= position_.y && p1.y <= height_ + position_.y)
+    // Check for intersection with the cylindrical surface
+    if (t1 >= 0)
     {
-        point = p1;
-        vector3 local_point = p1 - position_;
-        vector3 hit_normal = vector3(local_point.x, 0, local_point.z).normalize();
-        normal = hit_normal;
-        return true;
+        p1 = rayo.get_origin() + d * t1;
+        if (p1.y >= position_.y && p1.y <= position_.y + height_)
+        {
+            point = p1;
+            vector3 local_point = p1 - position_;
+            normal = vector3(local_point.x, 0, local_point.z).normalize();
+            return true;
+        }
     }
 
     // Top test intersection
@@ -69,3 +74,4 @@ bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
 
     return false;
 }
+
