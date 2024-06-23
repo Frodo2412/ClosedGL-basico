@@ -54,18 +54,6 @@ bool cylinder::test_intersection(ray& rayo, vector3& point, vector3& normal)
         }
     }
 
-    if (t2 >= 0)
-    {
-        vector3 p2 = rayo.get_origin() + d * t2;
-        if (p2.y >= position_.y && p2.y <= position_.y + height_)
-        {
-            point = p2;
-            vector3 local_point = p2 - position_;
-            normal = vector3(local_point.x, 0, local_point.z).normalize();
-            return true;
-        }
-    }
-
     // Top test intersection
 
     if (p1.y > height_ + position_.y)
