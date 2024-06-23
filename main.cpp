@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     try
     {
 
-        new_scene scene("../scenes/scene.xml");
+        new_scene scene("../scenes/scene1.xml");
         std::cout << "Scene loaded successfully.\n";
         
         // Initialize SDL

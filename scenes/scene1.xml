@@ -4,103 +4,84 @@
         <background>
             <color red="0" blue="0" green="0"/>
         </background>
+        <ambient>
+            <color red="15" blue="15" green="15"/>
+        </ambient>
         <camera>
-            <position x="0" y="0" z="0"/>
-            <look_at x="0" y="0" z="-1"/>
-            <up x="0" y="1" z="0"/>
+            <position x="0" y="9" z="-23"/>
+            <look_at x="0" y="0" z="-23"/>
+            <up x="0" y="0" z="1"/>
         </camera>
-        <shape id="back_plane" type="plane" reflectivity="0" shininess="0" height="75" width="75" translucency="0"
+        <shape id="back_plane" type="plane" reflectivity="0" shininess="0" height="35" width="35" translucency="0"
                refractive_index="0">
-            <color red="200" green="200" blue="200"/>
+            <color red="170" green="170" blue="170"/>
             <properties>
                 <normal x="0" y="0" z="1"/>
-                <position x="0" y="0" z="-150"/>
+                <position x="0" y="0" z="-35"/>
             </properties>
         </shape>
-        <shape id="ceiling_plane" type="plane" reflectivity="0.0" shininess="0" height="75" width="75"
+        <shape id="ceiling_plane" type="plane" reflectivity="0.0" shininess="3" height="35" width="35"
                translucency="0"
                refractive_index="0">
-            <color red="150" green="150" blue="150"/>
+            <color red="235" green="235" blue="235"/>
             <properties>
                 <normal x="0" y="-1" z="0"/>
-                <position x="0" y="50" z="-75"/>
+                <position x="0" y="10" z="-35"/>
             </properties>
         </shape>
-        <shape id="floor_plane" type="plane" reflectivity="0" shininess="0" height="75" width="75" translucency="0"
+        <shape id="floor_plane" type="plane" reflectivity="0" shininess="0" height="35" width="35" translucency="0"
+               refractive_index="0">
+            <color red="225" green="225" blue="225"/>
+            <properties>
+                <normal x="0" y="1" z="0"/>
+                <position x="0" y="-10" z="-35"/>
+            </properties>
+        </shape>
+        <shape id="left_plane" type="plane" reflectivity="0" shininess="0" height="35" width="35" translucency="0"
+               refractive_index="1.3">
+            <color red="205" green="0" blue="0"/>
+            <properties>
+                <normal x="1" y="0" z="0"/>
+                <position x="-12" y="0" z="-35"/>
+            </properties>
+        </shape>
+        <shape id="right_plane" type="plane" reflectivity="0" shininess="0" height="35" width="35" translucency="0"
+               refractive_index="0">
+            <color red="0" green="100" blue="0"/>
+            <properties>
+                <normal x="-1" y="0" z="0"/>
+                <position x="12" y="0" z="-35"/>
+            </properties>
+        </shape>
+        <shape id="mesa_mesh_1" type="mesh" reflectivity="0" shininess="0" width="16" height="6" depth="5"
+               translucency="0"
                refractive_index="0">
             <color red="255" green="255" blue="255"/>
             <properties>
-                <normal x="0" y="1" z="0"/>
-                <position x="0" y="-50" z="-75"/>
+                <position x="-9" y="-10" z="-26"/>
             </properties>
         </shape>
-        <shape id="left_plane" type="plane" reflectivity="0" shininess="0" height="75" width="75" translucency="0"
+        <shape id="sphere_1" type="sphere" reflectivity="1" shininess="0" radius="1.5" translucency="0"
                refractive_index="0">
-            <color red="255" green="0" blue="0"/>
+            <color red="225" green="225" blue="0"/>
             <properties>
-                <normal x="1" y="0" z="0"/>
-                <position x="-50" y="0" z="-75"/>
+                <position x="5" y="-2.5" z="-23"/>
             </properties>
         </shape>
-        <shape id="right_plane" type="plane" reflectivity="0" shininess="0" height="75" width="75" translucency="0"
+        <shape id="cylinder_1" type="cylinder" reflectivity="0" shininess="0" radius="1.75" height="3.5" translucency="0"
                refractive_index="0">
-            <color red="0" green="255" blue="0"/>
+            <color red="255" green="225" blue="0"/>
             <properties>
-                <normal x="-1" y="0" z="0"/>
-                <position x="50" y="0" z="-75"/>
-            </properties>
-        </shape>
-        <shape id="mesa_mesh_1" type="mesh" reflectivity="0.3" shininess="0" width="30" height="30" depth="30"
-               translucency="0"
-               refractive_index="0">
-            <color red="0" green="255" blue="255"/>
-            <properties>
-                <position x="-15" y="-40" z="-75"/>
-            </properties>
-        </shape>
-        <shape id="sphere_0" type="sphere" reflectivity="0.5" shininess="0" radius="10" translucency="0.3"
-               refractive_index="1.5">
-            <color red="255" green="0" blue="0"/>
-            <properties>
-                <position x="-16" y="4" z="-75"/>
-            </properties>
-        </shape>
-        <shape id="sphere_1" type="sphere" reflectivity="1" shininess="5" radius="10" translucency="0"
-               refractive_index="1.5">
-            <color red="255" green="255" blue="0"/>
-            <properties>
-                <position x="20" y="30" z="-75"/>
-            </properties>
-        </shape>
-        <shape id="sphere_2" type="sphere" reflectivity="0" shininess="5" radius="4" translucency="0"
-               refractive_index="0">
-            <color red="255" green="255" blue="0"/>
-            <properties>
-                <position x="6" y="-5" z="-50"/>
-            </properties>
-        </shape>
-        <shape id="cylinder_1" type="cylinder" reflectivity="0" shininess="0" radius="6" height="5" translucency="0.5"
-               refractive_index="2">
-            <color red="0" green="255" blue="0"/>
-            <properties>
-                <position x="-5" y="-10" z="-50"/>
-            </properties>
-        </shape>
-        <shape id="cylinder_2" type="cylinder" reflectivity="0" shininess="5" radius="2" height="16"
-               translucency="0"
-               refractive_index="2">
-            <color red="0" green="0" blue="255"/>
-            <properties>
-                <position x="-3" y="-2" z="-50"/>
+                <position x="-1" y="-4" z="-23"/>
             </properties>
         </shape>
         <light id="light_0" intensity="0.5">
-            <position x="5" y="10" z="-10"/>
-            <color red="0" green="255" blue="0"/>
+            <position x="-5" y="9" z="-10"/>
+            <color red="255" green="255" blue="255"/>
         </light>
         <light id="light_1" intensity="0.5">
-            <position x="-5" y="0" z="-10"/>
-            <color red="255" green="0" blue="255"/>
+            <position x="0" y="0" z="0"/>
+            <color red="255" green="255" blue="255"/>
         </light>
     </scene>
 </document>
